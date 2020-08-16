@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["approximate_position_of_planet","Calculate approximate position of a planet."],["precise_position_of_planet","Calculate precise position of a planet."],["visual_aspects_of_a_planet","Calculate several visual aspects of a planet."]]});

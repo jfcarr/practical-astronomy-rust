@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["lunar_eclipse_circumstances","Calculate the circumstances of a lunar eclipse."],["lunar_eclipse_occurrence","Determine if a lunar eclipse is likely to occur."],["solar_eclipse_circumstances","Calculate the circumstances of a lunar eclipse."],["solar_eclipse_occurrence","Determine if a solar eclipse is likely to occur."]]});

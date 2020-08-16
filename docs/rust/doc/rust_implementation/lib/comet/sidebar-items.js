@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["position_of_elliptical_comet","Calculate position of an elliptical comet."],["position_of_parabolic_comet","Calculate position of a parabolic comet."]]});
