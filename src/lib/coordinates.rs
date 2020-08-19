@@ -1018,7 +1018,7 @@ pub fn heliographic_coordinates(
 ///
 /// ## Returns
 /// carrington rotation number
-pub fn carrington_rotation_number(gwdate_day: f64, gwdate_month: u32, gwdate_year: u32) -> (i32) {
+pub fn carrington_rotation_number(gwdate_day: f64, gwdate_month: u32, gwdate_year: u32) -> i32 {
     let julian_date_days = macros::cd_jd(gwdate_day, gwdate_month, gwdate_year);
 
     let crn = 1690 + utils::round_f64((julian_date_days - 2444235.34) / 27.2753, 0) as i32;

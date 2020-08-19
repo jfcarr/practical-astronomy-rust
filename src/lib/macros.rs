@@ -1901,7 +1901,7 @@ pub fn rise_set_azimuth_rise(
     g: f64,
 ) -> f64 {
     let a = hms_dh(rah, ram, ras);
-    let _b = (dh_dd(a)).to_radians();;
+    let _b = (dh_dd(a)).to_radians();
     let c = (dms_dd(dd, dm, ds)).to_radians();
     let d = vd.to_radians();
     let e = g.to_radians();
