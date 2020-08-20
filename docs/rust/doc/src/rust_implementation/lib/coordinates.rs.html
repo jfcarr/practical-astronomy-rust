@@ -2169,7 +2169,7 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// ## Returns</span>
 <span class="doccomment">/// carrington rotation number</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">carrington_rotation_number</span>(<span class="ident">gwdate_day</span>: <span class="ident">f64</span>, <span class="ident">gwdate_month</span>: <span class="ident">u32</span>, <span class="ident">gwdate_year</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">i32</span>) {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">carrington_rotation_number</span>(<span class="ident">gwdate_day</span>: <span class="ident">f64</span>, <span class="ident">gwdate_month</span>: <span class="ident">u32</span>, <span class="ident">gwdate_year</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">i32</span> {
     <span class="kw">let</span> <span class="ident">julian_date_days</span> <span class="op">=</span> <span class="ident">macros</span>::<span class="ident">cd_jd</span>(<span class="ident">gwdate_day</span>, <span class="ident">gwdate_month</span>, <span class="ident">gwdate_year</span>);
 
     <span class="kw">let</span> <span class="ident">crn</span> <span class="op">=</span> <span class="number">1690</span> <span class="op">+</span> <span class="ident">utils</span>::<span class="ident">round_f64</span>((<span class="ident">julian_date_days</span> <span class="op">-</span> <span class="number">2444235.34</span>) <span class="op">/</span> <span class="number">27.2753</span>, <span class="number">0</span>) <span class="kw">as</span> <span class="ident">i32</span>;
