@@ -11,6 +11,7 @@ pub struct TestMoonPositionInfoScaffold {
     pub local_date_year: u32,
 }
 impl TestMoonPositionInfoScaffold {
+    #[allow(dead_code)]
     pub fn test_approximate_position_of_moon(&mut self) {
         let (moon_ra_hour, moon_ra_min, moon_ra_sec, moon_dec_deg, moon_dec_min, moon_dec_sec) =
             M::approximate_position_of_moon(
@@ -50,6 +51,7 @@ impl TestMoonPositionInfoScaffold {
         assert_eq!(moon_dec_sec, 38.27, "Moon Declination (seconds)");
     }
 
+    #[allow(dead_code)]
     pub fn test_precise_position_of_moon(&mut self) {
         let (
             moon_ra_hour,
@@ -104,6 +106,7 @@ impl TestMoonPositionInfoScaffold {
         );
     }
 
+    #[allow(dead_code)]
     pub fn test_moon_phase(&mut self) {
         let (moon_phase, pa_bright_limb_deg) = M::moon_phase(
             self.lct_hour,
@@ -136,6 +139,7 @@ impl TestMoonPositionInfoScaffold {
         assert_eq!(pa_bright_limb_deg, -71.58, "Position Angle of Bright Limb");
     }
 
+    #[allow(dead_code)]
     pub fn test_moon_dist_ang_diam_hor_parallax(&mut self) {
         let (
             earth_moon_dist,
@@ -185,6 +189,7 @@ impl TestMoonPositionInfoScaffold {
     }
 }
 
+#[allow(dead_code)]
 pub fn test_times_of_new_moon_and_full_moon(
     is_daylight_saving: bool,
     zone_correction_hours: i32,
@@ -272,6 +277,7 @@ pub fn test_times_of_new_moon_and_full_moon(
     );
 }
 
+#[allow(dead_code)]
 pub fn test_moonrise_and_moonset(
     local_date_day: f64,
     local_date_month: u32,

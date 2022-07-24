@@ -8,6 +8,7 @@ pub struct TestAngleDecimalDegreesScaffold {
 }
 
 impl TestAngleDecimalDegreesScaffold {
+    #[allow(dead_code)]
     pub fn test_angle_to_decimal_degrees(&mut self) {
         let decimal_degrees = util::round_f64(
             CS::angle_to_decimal_degrees(self.degrees, self.minutes, self.seconds),
@@ -22,6 +23,7 @@ impl TestAngleDecimalDegreesScaffold {
         assert_eq!(decimal_degrees, 182.524167, "Decimal Degrees");
     }
 
+    #[allow(dead_code)]
     pub fn test_decimal_degrees_to_angle(&mut self) {
         let decimal_degrees = util::round_f64(
             CS::angle_to_decimal_degrees(self.degrees, self.minutes, self.seconds),
@@ -57,6 +59,7 @@ pub struct TestRightAscensionHourAngleScaffold {
 }
 
 impl TestRightAscensionHourAngleScaffold {
+    #[allow(dead_code)]
     pub fn test_right_ascension_to_hour_angle(&mut self) {
         let (hour_angle_hours, hour_angle_minutes, hour_angle_seconds) =
             CS::right_ascension_to_hour_angle(
@@ -97,6 +100,8 @@ impl TestRightAscensionHourAngleScaffold {
         assert_eq!(hour_angle_minutes, 52.0, "Hour Angle Minutes");
         assert_eq!(hour_angle_seconds, 23.66, "Hour Angle Seconds");
     }
+
+    #[allow(dead_code)]
     pub fn test_hour_angle_to_right_ascension(&mut self) {
         let (hour_angle_hours, hour_angle_minutes, hour_angle_seconds) =
             CS::right_ascension_to_hour_angle(
@@ -166,6 +171,7 @@ pub struct TestEquatorialHorizonScaffold {
 }
 
 impl TestEquatorialHorizonScaffold {
+    #[allow(dead_code)]
     pub fn test_equatorial_coordinates_to_horizon_coordinates(&mut self) {
         let (
             azimuth_degrees,
@@ -209,6 +215,7 @@ impl TestEquatorialHorizonScaffold {
         assert_eq!(altitude_seconds, 3.64, "Altitude Seconds");
     }
 
+    #[allow(dead_code)]
     pub fn test_horizon_coordinates_to_equatorial_coordinates(&mut self) {
         let (
             azimuth_degrees,
@@ -282,6 +289,7 @@ pub struct TestEclipticScaffold {
     pub greenwich_year: u32,
 }
 impl TestEclipticScaffold {
+    #[allow(dead_code)]
     pub fn test_mean_obliquity_of_the_ecliptic(&mut self) {
         let obliquity = util::round_f64(
             CS::mean_obliquity_of_the_ecliptic(
@@ -300,6 +308,7 @@ impl TestEclipticScaffold {
         assert_eq!(obliquity, 23.43805531, "Obliquity");
     }
 
+    #[allow(dead_code)]
     pub fn test_ecliptic_coordinate_to_equatorial_coordinate(&mut self) {
         let (ra_hours, ra_minutes, ra_seconds, dec_degrees, dec_minutes, dec_seconds) =
             CS::ecliptic_coordinate_to_equatorial_coordinate(
@@ -341,6 +350,7 @@ impl TestEclipticScaffold {
         assert_eq!(dec_seconds, 8.52, "Dec Seconds");
     }
 
+    #[allow(dead_code)]
     pub fn test_equatorial_coordinate_to_ecliptic_coordinate(&mut self) {
         let (ra_hours, ra_minutes, ra_seconds, dec_degrees, dec_minutes, dec_seconds) =
             CS::ecliptic_coordinate_to_equatorial_coordinate(
@@ -405,6 +415,7 @@ pub struct TestGalacticScaffold {
     pub dec_seconds: f64,
 }
 impl TestGalacticScaffold {
+    #[allow(dead_code)]
     pub fn test_equatorial_coordinate_to_galactic_coordinate(&mut self) {
         let (gal_long_deg, gal_long_min, gal_long_sec, gal_lat_deg, gal_lat_min, gal_lat_sec) =
             CS::equatorial_coordinate_to_galactic_coordinate(
@@ -440,6 +451,7 @@ impl TestGalacticScaffold {
         assert_eq!(gal_lat_sec, 20.16, "Galactic Latitude Seconds");
     }
 
+    #[allow(dead_code)]
     pub fn test_galactic_coordinate_to_equatorial_coordinate(&mut self) {
         let (gal_long_deg, gal_long_min, gal_long_sec, gal_lat_deg, gal_lat_min, gal_lat_sec) =
             CS::equatorial_coordinate_to_galactic_coordinate(
@@ -486,6 +498,7 @@ impl TestGalacticScaffold {
     }
 }
 
+#[allow(dead_code)]
 pub fn test_angle_between_two_objects(
     ra_long_1_hour_deg: f64,
     ra_long_1_min: f64,
@@ -544,6 +557,7 @@ pub fn test_angle_between_two_objects(
     assert_eq!(angle_sec, 25.86, "Angle Seconds");
 }
 
+#[allow(dead_code)]
 pub fn test_rising_and_setting(
     ra_hours: f64,
     ra_minutes: f64,
@@ -606,6 +620,7 @@ pub fn test_rising_and_setting(
     assert_eq!(az_set, 295.64, "AZ Set");
 }
 
+#[allow(dead_code)]
 pub fn test_correct_for_precession(
     ra_hour: f64,
     ra_minutes: f64,
@@ -678,6 +693,7 @@ pub fn test_correct_for_precession(
     assert_eq!(corrected_dec_seconds, 9.12, "Corrected Declination Seconds");
 }
 
+#[allow(dead_code)]
 pub fn test_nutation_in_ecliptic_longitude_and_obliquity(
     greenwich_day: f64,
     greenwich_month: u32,
@@ -708,6 +724,7 @@ pub fn test_nutation_in_ecliptic_longitude_and_obliquity(
     assert_eq!(nut_in_obl_deg, 0.0025671, "Nutation in Obliquity (degrees)");
 }
 
+#[allow(dead_code)]
 pub fn test_correct_for_aberration(
     ut_hour: f64,
     ut_minutes: f64,
@@ -792,6 +809,7 @@ pub fn test_correct_for_aberration(
     );
 }
 
+#[allow(dead_code)]
 pub fn test_atmospheric_refraction(
     true_ra_hour: f64,
     true_ra_min: f64,
@@ -879,6 +897,7 @@ pub fn test_atmospheric_refraction(
     assert_eq!(corrected_dec_sec, 45.76, "Corrected Declination Seconds");
 }
 
+#[allow(dead_code)]
 pub fn test_corrections_for_geocentric_parallax(
     ra_hour: f64,
     ra_min: f64,
@@ -966,6 +985,7 @@ pub fn test_corrections_for_geocentric_parallax(
     assert_eq!(corrected_dec_sec, 17.4, "Corrected Declination Seconds");
 }
 
+#[allow(dead_code)]
 pub fn test_heliographic_coordinates(
     helio_position_angle_deg: f64,
     helio_displacement_arcmin: f64,
@@ -996,6 +1016,7 @@ pub fn test_heliographic_coordinates(
     assert_eq!(helio_lat_deg, -19.94, "Heliographic Latitude - degrees");
 }
 
+#[allow(dead_code)]
 pub fn test_carrington_rotation_number(gwdate_day: f64, gwdate_month: u32, gwdate_year: u32) {
     let crn = CS::carrington_rotation_number(gwdate_day, gwdate_month, gwdate_year);
 
@@ -1013,6 +1034,7 @@ pub struct TestSelenographicScaffold {
     pub gwdate_year: u32,
 }
 impl TestSelenographicScaffold {
+    #[allow(dead_code)]
     pub fn test_selenographic_coordinates_1(&mut self) {
         let (sub_earth_longitude, sub_earth_latitude, position_angle_of_pole) =
             CS::selenographic_coordinates_1(self.gwdate_day, self.gwdate_month, self.gwdate_year);
@@ -1032,6 +1054,7 @@ impl TestSelenographicScaffold {
         assert_eq!(position_angle_of_pole, 19.78, "Position Angle of Pole");
     }
 
+    #[allow(dead_code)]
     pub fn test_selenographic_coordinates_2(&mut self) {
         let (sub_solar_longitude, sub_solar_colongitude, sub_solar_latitude) =
             CS::selenographic_coordinates_2(self.gwdate_day, self.gwdate_month, self.gwdate_year);

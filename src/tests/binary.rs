@@ -1,5 +1,6 @@
 use crate::lib::binary as BS;
 
+#[allow(dead_code)]
 pub fn test_binary_star_orbit(
     greenwich_date_day: f64,
     greenwich_date_month: u32,

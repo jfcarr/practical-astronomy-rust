@@ -1,5 +1,6 @@
 use crate::lib::comet as CO;
 
+#[allow(dead_code)]
 pub fn test_position_of_elliptical_comet(
     lct_hour: f64,
     lct_min: f64,
@@ -49,6 +50,7 @@ pub fn test_position_of_elliptical_comet(
     assert_eq!(comet_dist_earth, 8.13, "Comet Distance from Earth - AU");
 }
 
+#[allow(dead_code)]
 pub fn test_position_of_parabolic_comet(
     lct_hour: f64,
     lct_min: f64,

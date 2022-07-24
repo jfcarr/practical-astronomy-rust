@@ -1,10 +1,10 @@
 default:
 	@echo 'Targets:'
 	@echo '  tests    -- Run tests.'
-	@echo '  tests-so -- Run tests, but suppress program output. (Useful for reviewing build warnings.)'
+	@echo '  tests-verbose  -- Run tests, include detailed info and program output.'
 
 tests:
-	@cargo run -- -t
+	cargo test
 
-tests-so:
-	@cargo run -- -t > /dev/null
+tests-verbose:
+	cargo test -v -- --nocapture

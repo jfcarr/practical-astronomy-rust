@@ -12,6 +12,7 @@ pub struct TestPositionOfPlanetScaffold {
     pub planet_name: String,
 }
 impl TestPositionOfPlanetScaffold {
+    #[allow(dead_code)]
     pub fn test_approximate_position_of_planet(&mut self) {
         let (
             planet_ra_hour,
@@ -59,6 +60,7 @@ impl TestPositionOfPlanetScaffold {
         assert_eq!(planet_dec_sec, 25.1, "Planet Declination (seconds)");
     }
 
+    #[allow(dead_code)]
     pub fn test_precise_position_of_planet(&mut self) {
         let (
             planet_ra_hour,
@@ -106,6 +108,7 @@ impl TestPositionOfPlanetScaffold {
         assert_eq!(planet_dec_sec, 49.46, "Planet Declination (seconds)");
     }
 
+    #[allow(dead_code)]
     pub fn test_visual_aspects_of_a_planet(&mut self) {
         let (
             distance_au,

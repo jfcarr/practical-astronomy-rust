@@ -1,32 +1,28 @@
+#[allow(unused_imports)]
 use crate::lib::types as pa_types;
+#[allow(unused_imports)]
 use crate::tests::binary as BINS;
+#[allow(unused_imports)]
 use crate::tests::comet as COMT;
+#[allow(unused_imports)]
 use crate::tests::coordinates as CST;
+#[allow(unused_imports)]
 use crate::tests::datetime as DTT;
+#[allow(unused_imports)]
 use crate::tests::eclipses as ECL;
+#[allow(unused_imports)]
 use crate::tests::moon as MOONT;
+#[allow(unused_imports)]
 use crate::tests::planet as PLANETT;
+#[allow(unused_imports)]
 use crate::tests::sun as SUNT;
 
 /// Run all functional tests.
 pub fn run_tests() {
-    run_datetime_tests();
-
-    run_coordinate_tests();
-
-    run_sun_tests();
-
-    run_planet_tests();
-
-    run_comet_tests();
-
-    run_binary_tests();
-
-    run_moon_tests();
-
-    run_eclipse_tests();
+    println!("To run tests, execute 'cargo test' or use the Makefile targets.");
 }
 
+#[test]
 pub fn run_datetime_tests() {
     DTT::test_easter(4, 20, 2003);
     DTT::test_day_numbers();
@@ -77,6 +73,7 @@ pub fn run_datetime_tests() {
     DTT::test_julian_date_to_day_of_week();
 }
 
+#[test]
 pub fn run_coordinate_tests() {
     let mut test_angle_decimal_degrees = CST::TestAngleDecimalDegreesScaffold {
         degrees: 182.0,
@@ -228,6 +225,7 @@ pub fn run_coordinate_tests() {
     test_selenographic.test_selenographic_coordinates_2();
 }
 
+#[test]
 pub fn run_sun_tests() {
     SUNT::test_approximate_position_of_sun(0.0, 0.0, 0.0, 27 as f64, 7, 2003, false, 0);
 
@@ -253,6 +251,7 @@ pub fn run_sun_tests() {
     SUNT::test_solar_elongation(10.0, 6.0, 45.0, 11.0, 57.0, 27.0, 27.8333333, 7, 2010);
 }
 
+#[test]
 pub fn run_planet_tests() {
     let mut test_planet_position = PLANETT::TestPositionOfPlanetScaffold {
         lct_hour: 0.0,
@@ -270,6 +269,7 @@ pub fn run_planet_tests() {
     test_planet_position.test_visual_aspects_of_a_planet();
 }
 
+#[test]
 pub fn run_comet_tests() {
     COMT::test_position_of_elliptical_comet(
         0.0,
@@ -296,10 +296,12 @@ pub fn run_comet_tests() {
     );
 }
 
+#[test]
 pub fn run_binary_tests() {
     BINS::test_binary_star_orbit(1.0, 1, 1980, "eta-Cor".to_string());
 }
 
+#[test]
 pub fn run_moon_tests() {
     let mut test_moon_position_and_info = MOONT::TestMoonPositionInfoScaffold {
         lct_hour: 0.0,
@@ -320,6 +322,7 @@ pub fn run_moon_tests() {
     MOONT::test_moonrise_and_moonset(6.0, 3, 1986, false, -5, -71.05, 42.3667);
 }
 
+#[test]
 pub fn run_eclipse_tests() {
     let mut test_lunar_eclipse = ECL::TestLunarEclipseScaffold {
         local_date_day: 1.0,
