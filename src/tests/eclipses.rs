@@ -8,6 +8,7 @@ pub struct TestLunarEclipseScaffold {
     pub zone_correction_hours: i32,
 }
 impl TestLunarEclipseScaffold {
+    #[allow(dead_code)]
     pub fn test_lunar_eclipse_occurrence(&mut self) {
         let (status, event_date_day, event_date_month, event_date_year) =
             ECL::lunar_eclipse_occurrence(
@@ -36,6 +37,8 @@ impl TestLunarEclipseScaffold {
         assert_eq!(event_date_month, 4, "Lunar eclipse event date (month)");
         assert_eq!(event_date_year, 2015, "Lunar eclipse event date (year)");
     }
+
+    #[allow(dead_code)]
     pub fn test_lunar_eclipse_circumstances(&mut self) {
         let (
             lunar_eclipse_certain_date_day,
@@ -138,6 +141,7 @@ pub struct TestSolarEclipseScaffold {
     pub zone_correction_hours: i32,
 }
 impl TestSolarEclipseScaffold {
+    #[allow(dead_code)]
     pub fn test_solar_eclipse_occurrence(&mut self) {
         let (status, event_date_day, event_date_month, event_date_year) =
             ECL::solar_eclipse_occurrence(
@@ -168,6 +172,7 @@ impl TestSolarEclipseScaffold {
     }
 }
 
+#[allow(dead_code)]
 pub fn test_solar_eclipse_circumstances(
     local_date_day: f64,
     local_date_month: u32,

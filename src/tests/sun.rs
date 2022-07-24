@@ -1,6 +1,7 @@
 use crate::lib::sun as CS;
 use crate::lib::types as pa_types;
 
+#[allow(dead_code)]
 pub fn test_approximate_position_of_sun(
     lct_hours: f64,
     lct_minutes: f64,
@@ -49,6 +50,7 @@ pub fn test_approximate_position_of_sun(
     assert_eq!(sun_dec_sec, 14.33, "Sun Dec Seconds");
 }
 
+#[allow(dead_code)]
 pub fn test_precise_position_of_sun(
     lct_hours: f64,
     lct_minutes: f64,
@@ -97,6 +99,7 @@ pub fn test_precise_position_of_sun(
     assert_eq!(sun_dec_sec, 49.72, "Sun Dec Seconds");
 }
 
+#[allow(dead_code)]
 pub fn test_sun_distance_and_angular_size(
     lct_hours: f64,
     lct_minutes: f64,
@@ -141,6 +144,7 @@ pub fn test_sun_distance_and_angular_size(
     assert_eq!(sun_ang_size_sec, 29.93, "Sun Angular Size Seconds");
 }
 
+#[allow(dead_code)]
 pub fn test_sunrise_and_sunset(
     local_day: f64,
     local_month: u32,
@@ -198,6 +202,7 @@ pub fn test_sunrise_and_sunset(
     assert_eq!(status, "OK", "Status of Calculation");
 }
 
+#[allow(dead_code)]
 pub fn test_morning_and_evening_twilight(
     local_day: f64,
     local_month: u32,
@@ -255,6 +260,7 @@ pub fn test_morning_and_evening_twilight(
     assert_eq!(status, "OK", "Status of Calculation");
 }
 
+#[allow(dead_code)]
 pub fn test_equation_of_time(gwdate_day: f64, gwdate_month: u32, gwdate_year: u32) {
     let (equation_of_time_min, equation_of_time_sec) =
         CS::equation_of_time(gwdate_day, gwdate_month, gwdate_year);
@@ -268,6 +274,7 @@ pub fn test_equation_of_time(gwdate_day: f64, gwdate_month: u32, gwdate_year: u3
     assert_eq!(equation_of_time_sec, 31.52, "Equation of Time (sec)");
 }
 
+#[allow(dead_code)]
 pub fn test_solar_elongation(
     ra_hour: f64,
     ra_min: f64,

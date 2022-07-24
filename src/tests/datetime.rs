@@ -11,6 +11,7 @@ use crate::lib::util as UT;
 /// ## Expected Output
 ///
 /// 4/20/2003
+#[allow(dead_code)]
 pub fn test_easter(expected_month: u32, expected_day: u32, input_year: u32) {
     let (month, day, year) = DT::get_date_of_easter(input_year);
 
@@ -25,6 +26,7 @@ pub fn test_easter(expected_month: u32, expected_day: u32, input_year: u32) {
 }
 
 /// Test day numbers (various)
+#[allow(dead_code)]
 pub fn test_day_numbers() {
     test_day_number(1, 1, 2000, 1);
     test_day_number(3, 1, 2000, 61);
@@ -59,6 +61,7 @@ pub struct TestCivilTimeScaffold {
 
 impl TestCivilTimeScaffold {
     /// Test conversion of civil time to decimal hours.
+    #[allow(dead_code)]
     pub fn test_civil_time_to_decimal_hours(&mut self) {
         let decimal_hours = DT::civil_time_to_decimal_hours(
             self.civil_hours,
@@ -77,6 +80,7 @@ impl TestCivilTimeScaffold {
 
 impl TestCivilTimeScaffold {
     /// Test conversion of decimal hours to civil time.
+    #[allow(dead_code)]
     pub fn test_decimal_hours_to_civil_time(&mut self) {
         let decimal_hours = DT::civil_time_to_decimal_hours(
             self.civil_hours,
@@ -99,6 +103,7 @@ impl TestCivilTimeScaffold {
 
 impl TestCivilTimeScaffold {
     /// Test extraction of hour part, minutes part, and seconds part from decimal hours.
+    #[allow(dead_code)]
     pub fn test_decimal_time_parts(&mut self) {
         let decimal_hours = DT::civil_time_to_decimal_hours(
             self.civil_hours,
@@ -135,6 +140,7 @@ pub struct TestLocalCivilTimeScaffold {
 
 impl TestLocalCivilTimeScaffold {
     /// Test conversion of local civil time to universal time
+    #[allow(dead_code)]
     pub fn test_local_civil_time_to_universal_time(&mut self) {
         let (ut_hours, ut_minutes, ut_seconds, gw_day, gw_month, gw_year) =
             DT::local_civil_time_to_universal_time(
@@ -178,6 +184,7 @@ impl TestLocalCivilTimeScaffold {
 
 impl TestLocalCivilTimeScaffold {
     /// Test conversion of local civil time to universal time
+    #[allow(dead_code)]
     pub fn test_universal_time_to_local_civil_time(&mut self) {
         let (ut_hours, ut_minutes, ut_seconds, gw_day, gw_month, gw_year) =
             DT::local_civil_time_to_universal_time(
@@ -248,6 +255,7 @@ pub struct TestUniversalTimeSiderealTimeScaffold {
 
 impl TestUniversalTimeSiderealTimeScaffold {
     /// Test conversion of universal time to greenwich sidereal time
+    #[allow(dead_code)]
     pub fn test_universal_time_to_greenwich_sidereal_time(&mut self) {
         let (gst_hours, gst_minutes, gst_seconds) = DT::universal_time_to_greenwich_sidereal_time(
             self.ut_hours,
@@ -277,6 +285,7 @@ impl TestUniversalTimeSiderealTimeScaffold {
     }
 
     /// Test conversion of greenwich sidereal time to universal time
+    #[allow(dead_code)]
     pub fn test_greenwich_sidereal_time_to_universal_time(&mut self) {
         let (gst_hours, gst_minutes, gst_seconds) = DT::universal_time_to_greenwich_sidereal_time(
             self.ut_hours,
@@ -327,6 +336,7 @@ pub struct TestGreenwichSiderealLocalSiderealScaffold {
 }
 
 impl TestGreenwichSiderealLocalSiderealScaffold {
+    #[allow(dead_code)]
     pub fn test_greenwich_sidereal_time_to_local_sidereal_time(&mut self) {
         let (lst_hours, lst_minutes, lst_seconds) =
             DT::greenwich_sidereal_time_to_local_sidereal_time(
@@ -352,6 +362,7 @@ impl TestGreenwichSiderealLocalSiderealScaffold {
         assert_eq!(lst_seconds, 5.23, "LST Seconds");
     }
 
+    #[allow(dead_code)]
     pub fn test_local_sidereal_time_to_greenwich_sidereal_time(&mut self) {
         let (lst_hours, lst_minutes, lst_seconds) =
             DT::greenwich_sidereal_time_to_local_sidereal_time(
@@ -387,6 +398,7 @@ impl TestGreenwichSiderealLocalSiderealScaffold {
 }
 
 /// Test Julian Date to Day of Week
+#[allow(dead_code)]
 pub fn test_julian_date_to_day_of_week() {
     let julian_date = 2455001.5;
 
