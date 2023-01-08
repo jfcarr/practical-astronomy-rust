@@ -1,4 +1,2 @@
 .vscode/*
-Cargo.lock
-target/*
 docs/rust/debug/*
