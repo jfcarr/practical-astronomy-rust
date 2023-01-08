@@ -1,8 +1,41 @@
-# practical-astronomy-rust
+# Practical Astronomy in Rust
 
 Algorithms from "[Practical Astronomy with your Calculator or Spreadsheet](https://www.amazon.com/Practical-Astronomy-your-Calculator-Spreadsheet/dp/1108436072)" by Peter Duffett-Smith, implemented in Rust.  API documentation is published [here](https://jfcarr-astronomy.github.io/practical-astronomy-rust/).
 
 If you're interested in this topic, please buy the book!  It provides far more detail and context.
+
+## Code Organization
+
+There are two projects:
+
+Name | Description
+---------|----------
+practical-astronomy-rust | This is a library containing implementations of all the Practical Astronomy algorithms.
+practical-astronomy-rust-tests | This is a binary project containing unit tests for each of the library functions.
+
+## Running the Tests
+
+Open a terminal in the practical-astronomy-rust-tests directory, then:
+
+Regular tests:
+
+```bash
+cargo test
+```
+
+Verbose tests:
+
+```bash
+cargo test -v -- --nocapture
+```
+
+## Building Documentation
+
+If you want to rebuild the documentation:
+
+```bash
+./build-rust-docs.sh
+```
 
 ## Library Functions - Status
 
