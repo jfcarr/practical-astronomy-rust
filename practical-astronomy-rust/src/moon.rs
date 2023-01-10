@@ -1,5 +1,5 @@
-use crate::macros;
-use crate::util;
+use crate::macros as pa_m;
+use crate::util as pa_u;
 
 /// Calculate approximate position of the Moon.
 ///
@@ -37,7 +37,7 @@ pub fn approximate_position_of_moon(
     let n0 = 291.682546643194;
     let i: f64 = 5.145396;
 
-    let gdate_day = macros::lct_gday(
+    let gdate_day = pa_m::lct_gday(
         lct_hour,
         lct_min,
         lct_sec,
@@ -47,7 +47,7 @@ pub fn approximate_position_of_moon(
         local_date_month,
         local_date_year,
     );
-    let gdate_month = macros::lct_gmonth(
+    let gdate_month = pa_m::lct_gmonth(
         lct_hour,
         lct_min,
         lct_sec,
@@ -57,7 +57,7 @@ pub fn approximate_position_of_moon(
         local_date_month,
         local_date_year,
     );
-    let gdate_year = macros::lct_gyear(
+    let gdate_year = pa_m::lct_gyear(
         lct_hour,
         lct_min,
         lct_sec,
@@ -68,7 +68,7 @@ pub fn approximate_position_of_moon(
         local_date_year,
     );
 
-    let ut_hours = macros::lct_ut(
+    let ut_hours = pa_m::lct_ut(
         lct_hour,
         lct_min,
         lct_sec,
@@ -78,9 +78,9 @@ pub fn approximate_position_of_moon(
         local_date_month,
         local_date_year,
     );
-    let d_days = macros::cd_jd(gdate_day, gdate_month, gdate_year) - macros::cd_jd(0.0, 1, 2010)
+    let d_days = pa_m::cd_jd(gdate_day, gdate_month, gdate_year) - pa_m::cd_jd(0.0, 1, 2010)
         + ut_hours / 24.0;
-    let sun_long_deg = macros::sun_long(
+    let sun_long_deg = pa_m::sun_long(
         lct_hour,
         lct_min,
         lct_sec,
@@ -90,7 +90,7 @@ pub fn approximate_position_of_moon(
         local_date_month,
         local_date_year,
     );
-    let sun_mean_anomaly_rad = macros::sun_mean_anomaly(
+    let sun_mean_anomaly_rad = pa_m::sun_mean_anomaly(
         lct_hour,
         lct_min,
         lct_sec,
@@ -100,9 +100,9 @@ pub fn approximate_position_of_moon(
         local_date_month,
         local_date_year,
     );
-    let lm_deg = macros::unwind_deg(13.1763966 * d_days + l0);
-    let mm_deg = macros::unwind_deg(lm_deg - 0.1114041 * d_days - p0);
-    let n_deg = macros::unwind_deg(n0 - (0.0529539 * d_days));
+    let lm_deg = pa_m::unwind_deg(13.1763966 * d_days + l0);
+    let mm_deg = pa_m::unwind_deg(lm_deg - 0.1114041 * d_days - p0);
+    let n_deg = pa_m::unwind_deg(n0 - (0.0529539 * d_days));
     let ev_deg = 1.2739 * ((2.0 * (lm_deg - sun_long_deg) - mm_deg).to_radians()).sin();
     let ae_deg = 0.1858 * (sun_mean_anomaly_rad).sin();
     let a3_deg = 0.37 * (sun_mean_anomaly_rad).sin();
@@ -116,10 +116,10 @@ pub fn approximate_position_of_moon(
     let y = ((ldd_deg - nd_deg).to_radians()).sin() * i.to_radians().cos();
     let x = (ldd_deg - nd_deg).to_radians().cos();
 
-    let moon_long_deg = macros::unwind_deg(macros::degrees(y.atan2(x)) + nd_deg);
+    let moon_long_deg = pa_m::unwind_deg(pa_m::degrees(y.atan2(x)) + nd_deg);
     let moon_lat_deg =
-        macros::degrees(((ldd_deg - nd_deg).to_radians().sin() * i.to_radians().sin()).asin());
-    let moon_ra_hours1 = macros::dd_dh(macros::ec_ra(
+        pa_m::degrees(((ldd_deg - nd_deg).to_radians().sin() * i.to_radians().sin()).asin());
+    let moon_ra_hours1 = pa_m::dd_dh(pa_m::ec_ra(
         moon_long_deg,
         0.0,
         0.0,
@@ -130,7 +130,7 @@ pub fn approximate_position_of_moon(
         gdate_month,
         gdate_year,
     ));
-    let moon_dec_deg1 = macros::ec_dec(
+    let moon_dec_deg1 = pa_m::ec_dec(
         moon_long_deg,
         0.0,
         0.0,
@@ -142,12 +142,12 @@ pub fn approximate_position_of_moon(
         gdate_year,
     );
 
-    let moon_ra_hour = macros::dh_hour(moon_ra_hours1);
-    let moon_ra_min = macros::dh_min(moon_ra_hours1);
-    let moon_ra_sec = macros::dh_sec(moon_ra_hours1);
-    let moon_dec_deg = macros::dd_deg(moon_dec_deg1);
-    let moon_dec_min = macros::dd_min(moon_dec_deg1);
-    let moon_dec_sec = macros::dd_sec(moon_dec_deg1);
+    let moon_ra_hour = pa_m::dh_hour(moon_ra_hours1);
+    let moon_ra_min = pa_m::dh_min(moon_ra_hours1);
+    let moon_ra_sec = pa_m::dh_sec(moon_ra_hours1);
+    let moon_dec_deg = pa_m::dd_deg(moon_dec_deg1);
+    let moon_dec_min = pa_m::dd_min(moon_dec_deg1);
+    let moon_dec_sec = pa_m::dd_sec(moon_dec_deg1);
 
     return (
         moon_ra_hour as f64,
@@ -192,7 +192,7 @@ pub fn precise_position_of_moon(
 ) -> (f64, f64, f64, f64, f64, f64, f64, f64) {
     let daylight_saving = if is_daylight_saving == true { 1 } else { 0 };
 
-    let gdate_day = macros::lct_gday(
+    let gdate_day = pa_m::lct_gday(
         lct_hour,
         lct_min,
         lct_sec,
@@ -202,7 +202,7 @@ pub fn precise_position_of_moon(
         local_date_month,
         local_date_year,
     );
-    let gdate_month = macros::lct_gmonth(
+    let gdate_month = pa_m::lct_gmonth(
         lct_hour,
         lct_min,
         lct_sec,
@@ -212,7 +212,7 @@ pub fn precise_position_of_moon(
         local_date_month,
         local_date_year,
     );
-    let gdate_year = macros::lct_gyear(
+    let gdate_year = pa_m::lct_gyear(
         lct_hour,
         lct_min,
         lct_sec,
@@ -223,7 +223,7 @@ pub fn precise_position_of_moon(
         local_date_year,
     );
 
-    let _ut_hours = macros::lct_ut(
+    let _ut_hours = pa_m::lct_ut(
         lct_hour,
         lct_min,
         lct_sec,
@@ -235,7 +235,7 @@ pub fn precise_position_of_moon(
     );
 
     let (moon_ecliptic_longitude_deg, moon_ecliptic_latitude_deg, moon_horizontal_parallax_deg) =
-        macros::moon_long_lat_hp(
+        pa_m::moon_long_lat_hp(
             lct_hour,
             lct_min,
             lct_sec,
@@ -246,10 +246,10 @@ pub fn precise_position_of_moon(
             local_date_year,
         );
 
-    let nutation_in_longitude_deg = macros::nutat_long(gdate_day, gdate_month, gdate_year);
+    let nutation_in_longitude_deg = pa_m::nutat_long(gdate_day, gdate_month, gdate_year);
     let corrected_long_deg = moon_ecliptic_longitude_deg + nutation_in_longitude_deg;
     let earth_moon_distance_km = 6378.14 / moon_horizontal_parallax_deg.to_radians().sin();
-    let moon_ra_hours_1 = macros::dd_dh(macros::ec_ra(
+    let moon_ra_hours_1 = pa_m::dd_dh(pa_m::ec_ra(
         corrected_long_deg,
         0.0,
         0.0,
@@ -260,7 +260,7 @@ pub fn precise_position_of_moon(
         gdate_month,
         gdate_year,
     ));
-    let moon_dec_deg1 = macros::ec_dec(
+    let moon_dec_deg1 = pa_m::ec_dec(
         corrected_long_deg,
         0.0,
         0.0,
@@ -272,14 +272,14 @@ pub fn precise_position_of_moon(
         gdate_year,
     );
 
-    let moon_ra_hour = macros::dh_hour(moon_ra_hours_1);
-    let moon_ra_min = macros::dh_min(moon_ra_hours_1);
-    let moon_ra_sec = macros::dh_sec(moon_ra_hours_1);
-    let moon_dec_deg = macros::dd_deg(moon_dec_deg1);
-    let moon_dec_min = macros::dd_min(moon_dec_deg1);
-    let moon_dec_sec = macros::dd_sec(moon_dec_deg1);
-    let earth_moon_dist_km = util::round_f64(earth_moon_distance_km, 0);
-    let moon_hor_parallax_deg = util::round_f64(moon_horizontal_parallax_deg, 6);
+    let moon_ra_hour = pa_m::dh_hour(moon_ra_hours_1);
+    let moon_ra_min = pa_m::dh_min(moon_ra_hours_1);
+    let moon_ra_sec = pa_m::dh_sec(moon_ra_hours_1);
+    let moon_dec_deg = pa_m::dd_deg(moon_dec_deg1);
+    let moon_dec_min = pa_m::dd_min(moon_dec_deg1);
+    let moon_dec_sec = pa_m::dd_sec(moon_dec_deg1);
+    let earth_moon_dist_km = pa_u::round_f64(earth_moon_distance_km, 0);
+    let moon_hor_parallax_deg = pa_u::round_f64(moon_horizontal_parallax_deg, 6);
 
     return (
         moon_ra_hour as f64,
@@ -322,7 +322,7 @@ pub fn moon_phase(
 ) -> (f64, f64) {
     let daylight_saving = if is_daylight_saving == true { 1 } else { 0 };
 
-    let gdate_day = macros::lct_gday(
+    let gdate_day = pa_m::lct_gday(
         lct_hour,
         lct_min,
         lct_sec,
@@ -332,7 +332,7 @@ pub fn moon_phase(
         local_date_month,
         local_date_year,
     );
-    let gdate_month = macros::lct_gmonth(
+    let gdate_month = pa_m::lct_gmonth(
         lct_hour,
         lct_min,
         lct_sec,
@@ -342,7 +342,7 @@ pub fn moon_phase(
         local_date_month,
         local_date_year,
     );
-    let gdate_year = macros::lct_gyear(
+    let gdate_year = pa_m::lct_gyear(
         lct_hour,
         lct_min,
         lct_sec,
@@ -353,7 +353,7 @@ pub fn moon_phase(
         local_date_year,
     );
 
-    let sun_long_deg = macros::sun_long(
+    let sun_long_deg = pa_m::sun_long(
         lct_hour,
         lct_min,
         lct_sec,
@@ -364,7 +364,7 @@ pub fn moon_phase(
         local_date_year,
     );
     let (moon_ecliptic_longitude_deg, moon_ecliptic_latitude_deg, _moon_horizontal_parallax_deg) =
-        macros::moon_long_lat_hp(
+        pa_m::moon_long_lat_hp(
             lct_hour,
             lct_min,
             lct_sec,
@@ -377,7 +377,7 @@ pub fn moon_phase(
     let d_rad = (moon_ecliptic_longitude_deg - sun_long_deg).to_radians();
 
     let moon_phase1 = if accuracy_level.to_string() == "P" {
-        macros::moon_phase(
+        pa_m::moon_phase(
             lct_hour,
             lct_min,
             lct_sec,
@@ -391,7 +391,7 @@ pub fn moon_phase(
         (1.0 - (d_rad).cos()) / 2.0
     };
 
-    let sun_ra_rad = (macros::ec_ra(
+    let sun_ra_rad = (pa_m::ec_ra(
         sun_long_deg,
         0.0,
         0.0,
@@ -403,7 +403,7 @@ pub fn moon_phase(
         gdate_year,
     ))
     .to_radians();
-    let moon_ra_rad = (macros::ec_ra(
+    let moon_ra_rad = (pa_m::ec_ra(
         moon_ecliptic_longitude_deg,
         0.0,
         0.0,
@@ -415,7 +415,7 @@ pub fn moon_phase(
         gdate_year,
     ))
     .to_radians();
-    let sun_dec_rad = (macros::ec_dec(
+    let sun_dec_rad = (pa_m::ec_dec(
         sun_long_deg,
         0.0,
         0.0,
@@ -427,7 +427,7 @@ pub fn moon_phase(
         gdate_year,
     ))
     .to_radians();
-    let moon_dec_rad = (macros::ec_dec(
+    let moon_dec_rad = (pa_m::ec_dec(
         moon_ecliptic_longitude_deg,
         0.0,
         0.0,
@@ -444,10 +444,10 @@ pub fn moon_phase(
     let x = (moon_dec_rad).cos() * (sun_dec_rad).sin()
         - (moon_dec_rad).sin() * (sun_dec_rad).cos() * (sun_ra_rad - moon_ra_rad).cos();
 
-    let chi_deg = macros::degrees(y.atan2(x));
+    let chi_deg = pa_m::degrees(y.atan2(x));
 
-    let moon_phase = util::round_f64(moon_phase1, 2);
-    let pa_bright_limb_deg = util::round_f64(chi_deg, 2);
+    let moon_phase = pa_u::round_f64(moon_phase1, 2);
+    let pa_bright_limb_deg = pa_u::round_f64(chi_deg, 2);
 
     return (moon_phase, pa_bright_limb_deg);
 }
@@ -481,14 +481,14 @@ pub fn times_of_new_moon_and_full_moon(
 ) -> (f64, f64, f64, u32, u32, f64, f64, f64, u32, u32) {
     let daylight_saving = if is_daylight_saving == true { 1 } else { 0 };
 
-    let jd_of_new_moon_days = macros::new_moon(
+    let jd_of_new_moon_days = pa_m::new_moon(
         daylight_saving,
         zone_correction_hours,
         local_date_day,
         local_date_month,
         local_date_year,
     );
-    let jd_of_full_moon_days = macros::full_moon(
+    let jd_of_full_moon_days = pa_m::full_moon(
         3,
         zone_correction_hours,
         local_date_day,
@@ -496,19 +496,19 @@ pub fn times_of_new_moon_and_full_moon(
         local_date_year,
     );
 
-    let g_date_of_new_moon_day = macros::jdc_day(jd_of_new_moon_days);
+    let g_date_of_new_moon_day = pa_m::jdc_day(jd_of_new_moon_days);
     let integer_day1 = g_date_of_new_moon_day.floor();
-    let g_date_of_new_moon_month = macros::jdc_month(jd_of_new_moon_days);
-    let g_date_of_new_moon_year = macros::jdc_year(jd_of_new_moon_days);
+    let g_date_of_new_moon_month = pa_m::jdc_month(jd_of_new_moon_days);
+    let g_date_of_new_moon_year = pa_m::jdc_year(jd_of_new_moon_days);
 
-    let g_date_of_full_moon_day = macros::jdc_day(jd_of_full_moon_days);
+    let g_date_of_full_moon_day = pa_m::jdc_day(jd_of_full_moon_days);
     let integer_day2 = g_date_of_full_moon_day.floor();
-    let g_date_of_full_moon_month = macros::jdc_month(jd_of_full_moon_days);
-    let g_date_of_full_moon_year = macros::jdc_year(jd_of_full_moon_days);
+    let g_date_of_full_moon_month = pa_m::jdc_month(jd_of_full_moon_days);
+    let g_date_of_full_moon_year = pa_m::jdc_year(jd_of_full_moon_days);
 
     let ut_of_new_moon_hours = 24.0 * (g_date_of_new_moon_day - integer_day1);
     let ut_of_full_moon_hours = 24.0 * (g_date_of_full_moon_day - integer_day2);
-    let lct_of_new_moon_hours = macros::ut_lct(
+    let lct_of_new_moon_hours = pa_m::ut_lct(
         ut_of_new_moon_hours + 0.008333,
         0.0,
         0.0,
@@ -518,7 +518,7 @@ pub fn times_of_new_moon_and_full_moon(
         g_date_of_new_moon_month,
         g_date_of_new_moon_year,
     );
-    let lct_of_full_moon_hours = macros::ut_lct(
+    let lct_of_full_moon_hours = pa_m::ut_lct(
         ut_of_full_moon_hours + 0.008333,
         0.0,
         0.0,
@@ -529,9 +529,9 @@ pub fn times_of_new_moon_and_full_moon(
         g_date_of_full_moon_year,
     );
 
-    let nm_local_time_hour = macros::dh_hour(lct_of_new_moon_hours);
-    let nm_local_time_min = macros::dh_min(lct_of_new_moon_hours);
-    let nm_local_date_day = macros::ut_lc_day(
+    let nm_local_time_hour = pa_m::dh_hour(lct_of_new_moon_hours);
+    let nm_local_time_min = pa_m::dh_min(lct_of_new_moon_hours);
+    let nm_local_date_day = pa_m::ut_lc_day(
         ut_of_new_moon_hours,
         0.0,
         0.0,
@@ -541,7 +541,7 @@ pub fn times_of_new_moon_and_full_moon(
         g_date_of_new_moon_month,
         g_date_of_new_moon_year,
     );
-    let nm_local_date_month = macros::ut_lc_month(
+    let nm_local_date_month = pa_m::ut_lc_month(
         ut_of_new_moon_hours,
         0.0,
         0.0,
@@ -551,7 +551,7 @@ pub fn times_of_new_moon_and_full_moon(
         g_date_of_new_moon_month,
         g_date_of_new_moon_year,
     );
-    let nm_local_date_year = macros::ut_lc_year(
+    let nm_local_date_year = pa_m::ut_lc_year(
         ut_of_new_moon_hours,
         0.0,
         0.0,
@@ -561,9 +561,9 @@ pub fn times_of_new_moon_and_full_moon(
         g_date_of_new_moon_month,
         g_date_of_new_moon_year,
     );
-    let fm_local_time_hour = macros::dh_hour(lct_of_full_moon_hours);
-    let fm_local_time_min = macros::dh_min(lct_of_full_moon_hours);
-    let fm_local_date_day = macros::ut_lc_day(
+    let fm_local_time_hour = pa_m::dh_hour(lct_of_full_moon_hours);
+    let fm_local_time_min = pa_m::dh_min(lct_of_full_moon_hours);
+    let fm_local_date_day = pa_m::ut_lc_day(
         ut_of_full_moon_hours,
         0.0,
         0.0,
@@ -573,7 +573,7 @@ pub fn times_of_new_moon_and_full_moon(
         g_date_of_full_moon_month,
         g_date_of_full_moon_year,
     );
-    let fm_local_date_month = macros::ut_lc_month(
+    let fm_local_date_month = pa_m::ut_lc_month(
         ut_of_full_moon_hours,
         0.0,
         0.0,
@@ -583,7 +583,7 @@ pub fn times_of_new_moon_and_full_moon(
         g_date_of_full_moon_month,
         g_date_of_full_moon_year,
     );
-    let fm_local_date_year = macros::ut_lc_year(
+    let fm_local_date_year = pa_m::ut_lc_year(
         ut_of_full_moon_hours,
         0.0,
         0.0,
@@ -639,7 +639,7 @@ pub fn moon_dist_ang_diam_hor_parallax(
 ) -> (f64, f64, f64, f64, f64, f64) {
     let daylight_saving = if is_daylight_saving == true { 1 } else { 0 };
 
-    let moon_distance = macros::moon_dist(
+    let moon_distance = pa_m::moon_dist(
         lct_hour,
         lct_min,
         lct_sec,
@@ -649,7 +649,7 @@ pub fn moon_dist_ang_diam_hor_parallax(
         local_date_month,
         local_date_year,
     );
-    let moon_angular_diameter = macros::moon_size(
+    let moon_angular_diameter = pa_m::moon_size(
         lct_hour,
         lct_min,
         lct_sec,
@@ -659,7 +659,7 @@ pub fn moon_dist_ang_diam_hor_parallax(
         local_date_month,
         local_date_year,
     );
-    let moon_horizontal_parallax = macros::moon_hp(
+    let moon_horizontal_parallax = pa_m::moon_hp(
         lct_hour,
         lct_min,
         lct_sec,
@@ -671,12 +671,12 @@ pub fn moon_dist_ang_diam_hor_parallax(
     );
 
     // earth_moon_dist = round(moon_distance,-1)
-    let earth_moon_dist = util::round_f64(moon_distance, 0);
-    let ang_diameter_deg = macros::dd_deg(moon_angular_diameter + 0.008333);
-    let ang_diameter_min = macros::dd_min(moon_angular_diameter + 0.008333);
-    let hor_parallax_deg = macros::dd_deg(moon_horizontal_parallax);
-    let hor_parallax_min = macros::dd_min(moon_horizontal_parallax);
-    let hor_parallax_sec = macros::dd_sec(moon_horizontal_parallax);
+    let earth_moon_dist = pa_u::round_f64(moon_distance, 0);
+    let ang_diameter_deg = pa_m::dd_deg(moon_angular_diameter + 0.008333);
+    let ang_diameter_min = pa_m::dd_min(moon_angular_diameter + 0.008333);
+    let hor_parallax_deg = pa_m::dd_deg(moon_horizontal_parallax);
+    let hor_parallax_min = pa_m::dd_min(moon_horizontal_parallax);
+    let hor_parallax_sec = pa_m::dd_sec(moon_horizontal_parallax);
 
     return (
         earth_moon_dist,
@@ -723,7 +723,7 @@ pub fn moonrise_and_moonset(
 ) -> (f64, f64, f64, u32, u32, f64, f64, f64, f64, u32, u32, f64) {
     let daylight_saving = if is_daylight_saving == true { 1 } else { 0 };
 
-    let local_time_of_moonrise_hours = macros::moon_rise_lct(
+    let local_time_of_moonrise_hours = pa_m::moon_rise_lct(
         local_date_day,
         local_date_month,
         local_date_year,
@@ -732,7 +732,7 @@ pub fn moonrise_and_moonset(
         geog_long_deg,
         geog_lat_deg,
     );
-    let _local_moonrise_status1 = macros::e_moon_rise(
+    let _local_moonrise_status1 = pa_m::e_moon_rise(
         local_date_day,
         local_date_month,
         local_date_year,
@@ -742,7 +742,7 @@ pub fn moonrise_and_moonset(
         geog_lat_deg,
     );
     let (local_date_of_moonrise_day, local_date_of_moonrise_month, local_date_of_moonrise_year) =
-        macros::moon_rise_lc_dmy(
+        pa_m::moon_rise_lc_dmy(
             local_date_day,
             local_date_month,
             local_date_year,
@@ -751,7 +751,7 @@ pub fn moonrise_and_moonset(
             geog_long_deg,
             geog_lat_deg,
         );
-    let local_azimuth_deg1 = macros::moon_rise_az(
+    let local_azimuth_deg1 = pa_m::moon_rise_az(
         local_date_day,
         local_date_month,
         local_date_year,
@@ -761,7 +761,7 @@ pub fn moonrise_and_moonset(
         geog_lat_deg,
     );
 
-    let local_time_of_moonset_hours = macros::moon_set_lct(
+    let local_time_of_moonset_hours = pa_m::moon_set_lct(
         local_date_day,
         local_date_month,
         local_date_year,
@@ -770,7 +770,7 @@ pub fn moonrise_and_moonset(
         geog_long_deg,
         geog_lat_deg,
     );
-    let _local_moonset_status1 = macros::e_moon_set(
+    let _local_moonset_status1 = pa_m::e_moon_set(
         local_date_day,
         local_date_month,
         local_date_year,
@@ -780,7 +780,7 @@ pub fn moonrise_and_moonset(
         geog_lat_deg,
     );
     let (local_date_of_moonset_day, local_date_of_moonset_month, local_date_of_moonset_year) =
-        macros::moon_set_lc_dmy(
+        pa_m::moon_set_lc_dmy(
             local_date_day,
             local_date_month,
             local_date_year,
@@ -789,7 +789,7 @@ pub fn moonrise_and_moonset(
             geog_long_deg,
             geog_lat_deg,
         );
-    let local_azimuth_deg2 = macros::moon_set_az(
+    let local_azimuth_deg2 = pa_m::moon_set_az(
         local_date_day,
         local_date_month,
         local_date_year,
@@ -799,18 +799,18 @@ pub fn moonrise_and_moonset(
         geog_lat_deg,
     );
 
-    let mr_lt_hour = macros::dh_hour(local_time_of_moonrise_hours + 0.008333);
-    let mr_lt_min = macros::dh_min(local_time_of_moonrise_hours + 0.008333);
+    let mr_lt_hour = pa_m::dh_hour(local_time_of_moonrise_hours + 0.008333);
+    let mr_lt_min = pa_m::dh_min(local_time_of_moonrise_hours + 0.008333);
     let mr_local_date_day = local_date_of_moonrise_day;
     let mr_local_date_month = local_date_of_moonrise_month;
     let mr_local_date_year = local_date_of_moonrise_year;
-    let mr_azimuth_deg = util::round_f64(local_azimuth_deg1, 2);
-    let ms_lt_hour = macros::dh_hour(local_time_of_moonset_hours + 0.008333);
-    let ms_lt_min = macros::dh_min(local_time_of_moonset_hours + 0.008333);
+    let mr_azimuth_deg = pa_u::round_f64(local_azimuth_deg1, 2);
+    let ms_lt_hour = pa_m::dh_hour(local_time_of_moonset_hours + 0.008333);
+    let ms_lt_min = pa_m::dh_min(local_time_of_moonset_hours + 0.008333);
     let ms_local_date_day = local_date_of_moonset_day;
     let ms_local_date_month = local_date_of_moonset_month;
     let ms_local_date_year = local_date_of_moonset_year;
-    let ms_azimuth_deg = util::round_f64(local_azimuth_deg2, 2);
+    let ms_azimuth_deg = pa_u::round_f64(local_azimuth_deg2, 2);
 
     return (
         mr_lt_hour as f64,

@@ -1,6 +1,6 @@
-use crate::macros;
-use crate::types as pa_types;
-use crate::util as utils;
+use crate::macros as pa_m;
+use crate::types as pa_t;
+use crate::util as pa_u;
 
 /// Calculate approximate position of the sun for a local date and time.
 ///
@@ -33,7 +33,7 @@ pub fn approximate_position_of_sun(
 ) -> (f64, f64, f64, f64, f64, f64) {
     let daylight_saving = if is_daylight_saving == true { 1 } else { 0 };
 
-    let greenwich_date_day = macros::lct_gday(
+    let greenwich_date_day = pa_m::lct_gday(
         lct_hours,
         lct_minutes,
         lct_seconds,
@@ -43,7 +43,7 @@ pub fn approximate_position_of_sun(
         local_month,
         local_year,
     );
-    let greenwich_date_month = macros::lct_gmonth(
+    let greenwich_date_month = pa_m::lct_gmonth(
         lct_hours,
         lct_minutes,
         lct_seconds,
@@ -53,7 +53,7 @@ pub fn approximate_position_of_sun(
         local_month,
         local_year,
     );
-    let greenwich_date_year = macros::lct_gyear(
+    let greenwich_date_year = pa_m::lct_gyear(
         lct_hours,
         lct_minutes,
         lct_seconds,
@@ -63,7 +63,7 @@ pub fn approximate_position_of_sun(
         local_month,
         local_year,
     );
-    let ut_hours = macros::lct_ut(
+    let ut_hours = pa_m::lct_ut(
         lct_hours,
         lct_minutes,
         lct_seconds,
@@ -74,21 +74,20 @@ pub fn approximate_position_of_sun(
         local_year,
     );
     let ut_days = ut_hours / 24.0;
-    let jd_days = macros::cd_jd(
+    let jd_days = pa_m::cd_jd(
         greenwich_date_day,
         greenwich_date_month,
         greenwich_date_year,
     ) + ut_days;
-    let d_days = jd_days - macros::cd_jd(0 as f64, 1, 2010);
+    let d_days = jd_days - pa_m::cd_jd(0 as f64, 1, 2010);
     let n_deg = 360.0 * d_days / 365.242191;
-    let m_deg1 =
-        n_deg + macros::sun_e_long(0 as f64, 1, 2010) - macros::sun_peri(0 as f64, 1, 2010);
+    let m_deg1 = n_deg + pa_m::sun_e_long(0 as f64, 1, 2010) - pa_m::sun_peri(0 as f64, 1, 2010);
     let m_deg2 = m_deg1 - 360.0 * (m_deg1 / 360.0).floor();
-    let e_c_deg = 360.0 * macros::sun_ecc(0 as f64, 1, 2010) * m_deg2.to_radians().sin()
-        / std::f64::consts::PI;
-    let l_s_deg1 = n_deg + e_c_deg + macros::sun_e_long(0 as f64, 1, 2010);
+    let e_c_deg =
+        360.0 * pa_m::sun_ecc(0 as f64, 1, 2010) * m_deg2.to_radians().sin() / std::f64::consts::PI;
+    let l_s_deg1 = n_deg + e_c_deg + pa_m::sun_e_long(0 as f64, 1, 2010);
     let l_s_deg2 = l_s_deg1 - 360.0 * (l_s_deg1 / 360.0).floor();
-    let ra_deg = macros::ec_ra(
+    let ra_deg = pa_m::ec_ra(
         l_s_deg2,
         0 as f64,
         0 as f64,
@@ -99,8 +98,8 @@ pub fn approximate_position_of_sun(
         greenwich_date_month,
         greenwich_date_year,
     );
-    let ra_hours = macros::dd_dh(ra_deg);
-    let dec_deg = macros::ec_dec(
+    let ra_hours = pa_m::dd_dh(ra_deg);
+    let dec_deg = pa_m::ec_dec(
         l_s_deg2,
         0 as f64,
         0 as f64,
@@ -112,12 +111,12 @@ pub fn approximate_position_of_sun(
         greenwich_date_year,
     );
 
-    let sun_ra_hour = macros::dh_hour(ra_hours);
-    let sun_ra_min = macros::dh_min(ra_hours);
-    let sun_ra_sec = macros::dh_sec(ra_hours);
-    let sun_dec_deg = macros::dd_deg(dec_deg);
-    let sun_dec_min = macros::dd_min(dec_deg);
-    let sun_dec_sec = macros::dd_sec(dec_deg);
+    let sun_ra_hour = pa_m::dh_hour(ra_hours);
+    let sun_ra_min = pa_m::dh_min(ra_hours);
+    let sun_ra_sec = pa_m::dh_sec(ra_hours);
+    let sun_dec_deg = pa_m::dd_deg(dec_deg);
+    let sun_dec_min = pa_m::dd_min(dec_deg);
+    let sun_dec_sec = pa_m::dd_sec(dec_deg);
 
     return (
         sun_ra_hour as f64,
@@ -160,7 +159,7 @@ pub fn precise_position_of_sun(
 ) -> (f64, f64, f64, f64, f64, f64) {
     let daylight_saving = if is_daylight_saving == true { 1 } else { 0 };
 
-    let g_day = macros::lct_gday(
+    let g_day = pa_m::lct_gday(
         lct_hours,
         lct_minutes,
         lct_seconds,
@@ -170,7 +169,7 @@ pub fn precise_position_of_sun(
         local_month,
         local_year,
     );
-    let g_month = macros::lct_gmonth(
+    let g_month = pa_m::lct_gmonth(
         lct_hours,
         lct_minutes,
         lct_seconds,
@@ -180,7 +179,7 @@ pub fn precise_position_of_sun(
         local_month,
         local_year,
     );
-    let g_year = macros::lct_gyear(
+    let g_year = pa_m::lct_gyear(
         lct_hours,
         lct_minutes,
         lct_seconds,
@@ -190,7 +189,7 @@ pub fn precise_position_of_sun(
         local_month,
         local_year,
     );
-    let sun_ecliptic_longitude_deg = macros::sun_long(
+    let sun_ecliptic_longitude_deg = pa_m::sun_long(
         lct_hours,
         lct_minutes,
         lct_seconds,
@@ -200,7 +199,7 @@ pub fn precise_position_of_sun(
         local_month,
         local_year,
     );
-    let ra_deg = macros::ec_ra(
+    let ra_deg = pa_m::ec_ra(
         sun_ecliptic_longitude_deg,
         0.0,
         0.0,
@@ -211,8 +210,8 @@ pub fn precise_position_of_sun(
         g_month,
         g_year,
     );
-    let ra_hours = macros::dd_dh(ra_deg);
-    let dec_deg = macros::ec_dec(
+    let ra_hours = pa_m::dd_dh(ra_deg);
+    let dec_deg = pa_m::ec_dec(
         sun_ecliptic_longitude_deg,
         0.0,
         0.0,
@@ -224,12 +223,12 @@ pub fn precise_position_of_sun(
         g_year,
     );
 
-    let sun_ra_hour = macros::dh_hour(ra_hours);
-    let sun_ra_min = macros::dh_min(ra_hours);
-    let sun_ra_sec = macros::dh_sec(ra_hours);
-    let sun_dec_deg = macros::dd_deg(dec_deg);
-    let sun_dec_min = macros::dd_min(dec_deg);
-    let sun_dec_sec = macros::dd_sec(dec_deg);
+    let sun_ra_hour = pa_m::dh_hour(ra_hours);
+    let sun_ra_min = pa_m::dh_min(ra_hours);
+    let sun_ra_sec = pa_m::dh_sec(ra_hours);
+    let sun_dec_deg = pa_m::dd_deg(dec_deg);
+    let sun_dec_min = pa_m::dd_min(dec_deg);
+    let sun_dec_sec = pa_m::dd_sec(dec_deg);
 
     return (
         sun_ra_hour as f64,
@@ -270,7 +269,7 @@ pub fn sun_distance_and_angular_size(
 ) -> (f64, f64, f64, f64) {
     let daylight_saving = if is_daylight_saving == true { 1 } else { 0 };
 
-    let g_day = macros::lct_gday(
+    let g_day = pa_m::lct_gday(
         lct_hours,
         lct_minutes,
         lct_seconds,
@@ -280,7 +279,7 @@ pub fn sun_distance_and_angular_size(
         local_month,
         local_year,
     );
-    let g_month = macros::lct_gmonth(
+    let g_month = pa_m::lct_gmonth(
         lct_hours,
         lct_minutes,
         lct_seconds,
@@ -290,7 +289,7 @@ pub fn sun_distance_and_angular_size(
         local_month,
         local_year,
     );
-    let g_year = macros::lct_gyear(
+    let g_year = pa_m::lct_gyear(
         lct_hours,
         lct_minutes,
         lct_seconds,
@@ -300,7 +299,7 @@ pub fn sun_distance_and_angular_size(
         local_month,
         local_year,
     );
-    let true_anomaly_deg = macros::sun_true_anomaly(
+    let true_anomaly_deg = pa_m::sun_true_anomaly(
         lct_hours,
         lct_minutes,
         lct_seconds,
@@ -311,15 +310,15 @@ pub fn sun_distance_and_angular_size(
         local_year,
     );
     let true_anomaly_rad = true_anomaly_deg.to_radians();
-    let eccentricity = macros::sun_ecc(g_day, g_month, g_year);
+    let eccentricity = pa_m::sun_ecc(g_day, g_month, g_year);
     let f = (1.0 + eccentricity * true_anomaly_rad.cos()) / (1.0 - eccentricity * eccentricity);
     let r_km = 149598500.0 / f;
     let theta_deg = f * 0.533128;
 
-    let sun_dist_km = utils::round_f64(r_km, 0);
-    let sun_ang_size_deg = macros::dd_deg(theta_deg);
-    let sun_ang_size_min = macros::dd_min(theta_deg);
-    let sun_ang_size_sec = macros::dd_sec(theta_deg);
+    let sun_dist_km = pa_u::round_f64(r_km, 0);
+    let sun_ang_size_deg = pa_m::dd_deg(theta_deg);
+    let sun_ang_size_min = pa_m::dd_min(theta_deg);
+    let sun_ang_size_sec = pa_m::dd_sec(theta_deg);
 
     return (
         sun_dist_km,
@@ -359,7 +358,7 @@ pub fn sunrise_and_sunset(
 ) -> (f64, f64, f64, f64, f64, f64, String) {
     let daylight_saving = if is_daylight_saving == true { 1 } else { 0 };
 
-    let local_sunrise_hours = macros::sunrise_lct(
+    let local_sunrise_hours = pa_m::sunrise_lct(
         local_day,
         local_month,
         local_year,
@@ -369,7 +368,7 @@ pub fn sunrise_and_sunset(
         geographical_lat_deg,
     );
 
-    let local_sunset_hours = macros::sunset_lct(
+    let local_sunset_hours = pa_m::sunset_lct(
         local_day,
         local_month,
         local_year,
@@ -379,7 +378,7 @@ pub fn sunrise_and_sunset(
         geographical_lat_deg,
     );
 
-    let sun_rise_set_status = macros::e_sun_rs(
+    let sun_rise_set_status = pa_m::e_sun_rs(
         local_day,
         local_month,
         local_year,
@@ -391,7 +390,7 @@ pub fn sunrise_and_sunset(
 
     let adjusted_sunrise_hours = local_sunrise_hours + 0.008333;
     let adjusted_sunset_hours = local_sunset_hours + 0.008333;
-    let azimuth_of_sunrise_deg1 = macros::sunrise_az(
+    let azimuth_of_sunrise_deg1 = pa_m::sunrise_az(
         local_day,
         local_month,
         local_year,
@@ -400,7 +399,7 @@ pub fn sunrise_and_sunset(
         geographical_long_deg,
         geographical_lat_deg,
     );
-    let azimuth_of_sunset_deg1 = macros::sunset_az(
+    let azimuth_of_sunset_deg1 = pa_m::sunset_az(
         local_day,
         local_month,
         local_year,
@@ -411,32 +410,32 @@ pub fn sunrise_and_sunset(
     );
 
     let local_sunrise_hour = if sun_rise_set_status == "OK" {
-        macros::dh_hour(adjusted_sunrise_hours) as f64
+        pa_m::dh_hour(adjusted_sunrise_hours) as f64
     } else {
         0.0
     };
     let local_sunrise_minute = if sun_rise_set_status == "OK" {
-        macros::dh_min(adjusted_sunrise_hours) as f64
+        pa_m::dh_min(adjusted_sunrise_hours) as f64
     } else {
         0.0
     };
     let local_sunset_hour = if sun_rise_set_status == "OK" {
-        macros::dh_hour(adjusted_sunset_hours) as f64
+        pa_m::dh_hour(adjusted_sunset_hours) as f64
     } else {
         0.0
     };
     let local_sunset_minute = if sun_rise_set_status == "OK" {
-        macros::dh_min(adjusted_sunset_hours) as f64
+        pa_m::dh_min(adjusted_sunset_hours) as f64
     } else {
         0.0
     };
     let azimuth_of_sunrise_deg = if sun_rise_set_status == "OK" {
-        utils::round_f64(azimuth_of_sunrise_deg1, 2)
+        pa_u::round_f64(azimuth_of_sunrise_deg1, 2)
     } else {
         0.0
     };
     let azimuth_of_sunset_deg = if sun_rise_set_status == "OK" {
-        utils::round_f64(azimuth_of_sunset_deg1, 2)
+        pa_u::round_f64(azimuth_of_sunset_deg1, 2)
     } else {
         0.0
     };
@@ -479,11 +478,11 @@ pub fn morning_and_evening_twilight(
     zone_correction: i32,
     geographical_long_deg: f64,
     geographical_lat_deg: f64,
-    twilight_type: pa_types::TwilightType,
+    twilight_type: pa_t::TwilightType,
 ) -> (f64, f64, f64, f64, String) {
     let daylight_saving = if is_daylight_saving == true { 1 } else { 0 };
 
-    let start_of_am_twilight_hours = macros::twilight_am_lct(
+    let start_of_am_twilight_hours = pa_m::twilight_am_lct(
         local_day,
         local_month,
         local_year,
@@ -494,7 +493,7 @@ pub fn morning_and_evening_twilight(
         &twilight_type,
     );
 
-    let end_of_pm_twilight_hours = macros::twilight_pm_lct(
+    let end_of_pm_twilight_hours = pa_m::twilight_pm_lct(
         local_day,
         local_month,
         local_year,
@@ -505,7 +504,7 @@ pub fn morning_and_evening_twilight(
         &twilight_type,
     );
 
-    let twilight_status = macros::e_twilight(
+    let twilight_status = pa_m::e_twilight(
         local_day,
         local_month,
         local_year,
@@ -520,22 +519,22 @@ pub fn morning_and_evening_twilight(
     let adjusted_pm_start_time = end_of_pm_twilight_hours + 0.008333;
 
     let am_twilight_begins_hour = if twilight_status == "OK" {
-        macros::dh_hour(adjusted_am_start_time) as f64
+        pa_m::dh_hour(adjusted_am_start_time) as f64
     } else {
         -99.0
     };
     let am_twilight_begins_min = if twilight_status == "OK" {
-        macros::dh_min(adjusted_am_start_time) as f64
+        pa_m::dh_min(adjusted_am_start_time) as f64
     } else {
         -99.0
     };
     let pm_twilight_ends_hour = if twilight_status == "OK" {
-        macros::dh_hour(adjusted_pm_start_time) as f64
+        pa_m::dh_hour(adjusted_pm_start_time) as f64
     } else {
         -99.0
     };
     let pm_twilight_ends_min = if twilight_status == "OK" {
-        macros::dh_min(adjusted_pm_start_time) as f64
+        pa_m::dh_min(adjusted_pm_start_time) as f64
     } else {
         -99.0
     };
@@ -562,8 +561,8 @@ pub fn morning_and_evening_twilight(
 /// * `equation_of_time_sec` -- equation of time (seconds part)
 pub fn equation_of_time(gwdate_day: f64, gwdate_month: u32, gwdate_year: u32) -> (f64, f64) {
     let sun_longitude_deg =
-        macros::sun_long(12.0, 0.0, 0.0, 0, 0, gwdate_day, gwdate_month, gwdate_year);
-    let sun_ra_hours = macros::dd_dh(macros::ec_ra(
+        pa_m::sun_long(12.0, 0.0, 0.0, 0, 0, gwdate_day, gwdate_month, gwdate_year);
+    let sun_ra_hours = pa_m::dd_dh(pa_m::ec_ra(
         sun_longitude_deg,
         0.0,
         0.0,
@@ -574,7 +573,7 @@ pub fn equation_of_time(gwdate_day: f64, gwdate_month: u32, gwdate_year: u32) ->
         gwdate_month,
         gwdate_year,
     ));
-    let equivalent_ut_hours = macros::gst_ut(
+    let equivalent_ut_hours = pa_m::gst_ut(
         sun_ra_hours,
         0.0,
         0.0,
@@ -584,8 +583,8 @@ pub fn equation_of_time(gwdate_day: f64, gwdate_month: u32, gwdate_year: u32) ->
     );
     let equation_of_time_hours = equivalent_ut_hours - 12.0;
 
-    let equation_of_time_min = macros::dh_min(equation_of_time_hours) as f64;
-    let equation_of_time_sec = macros::dh_sec(equation_of_time_hours);
+    let equation_of_time_min = pa_m::dh_min(equation_of_time_hours) as f64;
+    let equation_of_time_sec = pa_m::dh_sec(equation_of_time_hours);
 
     return (equation_of_time_min, equation_of_time_sec);
 }
@@ -619,8 +618,8 @@ pub fn solar_elongation(
     gwdate_year: u32,
 ) -> f64 {
     let sun_longitude_deg =
-        macros::sun_long(0.0, 0.0, 0.0, 0, 0, gwdate_day, gwdate_month, gwdate_year);
-    let sun_ra_hours = macros::dd_dh(macros::ec_ra(
+        pa_m::sun_long(0.0, 0.0, 0.0, 0, 0, gwdate_day, gwdate_month, gwdate_year);
+    let sun_ra_hours = pa_m::dd_dh(pa_m::ec_ra(
         sun_longitude_deg,
         0.0,
         0.0,
@@ -631,7 +630,7 @@ pub fn solar_elongation(
         gwdate_month,
         gwdate_year,
     ));
-    let sun_dec_deg = macros::ec_dec(
+    let sun_dec_deg = pa_m::ec_dec(
         sun_longitude_deg,
         0.0,
         0.0,
@@ -642,7 +641,7 @@ pub fn solar_elongation(
         gwdate_month,
         gwdate_year,
     );
-    let solar_elongation_deg = macros::angle(
+    let solar_elongation_deg = pa_m::angle(
         sun_ra_hours,
         0.0,
         0.0,
@@ -655,8 +654,8 @@ pub fn solar_elongation(
         dec_deg,
         dec_min,
         dec_sec,
-        pa_types::AngleMeasure::Hours,
+        pa_t::AngleMeasure::Hours,
     );
 
-    return utils::round_f64(solar_elongation_deg, 2);
+    return pa_u::round_f64(solar_elongation_deg, 2);
 }

@@ -1,6 +1,6 @@
-use crate::cometdata;
-use crate::macros;
-use crate::util;
+use crate::cometdata as pa_c;
+use crate::macros as pa_m;
+use crate::util as pa_u;
 
 /// Calculate position of an elliptical comet.
 ///
@@ -34,7 +34,7 @@ pub fn position_of_elliptical_comet(
 ) -> (f64, f64, f64, f64, f64) {
     let daylight_saving = if is_daylight_saving == true { 1 } else { 0 };
 
-    let greenwich_date_day = macros::lct_gday(
+    let greenwich_date_day = pa_m::lct_gday(
         lct_hour,
         lct_min,
         lct_sec,
@@ -44,7 +44,7 @@ pub fn position_of_elliptical_comet(
         local_date_month,
         local_date_year,
     );
-    let greenwich_date_month = macros::lct_gmonth(
+    let greenwich_date_month = pa_m::lct_gmonth(
         lct_hour,
         lct_min,
         lct_sec,
@@ -54,7 +54,7 @@ pub fn position_of_elliptical_comet(
         local_date_month,
         local_date_year,
     );
-    let greenwich_date_year = macros::lct_gyear(
+    let greenwich_date_year = pa_m::lct_gyear(
         lct_hour,
         lct_min,
         lct_sec,
@@ -65,20 +65,20 @@ pub fn position_of_elliptical_comet(
         local_date_year,
     );
 
-    let (comet_info, _comet_info_status) = cometdata::get_comet_info_elliptical_vector(comet_name);
+    let (comet_info, _comet_info_status) = pa_c::get_comet_info_elliptical_vector(comet_name);
 
-    let time_since_epoch_years = (macros::cd_jd(
+    let time_since_epoch_years = (pa_m::cd_jd(
         greenwich_date_day,
         greenwich_date_month,
         greenwich_date_year,
-    ) - macros::cd_jd(0.0, 1, greenwich_date_year))
+    ) - pa_m::cd_jd(0.0, 1, greenwich_date_year))
         / 365.242191
         + greenwich_date_year as f64
         - comet_info.epoch;
     let mc_deg = 360.0 * time_since_epoch_years / comet_info.period;
     let mc_rad = (mc_deg - 360.0 * (mc_deg / 360.0).floor()).to_radians();
     let eccentricity = comet_info.ecc;
-    let true_anomaly_deg = macros::degrees(macros::true_anomaly(mc_rad, eccentricity));
+    let true_anomaly_deg = pa_m::degrees(pa_m::true_anomaly(mc_rad, eccentricity));
     let lc_deg = true_anomaly_deg + comet_info.peri;
     let r_au = comet_info.axis * (1.0 - eccentricity * eccentricity)
         / (1.0 + eccentricity * ((true_anomaly_deg).to_radians()).cos());
@@ -88,10 +88,10 @@ pub fn position_of_elliptical_comet(
     let y = (lc_node_rad).sin() * ((comet_info.incl).to_radians()).cos();
     let x = (lc_node_rad).cos();
 
-    let ld_deg = macros::degrees(y.atan2(x)) + comet_info.node;
+    let ld_deg = pa_m::degrees(y.atan2(x)) + comet_info.node;
     let rd_au = r_au * (psi_rad).cos();
 
-    let earth_longitude_le_deg = macros::sun_long(
+    let earth_longitude_le_deg = pa_m::sun_long(
         lct_hour,
         lct_min,
         lct_sec,
@@ -101,7 +101,7 @@ pub fn position_of_elliptical_comet(
         local_date_month,
         local_date_year,
     ) + 180.0;
-    let earth_radius_vector_au = macros::sun_dist(
+    let earth_radius_vector_au = pa_m::sun_dist(
         lct_hour,
         lct_min,
         lct_sec,
@@ -121,17 +121,17 @@ pub fn position_of_elliptical_comet(
     };
 
     let comet_long_deg1 = if rd_au < earth_radius_vector_au {
-        180.0 + earth_longitude_le_deg + macros::degrees(a_rad)
+        180.0 + earth_longitude_le_deg + pa_m::degrees(a_rad)
     } else {
-        macros::degrees(a_rad) + ld_deg
+        pa_m::degrees(a_rad) + ld_deg
     };
     let comet_long_deg = comet_long_deg1 - 360.0 * (comet_long_deg1 / 360.0).floor();
-    let comet_lat_deg = macros::degrees(
+    let comet_lat_deg = pa_m::degrees(
         (rd_au * (psi_rad).tan() * ((comet_long_deg1 - ld_deg).to_radians()).sin()
             / (earth_radius_vector_au * (-le_ld_rad).sin()))
         .atan(),
     );
-    let comet_ra_hours1 = macros::dd_dh(macros::ec_ra(
+    let comet_ra_hours1 = pa_m::dd_dh(pa_m::ec_ra(
         comet_long_deg,
         0.0,
         0.0,
@@ -142,7 +142,7 @@ pub fn position_of_elliptical_comet(
         greenwich_date_month,
         greenwich_date_year,
     ));
-    let comet_dec_deg1 = macros::ec_dec(
+    let comet_dec_deg1 = pa_m::ec_dec(
         comet_long_deg,
         0.0,
         0.0,
@@ -161,11 +161,11 @@ pub fn position_of_elliptical_comet(
             * (psi_rad).cos())
     .sqrt();
 
-    let comet_ra_hour = macros::dh_hour(comet_ra_hours1 + 0.008333);
-    let comet_ra_min = macros::dh_min(comet_ra_hours1 + 0.008333);
-    let comet_dec_deg = macros::dd_deg(comet_dec_deg1 + 0.008333);
-    let comet_dec_min = macros::dd_min(comet_dec_deg1 + 0.008333);
-    let comet_dist_earth = util::round_f64(comet_distance_au, 2);
+    let comet_ra_hour = pa_m::dh_hour(comet_ra_hours1 + 0.008333);
+    let comet_ra_min = pa_m::dh_min(comet_ra_hours1 + 0.008333);
+    let comet_dec_deg = pa_m::dd_deg(comet_dec_deg1 + 0.008333);
+    let comet_dec_min = pa_m::dd_min(comet_dec_deg1 + 0.008333);
+    let comet_dist_earth = pa_u::round_f64(comet_distance_au, 2);
 
     return (
         comet_ra_hour as f64,
@@ -210,7 +210,7 @@ pub fn position_of_parabolic_comet(
 ) -> (f64, f64, f64, f64, f64, f64, f64) {
     let daylight_saving = if is_daylight_saving == true { 1 } else { 0 };
 
-    let greenwich_date_day = macros::lct_gday(
+    let greenwich_date_day = pa_m::lct_gday(
         lct_hour,
         lct_min,
         lct_sec,
@@ -220,7 +220,7 @@ pub fn position_of_parabolic_comet(
         local_date_month,
         local_date_year,
     );
-    let greenwich_date_month = macros::lct_gmonth(
+    let greenwich_date_month = pa_m::lct_gmonth(
         lct_hour,
         lct_min,
         lct_sec,
@@ -230,18 +230,7 @@ pub fn position_of_parabolic_comet(
         local_date_month,
         local_date_year,
     );
-    let greenwich_date_year = macros::lct_gyear(
-        lct_hour,
-        lct_min,
-        lct_sec,
-        daylight_saving,
-        zone_correction_hours,
-        local_date_day,
-        local_date_month,
-        local_date_year,
-    );
-
-    let _ut_hours = macros::lct_ut(
+    let greenwich_date_year = pa_m::lct_gyear(
         lct_hour,
         lct_min,
         lct_sec,
@@ -252,7 +241,18 @@ pub fn position_of_parabolic_comet(
         local_date_year,
     );
 
-    let (comet_info, _comet_info_status) = cometdata::get_comet_info_parabolic_vector(comet_name);
+    let _ut_hours = pa_m::lct_ut(
+        lct_hour,
+        lct_min,
+        lct_sec,
+        daylight_saving,
+        zone_correction_hours,
+        local_date_day,
+        local_date_month,
+        local_date_year,
+    );
+
+    let (comet_info, _comet_info_status) = pa_c::get_comet_info_parabolic_vector(comet_name);
 
     let perihelion_epoch_day = comet_info.epoch_peri_day;
     let perihelion_epoch_month = comet_info.epoch_peri_month;
@@ -262,7 +262,7 @@ pub fn position_of_parabolic_comet(
     let perihelion_deg = comet_info.arg_peri;
     let node_deg = comet_info.node;
 
-    let (comet_long_deg, comet_lat_deg, comet_dist_au) = macros::p_comet_long_lat_dist(
+    let (comet_long_deg, comet_lat_deg, comet_dist_au) = pa_m::p_comet_long_lat_dist(
         lct_hour,
         lct_min,
         lct_sec,
@@ -280,7 +280,7 @@ pub fn position_of_parabolic_comet(
         node_deg,
     );
 
-    let comet_ra_hours = macros::dd_dh(macros::ec_ra(
+    let comet_ra_hours = pa_m::dd_dh(pa_m::ec_ra(
         comet_long_deg,
         0.0,
         0.0,
@@ -291,7 +291,7 @@ pub fn position_of_parabolic_comet(
         greenwich_date_month,
         greenwich_date_year,
     ));
-    let comet_dec_deg1 = macros::ec_dec(
+    let comet_dec_deg1 = pa_m::ec_dec(
         comet_long_deg,
         0.0,
         0.0,
@@ -303,13 +303,13 @@ pub fn position_of_parabolic_comet(
         greenwich_date_year,
     );
 
-    let comet_ra_hour = macros::dh_hour(comet_ra_hours);
-    let comet_ra_min = macros::dh_min(comet_ra_hours);
-    let comet_ra_sec = macros::dh_sec(comet_ra_hours);
-    let comet_dec_deg = macros::dd_deg(comet_dec_deg1);
-    let comet_dec_min = macros::dd_min(comet_dec_deg1);
-    let comet_dec_sec = macros::dd_sec(comet_dec_deg1);
-    let comet_dist_earth = util::round_f64(comet_dist_au, 2);
+    let comet_ra_hour = pa_m::dh_hour(comet_ra_hours);
+    let comet_ra_min = pa_m::dh_min(comet_ra_hours);
+    let comet_ra_sec = pa_m::dh_sec(comet_ra_hours);
+    let comet_dec_deg = pa_m::dd_deg(comet_dec_deg1);
+    let comet_dec_min = pa_m::dd_min(comet_dec_deg1);
+    let comet_dec_sec = pa_m::dd_sec(comet_dec_deg1);
+    let comet_dist_earth = pa_u::round_f64(comet_dist_au, 2);
 
     return (
         comet_ra_hour as f64,
