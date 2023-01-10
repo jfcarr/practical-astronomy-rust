@@ -1,5 +1,5 @@
-use crate::types as pa_types;
-use crate::util as utils;
+use crate::types as pa_t;
+use crate::util as pa_u;
 
 /// Convert a Civil Time (hours,minutes,seconds) to Decimal Hours
 ///
@@ -26,7 +26,7 @@ pub fn hms_dh(hours: f64, minutes: f64, seconds: f64) -> f64 {
 pub fn dh_hour(decimal_hours: f64) -> u32 {
     let a = decimal_hours.abs();
     let b = a * 3600.0;
-    let c = utils::round_f64(b - 60.0 * (b / 60.0).floor(), 2);
+    let c = pa_u::round_f64(b - 60.0 * (b / 60.0).floor(), 2);
     // let d = if c == 60.0 { 0.0 } else { c };
     let e = if c == 60.0 { b + 60.0 } else { b };
 
@@ -43,7 +43,7 @@ pub fn dh_hour(decimal_hours: f64) -> u32 {
 pub fn dh_min(decimal_hours: f64) -> u32 {
     let a = decimal_hours.abs();
     let b = a * 3600.0;
-    let c = utils::round_f64(b - 60.0 * (b / 60.0).floor(), 2);
+    let c = pa_u::round_f64(b - 60.0 * (b / 60.0).floor(), 2);
     let e = if c == 60.0 { b + 60.0 } else { b };
 
     return ((e / 60.0).floor() % 60.0) as u32;
@@ -55,7 +55,7 @@ pub fn dh_min(decimal_hours: f64) -> u32 {
 pub fn dh_sec(decimal_hours: f64) -> f64 {
     let a = decimal_hours.abs();
     let b = a * 3600.0;
-    let c = utils::round_f64(b - 60.0 * (b / 60.0).floor(), 2);
+    let c = pa_u::round_f64(b - 60.0 * (b / 60.0).floor(), 2);
     let d = if c == 60.0 { 0.0 } else { c };
 
     return d;
@@ -621,7 +621,7 @@ pub fn degrees(w: f64) -> f64 {
 pub fn dd_deg(decimal_degrees: f64) -> f64 {
     let a = decimal_degrees.abs();
     let b = a * 3600.0;
-    let c = utils::round_f64(b - 60.0 * (b / 60.0).floor(), 2);
+    let c = pa_u::round_f64(b - 60.0 * (b / 60.0).floor(), 2);
     let _d = if c == 60.0 { 0.0 } else { c };
     let e = if c == 60.0 { 60.0 } else { b };
 
@@ -638,7 +638,7 @@ pub fn dd_deg(decimal_degrees: f64) -> f64 {
 pub fn dd_min(decimal_degrees: f64) -> f64 {
     let a = decimal_degrees.abs();
     let b = a * 3600.0;
-    let c = utils::round_f64(b - 60.0 * (b / 60.0).floor(), 2);
+    let c = pa_u::round_f64(b - 60.0 * (b / 60.0).floor(), 2);
     let _d = if c == 60.0 { 0.0 } else { c };
     let e = if c == 60.0 { b + 60.0 } else { b };
 
@@ -651,7 +651,7 @@ pub fn dd_min(decimal_degrees: f64) -> f64 {
 pub fn dd_sec(decimal_degrees: f64) -> f64 {
     let a = decimal_degrees.abs();
     let b = a * 3600.0;
-    let c = utils::round_f64(b - 60.0 * (b / 60.0).floor(), 2);
+    let c = pa_u::round_f64(b - 60.0 * (b / 60.0).floor(), 2);
     let d = if c == 60.0 { 0.0 } else { c };
 
     return d;
@@ -2162,12 +2162,12 @@ pub fn twilight_am_lct(
     zc: i32,
     gl: f64,
     gp: f64,
-    tt: &pa_types::TwilightType,
+    tt: &pa_t::TwilightType,
 ) -> f64 {
     let di = match tt {
-        pa_types::TwilightType::Astronomical => 18.0,
-        pa_types::TwilightType::Civil => 6.0,
-        pa_types::TwilightType::Nautical => 12.0,
+        pa_t::TwilightType::Astronomical => 18.0,
+        pa_t::TwilightType::Civil => 6.0,
+        pa_t::TwilightType::Nautical => 12.0,
     };
 
     let gd = lct_gday(12.0, 0.0, 0.0, ds, zc, ld, lm, ly);
@@ -2235,12 +2235,12 @@ pub fn twilight_pm_lct(
     zc: i32,
     gl: f64,
     gp: f64,
-    tt: &pa_types::TwilightType,
+    tt: &pa_t::TwilightType,
 ) -> f64 {
     let di = match tt {
-        pa_types::TwilightType::Astronomical => 18.0,
-        pa_types::TwilightType::Civil => 6.0,
-        pa_types::TwilightType::Nautical => 12.0,
+        pa_t::TwilightType::Astronomical => 18.0,
+        pa_t::TwilightType::Civil => 6.0,
+        pa_t::TwilightType::Nautical => 12.0,
     };
 
     let gd = lct_gday(12.0, 0.0, 0.0, ds, zc, ld, lm, ly);
@@ -2309,14 +2309,14 @@ pub fn e_twilight(
     zc: i32,
     gl: f64,
     gp: f64,
-    tt: &pa_types::TwilightType,
+    tt: &pa_t::TwilightType,
 ) -> String {
     // S = ""
 
     let di = match tt {
-        pa_types::TwilightType::Astronomical => 18.0,
-        pa_types::TwilightType::Civil => 6.0,
-        pa_types::TwilightType::Nautical => 12.0,
+        pa_t::TwilightType::Astronomical => 18.0,
+        pa_t::TwilightType::Civil => 6.0,
+        pa_t::TwilightType::Nautical => 12.0,
     };
 
     let gd = lct_gday(12.0, 0.0, 0.0, ds, zc, ld, lm, ly);
@@ -2396,11 +2396,11 @@ pub fn angle(
     dd2: f64,
     dm2: f64,
     ds2: f64,
-    s: pa_types::AngleMeasure,
+    s: pa_t::AngleMeasure,
 ) -> f64 {
     let s_value = match s {
-        pa_types::AngleMeasure::Degrees => "D",
-        pa_types::AngleMeasure::Hours => "H",
+        pa_t::AngleMeasure::Degrees => "D",
+        pa_t::AngleMeasure::Hours => "H",
     };
 
     let a = if s_value == "H" {
@@ -3761,7 +3761,7 @@ pub fn moon_phase(lh: f64, lm: f64, ls: f64, ds: i32, zc: i32, dy: f64, mn: u32,
     let i = 3.141592654 - d - i.to_radians();
     let k = (1.0 + (i).cos()) / 2.0;
 
-    return utils::round_f64(k, 2);
+    return pa_u::round_f64(k, 2);
 }
 
 /// Calculate the Moon's mean anomaly.

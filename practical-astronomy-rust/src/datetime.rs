@@ -1,5 +1,5 @@
-use crate::macros;
-use crate::util as utils;
+use crate::macros as pa_m;
+use crate::util as pa_u;
 
 /// Gets the date of Easter for the year specified.
 ///
@@ -46,7 +46,7 @@ pub fn get_date_of_easter(input_year: u32) -> (u32, u32, u32) {
 pub fn civil_date_to_day_number(mut month: u32, day: u32, year: u32) -> u32 {
     if month <= 2 {
         month = month - 1;
-        month = if utils::is_leap_year(year) {
+        month = if pa_u::is_leap_year(year) {
             month * 62
         } else {
             month * 63
@@ -54,7 +54,7 @@ pub fn civil_date_to_day_number(mut month: u32, day: u32, year: u32) -> u32 {
         month = (month as f64 / 2.0).floor() as u32;
     } else {
         month = ((month as f64 + 1.0) * 30.6).floor() as u32;
-        month = if utils::is_leap_year(year) {
+        month = if pa_u::is_leap_year(year) {
             month - 62
         } else {
             month - 63
@@ -66,7 +66,7 @@ pub fn civil_date_to_day_number(mut month: u32, day: u32, year: u32) -> u32 {
 
 /// Convert a Civil Time (hours,minutes,seconds) to Decimal Hours
 pub fn civil_time_to_decimal_hours(hours: f64, minutes: f64, seconds: f64) -> f64 {
-    return macros::hms_dh(hours, minutes, seconds as f64);
+    return pa_m::hms_dh(hours, minutes, seconds as f64);
 }
 
 /// Convert Decimal Hours to Civil Time
@@ -75,9 +75,9 @@ pub fn civil_time_to_decimal_hours(hours: f64, minutes: f64, seconds: f64) -> f6
 ///
 /// hours (u32), minutes (u32), seconds (u32)
 pub fn decimal_hours_to_civil_time(decimal_hours: f64) -> (f64, f64, f64) {
-    let hours = macros::dh_hour(decimal_hours);
-    let minutes = macros::dh_min(decimal_hours);
-    let seconds = macros::dh_sec(decimal_hours);
+    let hours = pa_m::dh_hour(decimal_hours);
+    let minutes = pa_m::dh_min(decimal_hours);
+    let seconds = pa_m::dh_sec(decimal_hours);
 
     return (hours as f64, minutes as f64, seconds as f64);
 }
@@ -104,18 +104,18 @@ pub fn local_civil_time_to_universal_time(
     let ut_interim = lct - daylight_savings_offset as f64 - zone_correction as f64;
     let gday_interim = local_day as f64 + (ut_interim / 24.0);
 
-    let jd = macros::cd_jd(gday_interim, local_month, local_year);
+    let jd = pa_m::cd_jd(gday_interim, local_month, local_year);
 
-    let g_day = macros::jdc_day(jd) as f64;
-    let g_month = macros::jdc_month(jd);
-    let g_year = macros::jdc_year(jd);
+    let g_day = pa_m::jdc_day(jd) as f64;
+    let g_month = pa_m::jdc_month(jd);
+    let g_year = pa_m::jdc_year(jd);
 
     let ut = 24.0 * (g_day - g_day.floor());
 
     return (
-        macros::dh_hour(ut),
-        macros::dh_min(ut),
-        macros::dh_sec(ut) as u32,
+        pa_m::dh_hour(ut),
+        pa_m::dh_min(ut),
+        pa_m::dh_sec(ut) as u32,
         g_day.floor() as u32,
         g_month,
         g_year,
@@ -138,22 +138,22 @@ pub fn universal_time_to_local_civil_time(
     gw_year: u32,
 ) -> (u32, u32, u32, u32, u32, u32) {
     let dst_value = if is_daylight_savings == true { 1 } else { 0 };
-    let ut = macros::hms_dh(ut_hours, ut_minutes, ut_seconds);
+    let ut = pa_m::hms_dh(ut_hours, ut_minutes, ut_seconds);
     let zone_time = ut + zone_correction as f64;
     let local_time = zone_time + dst_value as f64;
     let local_jd_plus_local_time =
-        macros::cd_jd(gw_day as f64, gw_month, gw_year) + (local_time / 24.0);
-    let local_day = macros::jdc_day(local_jd_plus_local_time) as f64;
+        pa_m::cd_jd(gw_day as f64, gw_month, gw_year) + (local_time / 24.0);
+    let local_day = pa_m::jdc_day(local_jd_plus_local_time) as f64;
     let integer_day = local_day.floor();
-    let local_month = macros::jdc_month(local_jd_plus_local_time);
-    let local_year = macros::jdc_year(local_jd_plus_local_time);
+    let local_month = pa_m::jdc_month(local_jd_plus_local_time);
+    let local_year = pa_m::jdc_year(local_jd_plus_local_time);
 
     let lct = 24.0 * (local_day - integer_day as f64);
 
     return (
-        macros::dh_hour(lct),
-        macros::dh_min(lct),
-        macros::dh_sec(lct) as u32,
+        pa_m::dh_hour(lct),
+        pa_m::dh_min(lct),
+        pa_m::dh_sec(lct) as u32,
         integer_day as u32,
         local_month,
         local_year,
@@ -172,19 +172,19 @@ pub fn universal_time_to_greenwich_sidereal_time(
     gw_month: u32,
     gw_year: u32,
 ) -> (u32, u32, f64) {
-    let jd = macros::cd_jd(gw_day as f64, gw_month, gw_year);
+    let jd = pa_m::cd_jd(gw_day as f64, gw_month, gw_year);
     let s = jd - 2451545.0;
     let t = s / 36525.0;
     let t01 = 6.697374558 + (2400.051336 * t) + (0.000025862 * t * t);
     let t02 = t01 - (24.0 * (t01 / 24.0).floor());
-    let ut = macros::hms_dh(ut_hours, ut_minutes, ut_seconds);
+    let ut = pa_m::hms_dh(ut_hours, ut_minutes, ut_seconds);
     let a = ut * 1.002737909;
     let gst1 = t02 + a;
     let gst2 = gst1 - (24.0 * (gst1 / 24.0).floor());
 
-    let gst_hours = macros::dh_hour(gst2);
-    let gst_minutes = macros::dh_min(gst2);
-    let gst_seconds = macros::dh_sec(gst2);
+    let gst_hours = pa_m::dh_hour(gst2);
+    let gst_minutes = pa_m::dh_min(gst2);
+    let gst_seconds = pa_m::dh_sec(gst2);
 
     return (gst_hours, gst_minutes, gst_seconds);
 }
@@ -201,19 +201,19 @@ pub fn greenwich_sidereal_time_to_universal_time(
     gw_month: u32,
     gw_year: u32,
 ) -> (u32, u32, f64, String) {
-    let jd = macros::cd_jd(gw_day, gw_month, gw_year);
+    let jd = pa_m::cd_jd(gw_day, gw_month, gw_year);
     let s = jd - 2451545.0;
     let t = s / 36525.0;
     let t01 = 6.697374558 + (2400.051336 * t) + (0.000025862 * t * t);
     let t02 = t01 - (24.0 * (t01 / 24.0).floor());
-    let gst_hours1 = macros::hms_dh(gst_hours, gst_minutes, gst_seconds);
+    let gst_hours1 = pa_m::hms_dh(gst_hours, gst_minutes, gst_seconds);
 
     let a = gst_hours1 - t02;
     let b = a - (24.0 * (a / 24.0).floor());
     let ut = b * 0.9972695663;
-    let ut_hours = macros::dh_hour(ut);
-    let ut_minutes = macros::dh_min(ut);
-    let ut_seconds = macros::dh_sec(ut);
+    let ut_hours = pa_m::dh_hour(ut);
+    let ut_minutes = pa_m::dh_min(ut);
+    let ut_seconds = pa_m::dh_sec(ut);
 
     let warning_flag = if ut < 0.065574 { "Warning" } else { "OK" };
 
@@ -230,14 +230,14 @@ pub fn greenwich_sidereal_time_to_local_sidereal_time(
     gst_seconds: f64,
     geographical_longitude: f64,
 ) -> (u32, u32, f64) {
-    let gst = macros::hms_dh(gst_hour, gst_minutes, gst_seconds);
+    let gst = pa_m::hms_dh(gst_hour, gst_minutes, gst_seconds);
     let offset = geographical_longitude / 15.0;
     let lst_hours1 = gst + offset;
     let lst_hours2 = lst_hours1 - (24.0 * (lst_hours1 / 24.0).floor());
 
-    let lst_hours = macros::dh_hour(lst_hours2);
-    let lst_minutes = macros::dh_min(lst_hours2);
-    let lst_seconds = macros::dh_sec(lst_hours2);
+    let lst_hours = pa_m::dh_hour(lst_hours2);
+    let lst_minutes = pa_m::dh_min(lst_hours2);
+    let lst_seconds = pa_m::dh_sec(lst_hours2);
 
     return (lst_hours, lst_minutes, lst_seconds);
 }
@@ -252,14 +252,14 @@ pub fn local_sidereal_time_to_greenwich_sidereal_time(
     lst_seconds: f64,
     geographical_longitude: f64,
 ) -> (u32, u32, f64) {
-    let gst = macros::hms_dh(lst_hours, lst_minutes, lst_seconds);
+    let gst = pa_m::hms_dh(lst_hours, lst_minutes, lst_seconds);
     let long_hours = geographical_longitude / 15.0;
     let gst1 = gst - long_hours;
     let gst2 = gst1 - (24.0 * (gst1 / 24.0).floor());
 
-    let gst_hours = macros::dh_hour(gst2);
-    let gst_minutes = macros::dh_min(gst2);
-    let gst_seconds = macros::dh_sec(gst2);
+    let gst_hours = pa_m::dh_hour(gst2);
+    let gst_minutes = pa_m::dh_min(gst2);
+    let gst_seconds = pa_m::dh_sec(gst2);
 
     return (gst_hours, gst_minutes, gst_seconds);
 }

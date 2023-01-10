@@ -1,5 +1,5 @@
-use crate::macros;
-use crate::util as utils;
+use crate::macros as pa_m;
+use crate::util as pa_u;
 
 /// Convert an Angle (degrees, minutes, and seconds) to Decimal Degrees
 pub fn angle_to_decimal_degrees(degrees: f64, minutes: f64, seconds: f64) -> f64 {
@@ -22,7 +22,7 @@ pub fn angle_to_decimal_degrees(degrees: f64, minutes: f64, seconds: f64) -> f64
 pub fn decimal_degrees_to_angle(decimal_degrees: f64) -> (f64, f64, f64) {
     let unsigned_decimal = decimal_degrees.abs();
     let total_seconds = unsigned_decimal * 3600.0;
-    let seconds_2_dp = utils::round_f64(total_seconds % 60.0, 2);
+    let seconds_2_dp = pa_u::round_f64(total_seconds % 60.0, 2);
     let corrected_seconds = if seconds_2_dp == 60.0 {
         0.0
     } else {
@@ -61,7 +61,7 @@ pub fn right_ascension_to_hour_angle(
 ) -> (f64, f64, f64) {
     let daylight_saving = if is_daylight_saving == true { 1 } else { 0 };
 
-    let hour_angle = macros::ra_ha(
+    let hour_angle = pa_m::ra_ha(
         ra_hours,
         ra_minutes,
         ra_seconds,
@@ -76,9 +76,9 @@ pub fn right_ascension_to_hour_angle(
         geographical_longitude,
     );
 
-    let hour_angle_hours = macros::dh_hour(hour_angle);
-    let hour_angle_minutes = macros::dh_min(hour_angle);
-    let hour_angle_seconds = macros::dh_sec(hour_angle);
+    let hour_angle_hours = pa_m::dh_hour(hour_angle);
+    let hour_angle_minutes = pa_m::dh_min(hour_angle);
+    let hour_angle_seconds = pa_m::dh_sec(hour_angle);
 
     return (
         hour_angle_hours as f64,
@@ -104,7 +104,7 @@ pub fn hour_angle_to_right_ascension(
 ) -> (f64, f64, f64) {
     let daylight_saving = if is_daylight_saving == true { 1 } else { 0 };
 
-    let right_ascension = macros::ha_ra(
+    let right_ascension = pa_m::ha_ra(
         hour_angle_hours,
         hour_angle_minutes,
         hour_angle_seconds,
@@ -119,9 +119,9 @@ pub fn hour_angle_to_right_ascension(
         geographical_longitude,
     );
 
-    let right_ascension_hours = macros::dh_hour(right_ascension);
-    let right_ascension_minutes = macros::dh_min(right_ascension);
-    let right_ascension_seconds = macros::dh_sec(right_ascension);
+    let right_ascension_hours = pa_m::dh_hour(right_ascension);
+    let right_ascension_minutes = pa_m::dh_min(right_ascension);
+    let right_ascension_seconds = pa_m::dh_sec(right_ascension);
 
     return (
         right_ascension_hours as f64,
@@ -140,7 +140,7 @@ pub fn equatorial_coordinates_to_horizon_coordinates(
     declination_seconds: f64,
     geographical_latitude: f64,
 ) -> (f64, f64, f64, f64, f64, f64) {
-    let azimuth_in_decimal_degrees = macros::eq_az(
+    let azimuth_in_decimal_degrees = pa_m::eq_az(
         hour_angle_hours,
         hour_angle_minutes,
         hour_angle_seconds,
@@ -150,7 +150,7 @@ pub fn equatorial_coordinates_to_horizon_coordinates(
         geographical_latitude,
     );
 
-    let altitude_in_decimal_degrees = macros::eq_alt(
+    let altitude_in_decimal_degrees = pa_m::eq_alt(
         hour_angle_hours,
         hour_angle_minutes,
         hour_angle_seconds,
@@ -160,13 +160,13 @@ pub fn equatorial_coordinates_to_horizon_coordinates(
         geographical_latitude,
     );
 
-    let azimuth_degrees = macros::dd_deg(azimuth_in_decimal_degrees);
-    let azimuth_minutes = macros::dd_min(azimuth_in_decimal_degrees);
-    let azimuth_seconds = macros::dd_sec(azimuth_in_decimal_degrees);
+    let azimuth_degrees = pa_m::dd_deg(azimuth_in_decimal_degrees);
+    let azimuth_minutes = pa_m::dd_min(azimuth_in_decimal_degrees);
+    let azimuth_seconds = pa_m::dd_sec(azimuth_in_decimal_degrees);
 
-    let altitude_degrees = macros::dd_deg(altitude_in_decimal_degrees);
-    let altitude_minutes = macros::dd_min(altitude_in_decimal_degrees);
-    let altitude_seconds = macros::dd_sec(altitude_in_decimal_degrees);
+    let altitude_degrees = pa_m::dd_deg(altitude_in_decimal_degrees);
+    let altitude_minutes = pa_m::dd_min(altitude_in_decimal_degrees);
+    let altitude_seconds = pa_m::dd_sec(altitude_in_decimal_degrees);
 
     return (
         azimuth_degrees,
@@ -188,7 +188,7 @@ pub fn horizon_coordinates_to_equatorial_coordinates(
     altitude_seconds: f64,
     geographical_latitude: f64,
 ) -> (f64, f64, f64, f64, f64, f64) {
-    let hour_angle_in_decimal_degrees = macros::hor_ha(
+    let hour_angle_in_decimal_degrees = pa_m::hor_ha(
         azimuth_degrees,
         azimuth_minutes,
         azimuth_seconds,
@@ -198,7 +198,7 @@ pub fn horizon_coordinates_to_equatorial_coordinates(
         geographical_latitude,
     );
 
-    let declination_in_decimal_degrees = macros::hor_dec(
+    let declination_in_decimal_degrees = pa_m::hor_dec(
         azimuth_degrees,
         azimuth_minutes,
         azimuth_seconds,
@@ -208,13 +208,13 @@ pub fn horizon_coordinates_to_equatorial_coordinates(
         geographical_latitude,
     );
 
-    let hour_angle_hours = macros::dh_hour(hour_angle_in_decimal_degrees);
-    let hour_angle_minutes = macros::dh_min(hour_angle_in_decimal_degrees);
-    let hour_angle_seconds = macros::dh_sec(hour_angle_in_decimal_degrees);
+    let hour_angle_hours = pa_m::dh_hour(hour_angle_in_decimal_degrees);
+    let hour_angle_minutes = pa_m::dh_min(hour_angle_in_decimal_degrees);
+    let hour_angle_seconds = pa_m::dh_sec(hour_angle_in_decimal_degrees);
 
-    let declination_degrees = macros::dd_deg(declination_in_decimal_degrees);
-    let declination_minutes = macros::dd_min(declination_in_decimal_degrees);
-    let declination_seconds = macros::dd_sec(declination_in_decimal_degrees);
+    let declination_degrees = pa_m::dd_deg(declination_in_decimal_degrees);
+    let declination_minutes = pa_m::dd_min(declination_in_decimal_degrees);
+    let declination_seconds = pa_m::dd_sec(declination_in_decimal_degrees);
 
     return (
         hour_angle_hours as f64,
@@ -232,7 +232,7 @@ pub fn mean_obliquity_of_the_ecliptic(
     greenwich_month: u32,
     greenwich_year: u32,
 ) -> f64 {
-    let jd = macros::cd_jd(greenwich_day, greenwich_month, greenwich_year);
+    let jd = pa_m::cd_jd(greenwich_day, greenwich_month, greenwich_year);
     let mjd = jd - 2451545.0;
     let t = mjd / 36525.0;
     let de1 = t * (46.815 + t * (0.0006 - (t * 0.00181)));
@@ -253,37 +253,37 @@ pub fn ecliptic_coordinate_to_equatorial_coordinate(
     greenwich_month: u32,
     greenwich_year: u32,
 ) -> (f64, f64, f64, f64, f64, f64) {
-    let eclon_deg = macros::dms_dd(
+    let eclon_deg = pa_m::dms_dd(
         ecliptic_longitude_degrees,
         ecliptic_longitude_minutes,
         ecliptic_longitude_seconds,
     );
-    let eclat_deg = macros::dms_dd(
+    let eclat_deg = pa_m::dms_dd(
         ecliptic_latitude_degrees,
         ecliptic_latitude_minutes,
         ecliptic_latitude_seconds,
     );
     let eclon_rad = eclon_deg.to_radians();
     let eclat_rad = eclat_deg.to_radians();
-    let obliq_deg = macros::obliq(greenwich_day, greenwich_month, greenwich_year);
+    let obliq_deg = pa_m::obliq(greenwich_day, greenwich_month, greenwich_year);
     let obliq_rad = obliq_deg.to_radians();
     let sin_dec =
         eclat_rad.sin() * obliq_rad.cos() + eclat_rad.cos() * obliq_rad.sin() * eclon_rad.sin();
     let dec_rad = sin_dec.asin();
-    let dec_deg = macros::degrees(dec_rad);
+    let dec_deg = pa_m::degrees(dec_rad);
     let y = eclon_rad.sin() * obliq_rad.cos() - eclat_rad.tan() * obliq_rad.sin();
     let x = eclon_rad.cos();
     let ra_rad = y.atan2(x);
-    let ra_deg1 = macros::degrees(ra_rad);
+    let ra_deg1 = pa_m::degrees(ra_rad);
     let ra_deg2 = ra_deg1 - 360.0 * (ra_deg1 / 360.0).floor();
-    let ra_hours = macros::dd_dh(ra_deg2);
+    let ra_hours = pa_m::dd_dh(ra_deg2);
 
-    let out_ra_hours = macros::dh_hour(ra_hours);
-    let out_ra_minutes = macros::dh_min(ra_hours);
-    let out_ra_seconds = macros::dh_sec(ra_hours);
-    let out_dec_degrees = macros::dd_deg(dec_deg);
-    let out_dec_minutes = macros::dd_min(dec_deg);
-    let out_dec_seconds = macros::dd_sec(dec_deg);
+    let out_ra_hours = pa_m::dh_hour(ra_hours);
+    let out_ra_minutes = pa_m::dh_min(ra_hours);
+    let out_ra_seconds = pa_m::dh_sec(ra_hours);
+    let out_dec_degrees = pa_m::dd_deg(dec_deg);
+    let out_dec_minutes = pa_m::dd_min(dec_deg);
+    let out_dec_seconds = pa_m::dd_sec(dec_deg);
 
     return (
         out_ra_hours as f64,
@@ -307,28 +307,28 @@ pub fn equatorial_coordinate_to_ecliptic_coordinate(
     gw_month: u32,
     gw_year: u32,
 ) -> (f64, f64, f64, f64, f64, f64) {
-    let ra_deg = macros::dh_dd(macros::hms_dh(ra_hours, ra_minutes, ra_seconds));
-    let dec_deg = macros::dms_dd(dec_degrees, dec_minutes, dec_seconds);
+    let ra_deg = pa_m::dh_dd(pa_m::hms_dh(ra_hours, ra_minutes, ra_seconds));
+    let dec_deg = pa_m::dms_dd(dec_degrees, dec_minutes, dec_seconds);
     let ra_rad = ra_deg.to_radians();
     let dec_rad = dec_deg.to_radians();
-    let obliq_deg = macros::obliq(gw_day, gw_month, gw_year);
+    let obliq_deg = pa_m::obliq(gw_day, gw_month, gw_year);
     let obliq_rad = obliq_deg.to_radians();
     let sin_ecl_lat =
         dec_rad.sin() * obliq_rad.cos() - dec_rad.cos() * obliq_rad.sin() * ra_rad.sin();
     let ecl_lat_rad = sin_ecl_lat.asin();
-    let ecl_lat_deg = macros::degrees(ecl_lat_rad);
+    let ecl_lat_deg = pa_m::degrees(ecl_lat_rad);
     let y = ra_rad.sin() * obliq_rad.cos() + dec_rad.tan() * obliq_rad.sin();
     let x = ra_rad.cos();
     let ecl_long_rad = y.atan2(x);
-    let ecl_long_deg1 = macros::degrees(ecl_long_rad);
+    let ecl_long_deg1 = pa_m::degrees(ecl_long_rad);
     let ecl_long_deg2 = ecl_long_deg1 - 360.0 * (ecl_long_deg1 / 360.0).floor();
 
-    let out_ecl_long_deg = macros::dd_deg(ecl_long_deg2);
-    let out_ecl_long_min = macros::dd_min(ecl_long_deg2);
-    let out_ecl_long_sec = macros::dd_sec(ecl_long_deg2);
-    let out_ecl_lat_deg = macros::dd_deg(ecl_lat_deg);
-    let out_ecl_lat_min = macros::dd_min(ecl_lat_deg);
-    let out_ecl_lat_sec = macros::dd_sec(ecl_lat_deg);
+    let out_ecl_long_deg = pa_m::dd_deg(ecl_long_deg2);
+    let out_ecl_long_min = pa_m::dd_min(ecl_long_deg2);
+    let out_ecl_long_sec = pa_m::dd_sec(ecl_long_deg2);
+    let out_ecl_lat_deg = pa_m::dd_deg(ecl_lat_deg);
+    let out_ecl_lat_min = pa_m::dd_min(ecl_lat_deg);
+    let out_ecl_lat_sec = pa_m::dd_sec(ecl_lat_deg);
 
     return (
         out_ecl_long_deg,
@@ -349,8 +349,8 @@ pub fn equatorial_coordinate_to_galactic_coordinate(
     dec_minutes: f64,
     dec_seconds: f64,
 ) -> (f64, f64, f64, f64, f64, f64) {
-    let ra_deg = macros::dh_dd(macros::hms_dh(ra_hours, ra_minutes, ra_seconds));
-    let dec_deg = macros::dms_dd(dec_degrees, dec_minutes, dec_seconds);
+    let ra_deg = pa_m::dh_dd(pa_m::hms_dh(ra_hours, ra_minutes, ra_seconds));
+    let dec_deg = pa_m::dms_dd(dec_degrees, dec_minutes, dec_seconds);
     let ra_rad = ra_deg.to_radians();
     let dec_rad = dec_deg.to_radians();
     let sin_b = dec_rad.cos()
@@ -358,20 +358,20 @@ pub fn equatorial_coordinate_to_galactic_coordinate(
         * (ra_rad - (192.25 as f64).to_radians()).cos()
         + dec_rad.sin() * (27.4 as f64).to_radians().sin();
     let b_radians = sin_b.asin();
-    let b_deg = macros::degrees(b_radians);
+    let b_deg = pa_m::degrees(b_radians);
     let y = dec_rad.sin() - sin_b * (27.4 as f64).to_radians().sin();
     let x = dec_rad.cos()
         * (ra_rad - (192.25 as f64).to_radians()).sin()
         * (27.4 as f64).to_radians().cos();
-    let long_deg1 = macros::degrees(y.atan2(x)) + 33.0;
+    let long_deg1 = pa_m::degrees(y.atan2(x)) + 33.0;
     let long_deg2 = long_deg1 - 360.0 * (long_deg1 / 360.0).floor();
 
-    let gal_long_deg = macros::dd_deg(long_deg2);
-    let gal_long_min = macros::dd_min(long_deg2);
-    let gal_long_sec = macros::dd_sec(long_deg2);
-    let gal_lat_deg = macros::dd_deg(b_deg);
-    let gal_lat_min = macros::dd_min(b_deg);
-    let gal_lat_sec = macros::dd_sec(b_deg);
+    let gal_long_deg = pa_m::dd_deg(long_deg2);
+    let gal_long_min = pa_m::dd_min(long_deg2);
+    let gal_long_sec = pa_m::dd_sec(long_deg2);
+    let gal_lat_deg = pa_m::dd_deg(b_deg);
+    let gal_lat_min = pa_m::dd_min(b_deg);
+    let gal_lat_sec = pa_m::dd_sec(b_deg);
 
     return (
         gal_long_deg,
@@ -392,8 +392,8 @@ pub fn galactic_coordinate_to_equatorial_coordinate(
     gal_lat_min: f64,
     gal_lat_sec: f64,
 ) -> (f64, f64, f64, f64, f64, f64) {
-    let glong_deg = macros::dms_dd(gal_long_deg, gal_long_min, gal_long_sec);
-    let glat_deg = macros::dms_dd(gal_lat_deg, gal_lat_min, gal_lat_sec);
+    let glong_deg = pa_m::dms_dd(gal_long_deg, gal_long_min, gal_long_sec);
+    let glat_deg = pa_m::dms_dd(gal_lat_deg, gal_lat_min, gal_lat_sec);
     let glong_rad = glong_deg.to_radians();
     let glat_rad = glat_deg.to_radians();
     let sin_dec = glat_rad.cos()
@@ -401,23 +401,23 @@ pub fn galactic_coordinate_to_equatorial_coordinate(
         * (glong_rad - (33 as f64).to_radians()).sin()
         + glat_rad.sin() * (27.4 as f64).to_radians().sin();
     let dec_radians = sin_dec.asin();
-    let dec_deg = macros::degrees(dec_radians);
+    let dec_deg = pa_m::degrees(dec_radians);
     let y = glat_rad.cos() * (glong_rad - (33 as f64).to_radians()).cos();
     let x = glat_rad.sin() * ((27.4 as f64).to_radians()).cos()
         - (glat_rad).cos()
             * ((27.4 as f64).to_radians()).sin()
             * (glong_rad - (33 as f64).to_radians()).sin();
 
-    let ra_deg1 = macros::degrees(y.atan2(x)) + 192.25;
+    let ra_deg1 = pa_m::degrees(y.atan2(x)) + 192.25;
     let ra_deg2 = ra_deg1 - 360.0 * (ra_deg1 / 360.0).floor();
-    let ra_hours1 = macros::dd_dh(ra_deg2);
+    let ra_hours1 = pa_m::dd_dh(ra_deg2);
 
-    let ra_hours = macros::dh_hour(ra_hours1);
-    let ra_minutes = macros::dh_min(ra_hours1);
-    let ra_seconds = macros::dh_sec(ra_hours1);
-    let dec_degrees = macros::dd_deg(dec_deg);
-    let dec_minutes = macros::dd_min(dec_deg);
-    let dec_seconds = macros::dd_sec(dec_deg);
+    let ra_hours = pa_m::dh_hour(ra_hours1);
+    let ra_minutes = pa_m::dh_min(ra_hours1);
+    let ra_seconds = pa_m::dh_sec(ra_hours1);
+    let dec_degrees = pa_m::dd_deg(dec_deg);
+    let dec_minutes = pa_m::dd_min(dec_deg);
+    let dec_seconds = pa_m::dd_sec(dec_deg);
 
     return (
         ra_hours as f64,
@@ -446,40 +446,40 @@ pub fn angle_between_two_objects(
     hour_or_degree: String,
 ) -> (f64, f64, f64) {
     let ra_long_1_decimal = if hour_or_degree == "H" {
-        macros::hms_dh(ra_long_1_hour_deg, ra_long_1_min, ra_long_1_sec)
+        pa_m::hms_dh(ra_long_1_hour_deg, ra_long_1_min, ra_long_1_sec)
     } else {
-        macros::dms_dd(ra_long_1_hour_deg, ra_long_1_min, ra_long_1_sec)
+        pa_m::dms_dd(ra_long_1_hour_deg, ra_long_1_min, ra_long_1_sec)
     };
     let ra_long_1_deg = if hour_or_degree == "H" {
-        macros::dh_dd(ra_long_1_decimal)
+        pa_m::dh_dd(ra_long_1_decimal)
     } else {
         ra_long_1_decimal
     };
     let ra_long_1_rad = ra_long_1_deg.to_radians();
-    let dec_lat_1_deg1 = macros::dms_dd(dec_lat_1_deg, dec_lat_1_min, dec_lat_1_sec);
+    let dec_lat_1_deg1 = pa_m::dms_dd(dec_lat_1_deg, dec_lat_1_min, dec_lat_1_sec);
     let dec_lat_1_rad = dec_lat_1_deg1.to_radians();
     let ra_long_2_decimal = if hour_or_degree == "H" {
-        macros::hms_dh(ra_long_2_hour_deg, ra_long_2_min, ra_long_2_sec)
+        pa_m::hms_dh(ra_long_2_hour_deg, ra_long_2_min, ra_long_2_sec)
     } else {
-        macros::dms_dd(ra_long_2_hour_deg, ra_long_2_min, ra_long_2_sec)
+        pa_m::dms_dd(ra_long_2_hour_deg, ra_long_2_min, ra_long_2_sec)
     };
     let ra_long_2_deg = if hour_or_degree == "H" {
-        macros::dh_dd(ra_long_2_decimal)
+        pa_m::dh_dd(ra_long_2_decimal)
     } else {
         ra_long_2_decimal
     };
     let ra_long_2_rad = ra_long_2_deg.to_radians();
-    let dec_lat_2_deg1 = macros::dms_dd(dec_lat_2_deg, dec_lat_2_min, dec_lat_2_sec);
+    let dec_lat_2_deg1 = pa_m::dms_dd(dec_lat_2_deg, dec_lat_2_min, dec_lat_2_sec);
     let dec_lat_2_rad = dec_lat_2_deg1.to_radians();
 
     let cos_d = dec_lat_1_rad.sin() * dec_lat_2_rad.sin()
         + dec_lat_1_rad.cos() * dec_lat_2_rad.cos() * (ra_long_1_rad - ra_long_2_rad).cos();
     let d_rad = cos_d.acos();
-    let d_deg = macros::degrees(d_rad);
+    let d_deg = pa_m::degrees(d_rad);
 
-    let angle_deg = macros::dd_deg(d_deg);
-    let angle_min = macros::dd_min(d_deg);
-    let angle_sec = macros::dd_sec(d_deg);
+    let angle_deg = pa_m::dd_deg(d_deg);
+    let angle_min = pa_m::dd_min(d_deg);
+    let angle_sec = pa_m::dd_sec(d_deg);
 
     return (angle_deg, angle_min, angle_sec);
 }
@@ -522,32 +522,32 @@ pub fn rising_and_setting(
     geog_lat_deg: f64,
     vert_shift_deg: f64,
 ) -> (String, f64, f64, f64, f64, f64, f64) {
-    let ra_hours1 = macros::hms_dh(ra_hours, ra_minutes, ra_seconds);
-    let dec_rad = (macros::dms_dd(dec_deg, dec_min, dec_sec)).to_radians();
+    let ra_hours1 = pa_m::hms_dh(ra_hours, ra_minutes, ra_seconds);
+    let dec_rad = (pa_m::dms_dd(dec_deg, dec_min, dec_sec)).to_radians();
     let vertical_displ_radians = (vert_shift_deg).to_radians();
     let geo_lat_radians = (geog_lat_deg).to_radians();
     let cos_h = -((vertical_displ_radians).sin() + (geo_lat_radians).sin() * (dec_rad).sin())
         / ((geo_lat_radians).cos() * (dec_rad).cos());
-    let h_hours = macros::dd_dh(macros::degrees((cos_h).acos()));
+    let h_hours = pa_m::dd_dh(pa_m::degrees((cos_h).acos()));
     let lst_rise_hours = (ra_hours1 - h_hours) - 24.0 * ((ra_hours1 - h_hours) / 24.0).floor();
     let lst_set_hours = (ra_hours1 + h_hours) - 24.0 * ((ra_hours1 + h_hours) / 24.0).floor();
-    let a_deg = macros::degrees(
+    let a_deg = pa_m::degrees(
         (((dec_rad).sin() + (vertical_displ_radians).sin() * (geo_lat_radians).sin())
             / ((vertical_displ_radians).cos() * (geo_lat_radians).cos()))
         .acos(),
     );
     let az_rise_deg = a_deg - 360.0 * (a_deg / 360.0).floor();
     let az_set_deg = (360.0 - a_deg) - 360.0 * ((360.0 - a_deg) / 360.0).floor();
-    let ut_rise_hours1 = macros::gst_ut(
-        macros::lst_gst(lst_rise_hours, 0.0, 0.0, geog_long_deg),
+    let ut_rise_hours1 = pa_m::gst_ut(
+        pa_m::lst_gst(lst_rise_hours, 0.0, 0.0, geog_long_deg),
         0.0,
         0.0,
         gw_date_day,
         gw_date_month,
         gw_date_year,
     );
-    let ut_set_hours1 = macros::gst_ut(
-        macros::lst_gst(lst_set_hours, 0.0, 0.0, geog_long_deg),
+    let ut_set_hours1 = pa_m::gst_ut(
+        pa_m::lst_gst(lst_set_hours, 0.0, 0.0, geog_long_deg),
         0.0,
         0.0,
         gw_date_day,
@@ -566,32 +566,32 @@ pub fn rising_and_setting(
     }
 
     let ut_rise_hour = if rise_set_status == "OK" {
-        macros::dh_hour(ut_rise_adjusted_hours) as f64
+        pa_m::dh_hour(ut_rise_adjusted_hours) as f64
     } else {
         0.0
     };
     let ut_rise_min = if rise_set_status == "OK" {
-        macros::dh_min(ut_rise_adjusted_hours) as f64
+        pa_m::dh_min(ut_rise_adjusted_hours) as f64
     } else {
         0.0
     };
     let ut_set_hour = if rise_set_status == "OK" {
-        macros::dh_hour(ut_set_adjusted_hours) as f64
+        pa_m::dh_hour(ut_set_adjusted_hours) as f64
     } else {
         0.0
     };
     let ut_set_min = if rise_set_status == "OK" {
-        macros::dh_min(ut_set_adjusted_hours) as f64
+        pa_m::dh_min(ut_set_adjusted_hours) as f64
     } else {
         0.0
     };
     let az_rise = if rise_set_status == "OK" {
-        utils::round_f64(az_rise_deg, 2)
+        pa_u::round_f64(az_rise_deg, 2)
     } else {
         0.0
     };
     let az_set = if rise_set_status == "OK" {
-        utils::round_f64(az_set_deg, 2)
+        pa_u::round_f64(az_set_deg, 2)
     } else {
         0.0
     };
@@ -630,26 +630,26 @@ pub fn correct_for_precession(
     epoch2_month: u32,
     epoch2_year: u32,
 ) -> (f64, f64, f64, f64, f64, f64) {
-    let ra_1_rad = (macros::dh_dd(macros::hms_dh(ra_hour, ra_minutes, ra_seconds))).to_radians();
-    let dec_1_rad = (macros::dms_dd(dec_deg, dec_minutes, dec_seconds)).to_radians();
-    let t_centuries = (macros::cd_jd(epoch1_day, epoch1_month, epoch1_year) - 2415020.0) / 36525.0;
+    let ra_1_rad = (pa_m::dh_dd(pa_m::hms_dh(ra_hour, ra_minutes, ra_seconds))).to_radians();
+    let dec_1_rad = (pa_m::dms_dd(dec_deg, dec_minutes, dec_seconds)).to_radians();
+    let t_centuries = (pa_m::cd_jd(epoch1_day, epoch1_month, epoch1_year) - 2415020.0) / 36525.0;
     let m_sec = 3.07234 + (0.00186 * t_centuries);
     let n_arcsec = 20.0468 - (0.0085 * t_centuries);
-    let n_years = (macros::cd_jd(epoch2_day, epoch2_month, epoch2_year)
-        - macros::cd_jd(epoch1_day, epoch1_month, epoch1_year))
+    let n_years = (pa_m::cd_jd(epoch2_day, epoch2_month, epoch2_year)
+        - pa_m::cd_jd(epoch1_day, epoch1_month, epoch1_year))
         / 365.25;
     let s1_hours =
         ((m_sec + (n_arcsec * (ra_1_rad).sin() * (dec_1_rad).tan() / 15.0)) * n_years) / 3600.0;
-    let ra_2_hours = macros::hms_dh(ra_hour, ra_minutes, ra_seconds) + s1_hours;
+    let ra_2_hours = pa_m::hms_dh(ra_hour, ra_minutes, ra_seconds) + s1_hours;
     let s2_deg = (n_arcsec * (ra_1_rad).cos() * n_years) / 3600.0;
-    let dec_2_deg = macros::dms_dd(dec_deg, dec_minutes, dec_seconds) + s2_deg;
+    let dec_2_deg = pa_m::dms_dd(dec_deg, dec_minutes, dec_seconds) + s2_deg;
 
-    let corrected_ra_hour = macros::dh_hour(ra_2_hours);
-    let corrected_ra_minutes = macros::dh_min(ra_2_hours);
-    let corrected_ra_seconds = macros::dh_sec(ra_2_hours);
-    let corrected_dec_deg = macros::dd_deg(dec_2_deg);
-    let corrected_dec_minutes = macros::dd_min(dec_2_deg);
-    let corrected_dec_seconds = macros::dd_sec(dec_2_deg);
+    let corrected_ra_hour = pa_m::dh_hour(ra_2_hours);
+    let corrected_ra_minutes = pa_m::dh_min(ra_2_hours);
+    let corrected_ra_seconds = pa_m::dh_sec(ra_2_hours);
+    let corrected_dec_deg = pa_m::dd_deg(dec_2_deg);
+    let corrected_dec_minutes = pa_m::dd_min(dec_2_deg);
+    let corrected_dec_seconds = pa_m::dd_sec(dec_2_deg);
 
     return (
         corrected_ra_hour as f64,
@@ -671,7 +671,7 @@ pub fn nutation_in_ecliptic_longitude_and_obliquity(
     greenwich_month: u32,
     greenwich_year: u32,
 ) -> (f64, f64) {
-    let jd_days = macros::cd_jd(greenwich_day, greenwich_month, greenwich_year);
+    let jd_days = pa_m::cd_jd(greenwich_day, greenwich_month, greenwich_year);
     let t_centuries = (jd_days - 2415020.0) / 36525.0;
     let a_deg = 100.0021358 * t_centuries;
     let l_1_deg = 279.6967 + (0.000303 * t_centuries * t_centuries);
@@ -710,9 +710,9 @@ pub fn correct_for_aberration(
     true_ecl_lat_min: f64,
     true_ecl_lat_sec: f64,
 ) -> (f64, f64, f64, f64, f64, f64) {
-    let true_long_deg = macros::dms_dd(true_ecl_long_deg, true_ecl_long_min, true_ecl_long_sec);
-    let true_lat_deg = macros::dms_dd(true_ecl_lat_deg, true_ecl_lat_min, true_ecl_lat_sec);
-    let sun_true_long_deg = macros::sun_long(
+    let true_long_deg = pa_m::dms_dd(true_ecl_long_deg, true_ecl_long_min, true_ecl_long_sec);
+    let true_lat_deg = pa_m::dms_dd(true_ecl_lat_deg, true_ecl_lat_min, true_ecl_lat_sec);
+    let sun_true_long_deg = pa_m::sun_long(
         ut_hour, ut_minutes, ut_seconds, 0, 0, gw_day, gw_month, gw_year,
     );
     let dlong_arcsec = -20.5 * ((sun_true_long_deg - true_long_deg).to_radians()).cos()
@@ -723,12 +723,12 @@ pub fn correct_for_aberration(
     let apparent_long_deg = true_long_deg + (dlong_arcsec / 3600.0);
     let apparent_lat_deg = true_lat_deg + (dlat_arcsec / 3600.0);
 
-    let apparent_ecl_long_deg = macros::dd_deg(apparent_long_deg);
-    let apparent_ecl_long_min = macros::dd_min(apparent_long_deg);
-    let apparent_ecl_long_sec = macros::dd_sec(apparent_long_deg);
-    let apparent_ecl_lat_deg = macros::dd_deg(apparent_lat_deg);
-    let apparent_ecl_lat_min = macros::dd_min(apparent_lat_deg);
-    let apparent_ecl_lat_sec = macros::dd_sec(apparent_lat_deg);
+    let apparent_ecl_long_deg = pa_m::dd_deg(apparent_long_deg);
+    let apparent_ecl_long_min = pa_m::dd_min(apparent_long_deg);
+    let apparent_ecl_long_sec = pa_m::dd_sec(apparent_long_deg);
+    let apparent_ecl_lat_deg = pa_m::dd_deg(apparent_lat_deg);
+    let apparent_ecl_lat_min = pa_m::dd_min(apparent_lat_deg);
+    let apparent_ecl_lat_sec = pa_m::dd_sec(apparent_lat_deg);
 
     return (
         apparent_ecl_long_deg,
@@ -768,7 +768,7 @@ pub fn atmospheric_refraction(
     atmospheric_pressure_mbar: f64,
     atmospheric_temperature_celsius: f64,
 ) -> (f64, f64, f64, f64, f64, f64) {
-    let ha_hour = macros::ra_ha(
+    let ha_hour = pa_m::ra_ha(
         true_ra_hour,
         true_ra_min,
         true_ra_sec,
@@ -782,7 +782,7 @@ pub fn atmospheric_refraction(
         lcd_year,
         geog_long_deg,
     );
-    let azimuth_deg = macros::eq_az(
+    let azimuth_deg = pa_m::eq_az(
         ha_hour,
         0.0,
         0.0,
@@ -791,7 +791,7 @@ pub fn atmospheric_refraction(
         true_dec_sec,
         geog_lat_deg,
     );
-    let altitude_deg = macros::eq_alt(
+    let altitude_deg = pa_m::eq_alt(
         ha_hour,
         0.0,
         0.0,
@@ -800,14 +800,14 @@ pub fn atmospheric_refraction(
         true_dec_sec,
         geog_lat_deg,
     );
-    let corrected_altitude_deg = macros::refract(
+    let corrected_altitude_deg = pa_m::refract(
         altitude_deg,
         coordinate_type,
         atmospheric_pressure_mbar,
         atmospheric_temperature_celsius,
     );
 
-    let corrected_ha_hour = macros::hor_ha(
+    let corrected_ha_hour = pa_m::hor_ha(
         azimuth_deg,
         0.0,
         0.0,
@@ -816,7 +816,7 @@ pub fn atmospheric_refraction(
         0.0,
         geog_lat_deg,
     );
-    let corrected_ra_hour1 = macros::ha_ra(
+    let corrected_ra_hour1 = pa_m::ha_ra(
         corrected_ha_hour,
         0.0,
         0.0,
@@ -830,7 +830,7 @@ pub fn atmospheric_refraction(
         lcd_year,
         geog_long_deg,
     );
-    let corrected_dec_deg1 = macros::hor_dec(
+    let corrected_dec_deg1 = pa_m::hor_dec(
         azimuth_deg,
         0.0,
         0.0,
@@ -840,12 +840,12 @@ pub fn atmospheric_refraction(
         geog_lat_deg,
     );
 
-    let corrected_ra_hour = macros::dh_hour(corrected_ra_hour1);
-    let corrected_ra_min = macros::dh_min(corrected_ra_hour1);
-    let corrected_ra_sec = macros::dh_sec(corrected_ra_hour1);
-    let corrected_dec_deg = macros::dd_deg(corrected_dec_deg1);
-    let corrected_dec_min = macros::dd_min(corrected_dec_deg1);
-    let corrected_dec_sec = macros::dd_sec(corrected_dec_deg1);
+    let corrected_ra_hour = pa_m::dh_hour(corrected_ra_hour1);
+    let corrected_ra_min = pa_m::dh_min(corrected_ra_hour1);
+    let corrected_ra_sec = pa_m::dh_sec(corrected_ra_hour1);
+    let corrected_dec_deg = pa_m::dd_deg(corrected_dec_deg1);
+    let corrected_dec_min = pa_m::dd_min(corrected_dec_deg1);
+    let corrected_dec_sec = pa_m::dd_sec(corrected_dec_deg1);
 
     return (
         corrected_ra_hour as f64,
@@ -885,7 +885,7 @@ pub fn corrections_for_geocentric_parallax(
     lct_min: f64,
     lct_sec: f64,
 ) -> (f64, f64, f64, f64, f64, f64) {
-    let ha_hours = macros::ra_ha(
+    let ha_hours = pa_m::ra_ha(
         ra_hour,
         ra_min,
         ra_sec,
@@ -900,7 +900,7 @@ pub fn corrections_for_geocentric_parallax(
         geog_long_deg,
     );
 
-    let corrected_ha_hours = macros::parallax_ha(
+    let corrected_ha_hours = pa_m::parallax_ha(
         ha_hours,
         0.0,
         0.0,
@@ -913,7 +913,7 @@ pub fn corrections_for_geocentric_parallax(
         equatorial_hor_parallax_deg,
     );
 
-    let corrected_ra_hours = macros::ha_ra(
+    let corrected_ra_hours = pa_m::ha_ra(
         corrected_ha_hours,
         0.0,
         0.0,
@@ -928,7 +928,7 @@ pub fn corrections_for_geocentric_parallax(
         geog_long_deg,
     );
 
-    let corrected_dec_deg1 = macros::parallax_dec(
+    let corrected_dec_deg1 = pa_m::parallax_dec(
         ha_hours,
         0.0,
         0.0,
@@ -941,12 +941,12 @@ pub fn corrections_for_geocentric_parallax(
         equatorial_hor_parallax_deg,
     );
 
-    let corrected_ra_hour = macros::dh_hour(corrected_ra_hours);
-    let corrected_ra_min = macros::dh_min(corrected_ra_hours);
-    let corrected_ra_sec = macros::dh_sec(corrected_ra_hours);
-    let corrected_dec_deg = macros::dd_deg(corrected_dec_deg1);
-    let corrected_dec_min = macros::dd_min(corrected_dec_deg1);
-    let corrected_dec_sec = macros::dd_sec(corrected_dec_deg1);
+    let corrected_ra_hour = pa_m::dh_hour(corrected_ra_hours);
+    let corrected_ra_min = pa_m::dh_min(corrected_ra_hours);
+    let corrected_ra_sec = pa_m::dh_sec(corrected_ra_hours);
+    let corrected_dec_deg = pa_m::dd_deg(corrected_dec_deg1);
+    let corrected_dec_min = pa_m::dd_min(corrected_dec_deg1);
+    let corrected_dec_sec = pa_m::dd_sec(corrected_dec_deg1);
 
     return (
         corrected_ra_hour as f64,
@@ -969,31 +969,31 @@ pub fn heliographic_coordinates(
     gwdate_month: u32,
     gwdate_year: u32,
 ) -> (f64, f64) {
-    let julian_date_days = macros::cd_jd(gwdate_day, gwdate_month, gwdate_year);
+    let julian_date_days = pa_m::cd_jd(gwdate_day, gwdate_month, gwdate_year);
     let t_centuries = (julian_date_days - 2415020.0) / 36525.0;
-    let long_asc_node_deg = macros::dms_dd(74.0, 22.0, 0.0) + (84.0 * t_centuries / 60.0);
-    let sun_long_deg = macros::sun_long(0.0, 0.0, 0.0, 0, 0, gwdate_day, gwdate_month, gwdate_year);
+    let long_asc_node_deg = pa_m::dms_dd(74.0, 22.0, 0.0) + (84.0 * t_centuries / 60.0);
+    let sun_long_deg = pa_m::sun_long(0.0, 0.0, 0.0, 0, 0, gwdate_day, gwdate_month, gwdate_year);
     let y = ((long_asc_node_deg - sun_long_deg).to_radians()).sin()
-        * ((macros::dms_dd(7.0, 15.0, 0.0)).to_radians()).cos();
+        * ((pa_m::dms_dd(7.0, 15.0, 0.0)).to_radians()).cos();
     let x = -((long_asc_node_deg - sun_long_deg).to_radians()).cos();
-    let a_deg = macros::degrees(y.atan2(x));
+    let a_deg = pa_m::degrees(y.atan2(x));
     let m_deg1 = 360.0 - (360.0 * (julian_date_days - 2398220.0) / 25.38);
     let m_deg2 = m_deg1 - 360.0 * (m_deg1 / 360.0).floor();
     let l0_deg1 = m_deg2 + a_deg;
     let _l0_deg2 = l0_deg1 - 360.0 * (l0_deg1 / 360.0).floor();
     let b0_rad = (((sun_long_deg - long_asc_node_deg).to_radians()).sin()
-        * ((macros::dms_dd(7.0, 15.0, 0.0)).to_radians()).sin())
+        * ((pa_m::dms_dd(7.0, 15.0, 0.0)).to_radians()).sin())
     .asin();
     let theta1_rad = (-((sun_long_deg).to_radians()).cos()
-        * ((macros::obliq(gwdate_day, gwdate_month, gwdate_year)).to_radians()).tan())
+        * ((pa_m::obliq(gwdate_day, gwdate_month, gwdate_year)).to_radians()).tan())
     .atan();
     let theta2_rad = (-((long_asc_node_deg - sun_long_deg).to_radians()).cos()
-        * ((macros::dms_dd(7.0, 15.0, 0.0)).to_radians()).tan())
+        * ((pa_m::dms_dd(7.0, 15.0, 0.0)).to_radians()).tan())
     .atan();
-    let p_deg = macros::degrees(theta1_rad + theta2_rad);
+    let p_deg = pa_m::degrees(theta1_rad + theta2_rad);
     let rho1_deg = helio_displacement_arcmin / 60.0;
     let rho_rad = (2.0 * rho1_deg
-        / macros::sun_dia(0.0, 0.0, 0.0, 0, 0, gwdate_day, gwdate_month, gwdate_year))
+        / pa_m::sun_dia(0.0, 0.0, 0.0, 0, 0, gwdate_day, gwdate_month, gwdate_year))
     .asin()
         - (rho1_deg).to_radians();
     let b_rad = ((b0_rad).sin() * (rho_rad).cos()
@@ -1001,15 +1001,15 @@ pub fn heliographic_coordinates(
             * (rho_rad).sin()
             * ((p_deg - helio_position_angle_deg).to_radians()).cos())
     .asin();
-    let b_deg = macros::degrees(b_rad);
-    let l_deg1 = macros::degrees(
+    let b_deg = pa_m::degrees(b_rad);
+    let l_deg1 = pa_m::degrees(
         ((rho_rad).sin() * ((p_deg - helio_position_angle_deg).to_radians()).sin() / (b_rad).cos())
             .asin(),
     ) + l0_deg1;
     let l_deg2 = l_deg1 - 360.0 * (l_deg1 / 360.0).floor();
 
-    let helio_long_deg = utils::round_f64(l_deg2, 2);
-    let helio_lat_deg = utils::round_f64(b_deg, 2);
+    let helio_long_deg = pa_u::round_f64(l_deg2, 2);
+    let helio_lat_deg = pa_u::round_f64(b_deg, 2);
 
     return (helio_long_deg, helio_lat_deg);
 }
@@ -1019,9 +1019,9 @@ pub fn heliographic_coordinates(
 /// ## Returns
 /// carrington rotation number
 pub fn carrington_rotation_number(gwdate_day: f64, gwdate_month: u32, gwdate_year: u32) -> i32 {
-    let julian_date_days = macros::cd_jd(gwdate_day, gwdate_month, gwdate_year);
+    let julian_date_days = pa_m::cd_jd(gwdate_day, gwdate_month, gwdate_year);
 
-    let crn = 1690 + utils::round_f64((julian_date_days - 2444235.34) / 27.2753, 0) as i32;
+    let crn = 1690 + pa_u::round_f64((julian_date_days - 2444235.34) / 27.2753, 0) as i32;
 
     return crn;
 }
@@ -1037,24 +1037,24 @@ pub fn selenographic_coordinates_1(
     gwdate_month: u32,
     gwdate_year: u32,
 ) -> (f64, f64, f64) {
-    let julian_date_days = macros::cd_jd(gwdate_day, gwdate_month, gwdate_year);
+    let julian_date_days = pa_m::cd_jd(gwdate_day, gwdate_month, gwdate_year);
     let t_centuries = (julian_date_days - 2451545.0) / 36525.0;
     let long_asc_node_deg = 125.044522 - 1934.136261 * t_centuries;
     let f1 = 93.27191 + 483202.0175 * t_centuries;
     let f2 = f1 - 360.0 * (f1 / 360.0).floor();
     let geocentric_moon_long_deg =
-        macros::moon_long(0.0, 0.0, 0.0, 0, 0, gwdate_day, gwdate_month, gwdate_year);
+        pa_m::moon_long(0.0, 0.0, 0.0, 0, 0, gwdate_day, gwdate_month, gwdate_year);
     let geocentric_moon_lat_rad =
-        (macros::moon_lat(0.0, 0.0, 0.0, 0, 0, gwdate_day, gwdate_month, gwdate_year)).to_radians();
-    let inclination_rad = (macros::dms_dd(1.0, 32.0, 32.7)).to_radians();
+        (pa_m::moon_lat(0.0, 0.0, 0.0, 0, 0, gwdate_day, gwdate_month, gwdate_year)).to_radians();
+    let inclination_rad = (pa_m::dms_dd(1.0, 32.0, 32.7)).to_radians();
     let node_long_rad = (long_asc_node_deg - geocentric_moon_long_deg).to_radians();
     let sin_be = -(inclination_rad).cos() * (geocentric_moon_lat_rad).sin()
         + (inclination_rad).sin() * (geocentric_moon_lat_rad).cos() * (node_long_rad).sin();
-    let sub_earth_lat_deg = macros::degrees((sin_be).asin());
+    let sub_earth_lat_deg = pa_m::degrees((sin_be).asin());
     let a_rad = (-(geocentric_moon_lat_rad).sin() * (inclination_rad).sin()
         - (geocentric_moon_lat_rad).cos() * (inclination_rad).cos() * (node_long_rad).sin())
     .atan2((geocentric_moon_lat_rad).cos() * (node_long_rad).cos());
-    let a_deg = macros::degrees(a_rad);
+    let a_deg = pa_m::degrees(a_rad);
     let sub_earth_long_deg1 = a_deg - f2;
     let sub_earth_long_deg2 = sub_earth_long_deg1 - 360.0 * (sub_earth_long_deg1 / 360.0).floor();
     let sub_earth_long_deg3 = if sub_earth_long_deg2 > 180.0 {
@@ -1066,18 +1066,18 @@ pub fn selenographic_coordinates_1(
         / ((geocentric_moon_lat_rad).cos() * (inclination_rad).cos()
             + (geocentric_moon_lat_rad).sin() * (inclination_rad).sin() * (node_long_rad).sin()))
     .atan();
-    let obliquity_rad = (macros::obliq(gwdate_day, gwdate_month, gwdate_year)).to_radians();
+    let obliquity_rad = (pa_m::obliq(gwdate_day, gwdate_month, gwdate_year)).to_radians();
     let c2_rad = ((obliquity_rad).sin() * ((geocentric_moon_long_deg).to_radians()).cos()
         / ((obliquity_rad).sin()
             * (geocentric_moon_lat_rad).sin()
             * ((geocentric_moon_long_deg).to_radians()).sin()
             - (obliquity_rad).cos() * (geocentric_moon_lat_rad).cos()))
     .atan();
-    let c_deg = macros::degrees(c1_rad + c2_rad);
+    let c_deg = pa_m::degrees(c1_rad + c2_rad);
 
-    let sub_earth_longitude = utils::round_f64(sub_earth_long_deg3, 2);
-    let sub_earth_latitude = utils::round_f64(sub_earth_lat_deg, 2);
-    let position_angle_of_pole = utils::round_f64(c_deg, 2);
+    let sub_earth_longitude = pa_u::round_f64(sub_earth_long_deg3, 2);
+    let sub_earth_latitude = pa_u::round_f64(sub_earth_lat_deg, 2);
+    let position_angle_of_pole = pa_u::round_f64(c_deg, 2);
 
     return (
         sub_earth_longitude,
@@ -1097,21 +1097,21 @@ pub fn selenographic_coordinates_2(
     gwdate_month: u32,
     gwdate_year: u32,
 ) -> (f64, f64, f64) {
-    let julian_date_days = macros::cd_jd(gwdate_day, gwdate_month, gwdate_year);
+    let julian_date_days = pa_m::cd_jd(gwdate_day, gwdate_month, gwdate_year);
     let t_centuries = (julian_date_days - 2451545.0) / 36525.0;
     let long_asc_node_deg = 125.044522 - 1934.136261 * t_centuries;
     let f1 = 93.27191 + 483202.0175 * t_centuries;
     let f2 = f1 - 360.0 * (f1 / 360.0).floor();
     let sun_geocentric_long_deg =
-        macros::sun_long(0.0, 0.0, 0.0, 0, 0, gwdate_day, gwdate_month, gwdate_year);
+        pa_m::sun_long(0.0, 0.0, 0.0, 0, 0, gwdate_day, gwdate_month, gwdate_year);
     let moon_equ_hor_parallax_arc_min =
-        macros::moon_hp(0.0, 0.0, 0.0, 0, 0, gwdate_day, gwdate_month, gwdate_year) * 60.0;
+        pa_m::moon_hp(0.0, 0.0, 0.0, 0, 0, gwdate_day, gwdate_month, gwdate_year) * 60.0;
     let sun_earth_dist_au =
-        macros::sun_dist(0.0, 0.0, 0.0, 0, 0, gwdate_day, gwdate_month, gwdate_year);
+        pa_m::sun_dist(0.0, 0.0, 0.0, 0, 0, gwdate_day, gwdate_month, gwdate_year);
     let geocentric_moon_lat_rad =
-        (macros::moon_lat(0.0, 0.0, 0.0, 0, 0, gwdate_day, gwdate_month, gwdate_year)).to_radians();
+        (pa_m::moon_lat(0.0, 0.0, 0.0, 0, 0, gwdate_day, gwdate_month, gwdate_year)).to_radians();
     let geocentric_moon_long_deg =
-        macros::moon_long(0.0, 0.0, 0.0, 0, 0, gwdate_day, gwdate_month, gwdate_year);
+        pa_m::moon_long(0.0, 0.0, 0.0, 0, 0, gwdate_day, gwdate_month, gwdate_year);
     let adjusted_moon_long_deg = sun_geocentric_long_deg
         + 180.0
         + (26.4
@@ -1120,15 +1120,15 @@ pub fn selenographic_coordinates_2(
             / (moon_equ_hor_parallax_arc_min * sun_earth_dist_au));
     let adjusted_moon_lat_rad =
         0.14666 * geocentric_moon_lat_rad / (moon_equ_hor_parallax_arc_min * sun_earth_dist_au);
-    let inclination_rad = (macros::dms_dd(1.0, 32.0, 32.7)).to_radians();
+    let inclination_rad = (pa_m::dms_dd(1.0, 32.0, 32.7)).to_radians();
     let node_long_rad = (long_asc_node_deg - adjusted_moon_long_deg).to_radians();
     let sin_bs = -(inclination_rad).cos() * (adjusted_moon_lat_rad).sin()
         + (inclination_rad).sin() * (adjusted_moon_lat_rad).cos() * (node_long_rad).sin();
-    let sub_solar_lat_deg = macros::degrees((sin_bs).asin());
+    let sub_solar_lat_deg = pa_m::degrees((sin_bs).asin());
     let a_rad = (-(adjusted_moon_lat_rad).sin() * (inclination_rad).sin()
         - (adjusted_moon_lat_rad).cos() * (inclination_rad).cos() * (node_long_rad).sin())
     .atan2((adjusted_moon_lat_rad).cos() * (node_long_rad).cos());
-    let a_deg = macros::degrees(a_rad);
+    let a_deg = pa_m::degrees(a_rad);
     let sub_solar_long_deg1 = a_deg - f2;
     let sub_solar_long_deg2 = sub_solar_long_deg1 - 360.0 * (sub_solar_long_deg1 / 360.0).floor();
     let sub_solar_long_deg3 = if sub_solar_long_deg2 > 180.0 {
@@ -1138,9 +1138,9 @@ pub fn selenographic_coordinates_2(
     };
     let sub_solar_colong_deg = 90.0 - sub_solar_long_deg3;
 
-    let sub_solar_longitude = utils::round_f64(sub_solar_long_deg3, 2);
-    let sub_solar_colongitude = utils::round_f64(sub_solar_colong_deg, 2);
-    let sub_solar_latitude = utils::round_f64(sub_solar_lat_deg, 2);
+    let sub_solar_longitude = pa_u::round_f64(sub_solar_long_deg3, 2);
+    let sub_solar_colongitude = pa_u::round_f64(sub_solar_colong_deg, 2);
+    let sub_solar_latitude = pa_u::round_f64(sub_solar_lat_deg, 2);
 
     return (
         sub_solar_longitude,
