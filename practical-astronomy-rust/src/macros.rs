@@ -1,7 +1,7 @@
 use crate::types as pa_t;
 use crate::util as pa_u;
 
-/// Convert a Civil Time (hours,minutes,seconds) to Decimal Hours
+/// Convert a Civil Time (hours,minutes,seconds) to Decimal Hours.
 ///
 /// Original macro name: HMSDH
 pub fn hms_dh(hours: f64, minutes: f64, seconds: f64) -> f64 {
@@ -20,7 +20,7 @@ pub fn hms_dh(hours: f64, minutes: f64, seconds: f64) -> f64 {
     };
 }
 
-/// Return the hour part of a Decimal Hours
+/// Return the hour part of a Decimal Hours.
 ///
 /// Original macro name: DHHour
 pub fn dh_hour(decimal_hours: f64) -> u32 {
@@ -37,7 +37,7 @@ pub fn dh_hour(decimal_hours: f64) -> u32 {
     };
 }
 
-/// Return the minutes part of a Decimal Hours
+/// Return the minutes part of a Decimal Hours.
 ///
 /// Original macro name: DHMin
 pub fn dh_min(decimal_hours: f64) -> u32 {
@@ -49,7 +49,7 @@ pub fn dh_min(decimal_hours: f64) -> u32 {
     return ((e / 60.0).floor() % 60.0) as u32;
 }
 
-/// Return the seconds part of a Decimal Hours
+/// Return the seconds part of a Decimal Hours.
 ///
 /// Original macro name: DHSec
 pub fn dh_sec(decimal_hours: f64) -> f64 {
@@ -61,7 +61,7 @@ pub fn dh_sec(decimal_hours: f64) -> f64 {
     return d;
 }
 
-/// Convert a Greenwich Date/Civil Date (day,month,year) to Julian Date
+/// Convert a Greenwich Date/Civil Date (day,month,year) to Julian Date.
 ///
 /// Original macro name: CDJD
 pub fn cd_jd(day: f64, month: u32, year: u32) -> f64 {
@@ -106,7 +106,7 @@ pub fn cd_jd(day: f64, month: u32, year: u32) -> f64 {
     return b + c + d + f_day + 1720994.5;
 }
 
-/// Returns the day part of a Julian Date
+/// Returns the day part of a Julian Date.
 ///
 /// Original macro name: JDCDay
 pub fn jdc_day(julian_date: f64) -> f64 {
@@ -126,7 +126,7 @@ pub fn jdc_day(julian_date: f64) -> f64 {
     return c - e + f - (30.6001 * g).floor();
 }
 
-/// Returns the month part of a Julian Date
+/// Returns the month part of a Julian Date.
 ///
 /// Original macro name: JDCMonth
 pub fn jdc_month(julian_date: f64) -> u32 {
@@ -148,7 +148,7 @@ pub fn jdc_month(julian_date: f64) -> u32 {
     return return_value as u32;
 }
 
-/// Returns the year part of a Julian Date
+/// Returns the year part of a Julian Date.
 ///
 /// Original macro name: JDCYear
 pub fn jdc_year(julian_date: f64) -> u32 {
@@ -171,7 +171,7 @@ pub fn jdc_year(julian_date: f64) -> u32 {
     return return_value as u32;
 }
 
-/// Convert a Julian Date to Day-of-Week (e.g., Sunday)
+/// Convert a Julian Date to Day-of-Week (e.g., Sunday).
 ///
 /// Original macro name: FDOW
 pub fn f_dow(julian_date: f64) -> String {
@@ -193,7 +193,7 @@ pub fn f_dow(julian_date: f64) -> String {
     return return_value.to_string();
 }
 
-/// Convert Right Ascension to Hour Angle
+/// Convert Right Ascension to Hour Angle.
 ///
 /// Original macro name: RAHA
 pub fn ra_ha(
@@ -258,7 +258,7 @@ pub fn ra_ha(
     return if h < 0.0 { 24.0 + h } else { h };
 }
 
-/// Convert Hour Angle to Right Ascension
+/// Convert Hour Angle to Right Ascension.
 ///
 /// Original macro name: HARA
 pub fn ha_ra(
@@ -323,7 +323,7 @@ pub fn ha_ra(
     return if h < 0.0 { 24.0 + h } else { h };
 }
 
-/// Convert Local Civil Time to Universal Time
+/// Convert Local Civil Time to Universal Time.
 ///
 /// Original macro name: LctUT
 pub fn lct_ut(
@@ -346,7 +346,7 @@ pub fn lct_ut(
     return 24.0 * (e - e1);
 }
 
-/// Convert Universal Time to Local Civil Time
+/// Convert Universal Time to Local Civil Time.
 ///
 /// Original macro name: UTLct
 pub fn ut_lct(
@@ -369,7 +369,7 @@ pub fn ut_lct(
     return 24.0 * (e - e1);
 }
 
-/// Get Local Civil Day for Universal Time
+/// Get Local Civil Day for Universal Time.
 ///
 /// Original macro name: UTLcDay
 pub fn ut_lc_day(
@@ -392,7 +392,7 @@ pub fn ut_lc_day(
     return e1;
 }
 
-/// Get Local Civil Month for Universal Time
+/// Get Local Civil Month for Universal Time.
 ///
 /// Original macro name: UTLcMonth
 pub fn ut_lc_month(
@@ -413,7 +413,7 @@ pub fn ut_lc_month(
     return jdc_month(d);
 }
 
-/// Get Local Civil Year for Universal Time
+/// Get Local Civil Year for Universal Time.
 ///
 /// Original macro name: UTLcYear
 pub fn ut_lc_year(
@@ -434,7 +434,7 @@ pub fn ut_lc_year(
     return jdc_year(d);
 }
 
-/// Determine Greenwich Day for Local Time
+/// Determine Greenwich Day for Local Time.
 ///
 /// Original macro name: LctGDay
 pub fn lct_gday(
@@ -456,7 +456,7 @@ pub fn lct_gday(
     return e.floor();
 }
 
-/// Determine Greenwich Month for Local Time
+/// Determine Greenwich Month for Local Time.
 ///
 /// Original macro name: LctGMonth
 pub fn lct_gmonth(
@@ -477,7 +477,7 @@ pub fn lct_gmonth(
     return jdc_month(d);
 }
 
-/// Determine Greenwich Year for Local Time
+/// Determine Greenwich Year for Local Time.
 ///
 /// Original macro name: LctGYear
 pub fn lct_gyear(
@@ -498,7 +498,7 @@ pub fn lct_gyear(
     return jdc_year(d);
 }
 
-/// Convert Universal Time to Greenwich Sidereal Time
+/// Convert Universal Time to Greenwich Sidereal Time.
 ///
 /// Original macro name: UTGST
 pub fn ut_gst(
@@ -520,7 +520,7 @@ pub fn ut_gst(
     return h - (24.0 * (h / 24.0).floor());
 }
 
-/// Convert Greenwich Sidereal Time to Local Sidereal Time
+/// Convert Greenwich Sidereal Time to Local Sidereal Time.
 ///
 /// Original macro name: GSTLST
 pub fn gst_lst(
@@ -536,7 +536,7 @@ pub fn gst_lst(
     return c - (24.0 * (c / 24.0).floor());
 }
 
-/// Convert Equatorial Coordinates to Azimuth (in decimal degrees)
+/// Convert Equatorial Coordinates to Azimuth (in decimal degrees).
 ///
 /// Original macro name: EQAz
 pub fn eq_az(
@@ -566,7 +566,7 @@ pub fn eq_az(
     return j - 360.0 * (j / 360.0).floor();
 }
 
-/// Convert Equatorial Coordinates to Altitude (in decimal degrees)
+/// Convert Equatorial Coordinates to Altitude (in decimal degrees).
 ///
 /// Original macro name: EQAlt
 pub fn eq_alt(
@@ -593,7 +593,7 @@ pub fn eq_alt(
     return degrees(g.asin());
 }
 
-/// Convert Degrees Minutes Seconds to Decimal Degrees
+/// Convert Degrees Minutes Seconds to Decimal Degrees.
 ///
 /// Original macro name: DMSDD
 pub fn dms_dd(degrees: f64, minutes: f64, seconds: f64) -> f64 {
@@ -608,14 +608,14 @@ pub fn dms_dd(degrees: f64, minutes: f64, seconds: f64) -> f64 {
     };
 }
 
-/// Convert W to Degrees
+/// Convert W to Degrees.
 ///
 /// Original macro name: Degrees
 pub fn degrees(w: f64) -> f64 {
     return w * 57.29577951;
 }
 
-/// Return Degrees part of Decimal Degrees
+/// Return Degrees part of Decimal Degrees.
 ///
 /// Original macro name: DDDeg
 pub fn dd_deg(decimal_degrees: f64) -> f64 {
@@ -632,7 +632,7 @@ pub fn dd_deg(decimal_degrees: f64) -> f64 {
     };
 }
 
-/// Return Minutes part of Decimal Degrees
+/// Return Minutes part of Decimal Degrees.
 ///
 /// Original macro name: DDMin
 pub fn dd_min(decimal_degrees: f64) -> f64 {
@@ -645,7 +645,7 @@ pub fn dd_min(decimal_degrees: f64) -> f64 {
     return (e / 60.0).floor() % 60.0;
 }
 
-/// Return Seconds part of Decimal Degrees
+/// Return Seconds part of Decimal Degrees.
 ///
 /// Original macro name: DDSec
 pub fn dd_sec(decimal_degrees: f64) -> f64 {
@@ -657,21 +657,21 @@ pub fn dd_sec(decimal_degrees: f64) -> f64 {
     return d;
 }
 
-/// Convert Decimal Degrees to Degree-Hours
+/// Convert Decimal Degrees to Degree-Hours.
 ///
 /// Original macro name: DDDH
 pub fn dd_dh(decimal_degrees: f64) -> f64 {
     return decimal_degrees / 15.0;
 }
 
-/// Convert Degree-Hours to Decimal Degrees
+/// Convert Degree-Hours to Decimal Degrees.
 ///
 /// Original macro name: DHDD
 pub fn dh_dd(degree_hours: f64) -> f64 {
     return degree_hours * 15.0;
 }
 
-/// Convert Horizon Coordinates to Declination (in decimal degrees)
+/// Convert Horizon Coordinates to Declination (in decimal degrees).
 ///
 /// Original macro name: HORDec
 pub fn hor_dec(
@@ -693,7 +693,7 @@ pub fn hor_dec(
     return degrees(f.asin());
 }
 
-/// Convert Horizon Coordinates to Hour Angle (in decimal degrees)
+/// Convert Horizon Coordinates to Hour Angle (in decimal degrees).
 ///
 /// Original macro name: HORHa
 pub fn hor_ha(
@@ -769,7 +769,7 @@ pub fn nutat_long(gd: f64, gm: u32, gy: u32) -> f64 {
     return dp / 3600.0;
 }
 
-/// Nutation of Obliquity
+/// Nutation of Obliquity.
 ///
 /// Original macro name: NutatObl
 pub fn nutat_obl(greenwich_day: f64, greenwich_month: u32, greenwich_year: u32) -> f64 {
@@ -818,7 +818,7 @@ pub fn nutat_obl(greenwich_day: f64, greenwich_month: u32, greenwich_year: u32) 
     return ddo / 3600.0;
 }
 
-/// Obliquity of the Ecliptic for a Greenwich Date
+/// Obliquity of the Ecliptic for a Greenwich Date.
 ///
 /// Original macro name: Obliq
 pub fn obliq(greenwich_day: f64, greenwich_month: u32, greenwich_year: u32) -> f64 {
@@ -831,7 +831,7 @@ pub fn obliq(greenwich_day: f64, greenwich_month: u32, greenwich_year: u32) -> f
     return 23.43929167 - e + nutat_obl(greenwich_day, greenwich_month, greenwich_year);
 }
 
-/// Convert Local Sidereal Time to Greenwich Sidereal Time
+/// Convert Local Sidereal Time to Greenwich Sidereal Time.
 ///
 /// Original macro name: LSTGST
 pub fn lst_gst(local_hours: f64, local_minutes: f64, local_seconds: f64, longitude: f64) -> f64 {
@@ -841,7 +841,7 @@ pub fn lst_gst(local_hours: f64, local_minutes: f64, local_seconds: f64, longitu
     return c - (24.0 * (c / 24.0).floor());
 }
 
-/// Convert Greenwich Sidereal Time to Universal Time
+/// Convert Greenwich Sidereal Time to Universal Time.
 ///
 /// Original macro name: GSTUT
 pub fn gst_ut(
@@ -887,7 +887,7 @@ pub fn e_gst_ut(gsh: f64, gsm: f64, gss: f64, gd: f64, gm: u32, gy: u32) -> Stri
     };
 }
 
-/// Calculate Sun's ecliptic longitude
+/// Calculate Sun's ecliptic longitude.
 ///
 /// Original macro name: SunLong
 pub fn sun_long(lch: f64, lcm: f64, lcs: f64, ds: i32, zc: i32, ld: f64, lm: u32, ly: u32) -> f64 {
@@ -946,7 +946,7 @@ pub fn sun_long(lch: f64, lcm: f64, lcs: f64, ds: i32, zc: i32, ld: f64, lm: u32
     return degrees(sr);
 }
 
-/// Solve Kepler's equation, and return value of the true anomaly in radians
+/// Solve Kepler's equation, and return value of the true anomaly in radians.
 ///
 /// Original macro name: TrueAnomaly
 pub fn true_anomaly(am: f64, ec: f64) -> f64 {
@@ -969,7 +969,7 @@ pub fn true_anomaly(am: f64, ec: f64) -> f64 {
     return at;
 }
 
-/// Solve Kepler's equation, and return value of the eccentric anomaly in radians
+/// Solve Kepler's equation, and return value of the eccentric anomaly in radians.
 ///
 /// Original macro name: EccentricAnomaly
 pub fn eccentric_anomaly(am: f64, ec: f64) -> f64 {
@@ -991,7 +991,7 @@ pub fn eccentric_anomaly(am: f64, ec: f64) -> f64 {
     return ae;
 }
 
-/// Calculate effects of refraction
+/// Calculate effects of refraction.
 ///
 /// Original macro name: Refract
 pub fn refract(y2: f64, sw: String, pr: f64, tr: f64) -> f64 {
@@ -1037,7 +1037,7 @@ pub fn refract(y2: f64, sw: String, pr: f64, tr: f64) -> f64 {
     return degrees(q + rf);
 }
 
-/// Helper function for refract
+/// Helper function for refract.
 pub fn refract_l3035(pr: f64, tr: f64, y: f64, d: f64) -> f64 {
     if y < 0.2617994 {
         if y < -0.087 {
@@ -1054,7 +1054,7 @@ pub fn refract_l3035(pr: f64, tr: f64, y: f64, d: f64) -> f64 {
     return -d * 0.00007888888 * pr / ((273.0 + tr) * (y).tan());
 }
 
-/// Calculate corrected hour angle in decimal hours
+/// Calculate corrected hour angle in decimal hours.
 ///
 /// Original macro name: ParallaxHA
 pub fn parallax_ha(
@@ -1130,7 +1130,7 @@ pub fn parallax_ha(
     return dd_dh(degrees(0.0));
 }
 
-/// Helper function for parallax_ha
+/// Helper function for parallax_ha.
 pub fn parallax_ha_l2870(x: f64, y: f64, rc: f64, rp: f64, rs: f64, tp: f64) -> (f64, f64) {
     let cx = x.cos();
     let sy = y.sin();
@@ -1148,10 +1148,9 @@ pub fn parallax_ha_l2870(x: f64, y: f64, rc: f64, rp: f64, rs: f64, tp: f64) -> 
     return (p, q);
 }
 
-/// Calculate corrected declination in decimal degrees
+/// Calculate corrected declination in decimal degrees.
 ///
 /// Original macro name: ParallaxDec
-/// HH,HM,HS,DD,DM,DS,SW,GP,HT,HP
 pub fn parallax_dec(
     hh: f64,
     hm: f64,
@@ -1223,7 +1222,7 @@ pub fn parallax_dec(
     return degrees(0.0);
 }
 
-/// Helper function for parallax_dec
+/// Helper function for parallax_dec.
 pub fn parallax_dec_l2870(x: f64, y: f64, rc: f64, rp: f64, rs: f64, tp: f64) -> (f64, f64) {
     let cx = x.cos();
     let sy = y.sin();
@@ -1240,7 +1239,7 @@ pub fn parallax_dec_l2870(x: f64, y: f64, rc: f64, rp: f64, rs: f64, tp: f64) ->
     return (p, q);
 }
 
-/// Calculate Sun's angular diameter in decimal degrees
+/// Calculate Sun's angular diameter in decimal degrees.
 ///
 /// Original macro name: SunDia
 pub fn sun_dia(lch: f64, lcm: f64, lcs: f64, ds: i32, zc: i32, ld: f64, lm: u32, ly: u32) -> f64 {
@@ -1249,7 +1248,7 @@ pub fn sun_dia(lch: f64, lcm: f64, lcs: f64, ds: i32, zc: i32, ld: f64, lm: u32,
     return 0.533128 / a;
 }
 
-/// Calculate Sun's distance from the Earth in astronomical units
+/// Calculate Sun's distance from the Earth in astronomical units.
 ///
 /// Original macro name: SunDist
 pub fn sun_dist(lch: f64, lcm: f64, lcs: f64, ds: i32, zc: i32, ld: f64, lm: u32, ly: u32) -> f64 {
@@ -1300,7 +1299,7 @@ pub fn sun_dist(lch: f64, lcm: f64, lcs: f64, ds: i32, zc: i32, ld: f64, lm: u32
     return 1.0000002 * (1.0 - ec * ae.cos()) + d3;
 }
 
-/// Calculate geocentric ecliptic longitude for the Moon
+/// Calculate geocentric ecliptic longitude for the Moon.
 ///
 /// Original macro name: MoonLong
 pub fn moon_long(lh: f64, lm: f64, ls: f64, ds: i32, zc: i32, dy: f64, mn: u32, yr: u32) -> f64 {
@@ -1391,7 +1390,7 @@ pub fn moon_long(lh: f64, lm: f64, ls: f64, ds: i32, zc: i32, dy: f64, mn: u32, 
     return degrees(mm);
 }
 
-/// Calculate geocentric ecliptic latitude for the Moon
+/// Calculate geocentric ecliptic latitude for the Moon.
 ///
 /// Original macro name: MoonLat
 pub fn moon_lat(lh: f64, lm: f64, ls: f64, ds: i32, zc: i32, dy: f64, mn: u32, yr: u32) -> f64 {
@@ -1486,7 +1485,7 @@ pub fn moon_lat(lh: f64, lm: f64, ls: f64, ds: i32, zc: i32, dy: f64, mn: u32, y
     return degrees(bm);
 }
 
-/// Calculate horizontal parallax for the Moon
+/// Calculate horizontal parallax for the Moon.
 ///
 /// Original macro name: MoonHP
 pub fn moon_hp(lh: f64, lm: f64, ls: f64, ds: i32, zc: i32, dy: f64, mn: u32, yr: u32) -> f64 {
@@ -1566,7 +1565,7 @@ pub fn moon_hp(lh: f64, lm: f64, ls: f64, ds: i32, zc: i32, dy: f64, mn: u32, yr
     return pm;
 }
 
-/// Calculate distance from the Earth to the Moon (km)
+/// Calculate distance from the Earth to the Moon (km).
 ///
 /// Original macro name: MoonDist
 pub fn moon_dist(lh: f64, lm: f64, ls: f64, ds: i32, zc: i32, dy: f64, mn: u32, yr: u32) -> f64 {
@@ -1576,7 +1575,7 @@ pub fn moon_dist(lh: f64, lm: f64, ls: f64, ds: i32, zc: i32, dy: f64, mn: u32, 
     return r;
 }
 
-/// Calculate the Moon's angular diameter (degrees)
+/// Calculate the Moon's angular diameter (degrees).
 ///
 /// Original macro name: MoonSize
 pub fn moon_size(lh: f64, lm: f64, ls: f64, ds: i32, zc: i32, dy: f64, mn: u32, yr: u32) -> f64 {
@@ -1609,7 +1608,7 @@ pub fn unwind_rad(w: f64) -> f64 {
     return w - 6.283185308 * (w / 6.283185308).floor();
 }
 
-/// Mean ecliptic longitude of the Sun at the epoch
+/// Mean ecliptic longitude of the Sun at the epoch.
 ///
 /// Original macro name: SunElong
 pub fn sun_e_long(gd: f64, gm: u32, gy: u32) -> f64 {
@@ -1620,7 +1619,7 @@ pub fn sun_e_long(gd: f64, gm: u32, gy: u32) -> f64 {
     return x - 360.0 * (x / 360.0).floor();
 }
 
-/// Longitude of the Sun at perigee
+/// Longitude of the Sun at perigee.
 ///
 /// Original macro name: SunPeri
 pub fn sun_peri(gd: f64, gm: u32, gy: u32) -> f64 {
@@ -1631,7 +1630,7 @@ pub fn sun_peri(gd: f64, gm: u32, gy: u32) -> f64 {
     return x - 360.0 * (x / 360.0).floor();
 }
 
-/// Eccentricity of the Sun-Earth orbit
+/// Eccentricity of the Sun-Earth orbit.
 ///
 /// Original macro name: SunEcc
 pub fn sun_ecc(gd: f64, gm: u32, gy: u32) -> f64 {
@@ -1641,7 +1640,7 @@ pub fn sun_ecc(gd: f64, gm: u32, gy: u32) -> f64 {
     return 0.01675104 - 0.0000418 * t - 0.000000126 * t2;
 }
 
-/// Ecliptic - Declination (degrees)
+/// Ecliptic - Declination (degrees).
 ///
 /// Original macro name: ECDec
 pub fn ec_dec(
@@ -1662,7 +1661,7 @@ pub fn ec_dec(
     return degrees(d.asin());
 }
 
-/// Ecliptic - Right Ascension (degrees)
+/// Ecliptic - Right Ascension (degrees).
 ///
 /// Original macro name: ECRA
 pub fn ec_ra(
@@ -1789,7 +1788,7 @@ pub fn sunrise_lct(ld: f64, lm: u32, ly: u32, ds: i32, zc: i32, gl: f64, gp: f64
     return xx;
 }
 
-/// Helper function for sunrise_lct()
+/// Helper function for sunrise_lct().
 pub fn sunrise_lct_l3710(
     gd: f64,
     gm: u32,
@@ -1970,7 +1969,7 @@ pub fn rise_set_azimuth_set(
     return i - 360.0 * (i / 360.0).floor();
 }
 
-/// Rise/Set status
+/// Rise/Set status.
 ///
 /// Possible values: "OK", "** never rises", "** circumpolar"
 ///
@@ -2029,7 +2028,7 @@ pub fn e_sun_rs(ld: f64, lm: u32, ly: u32, ds: i32, zc: i32, gl: f64, gp: f64) -
     }
 }
 
-/// Helper function for e_sun_rs()
+/// Helper function for e_sun_rs().
 pub fn e_sun_rs_l3710(
     gd: f64,
     gm: u32,
@@ -2080,7 +2079,7 @@ pub fn sunrise_az(ld: f64, lm: u32, ly: u32, ds: i32, zc: i32, gl: f64, gp: f64)
     return rise_set_azimuth_rise(dd_dh(x), 0.0, 0.0, y, 0.0, 0.0, di, gp);
 }
 
-/// Helper function for sunrise_az()
+/// Helper function for sunrise_az().
 pub fn sunrise_az_l3710(
     gd: f64,
     gm: u32,
@@ -2131,7 +2130,7 @@ pub fn sunset_az(ld: f64, lm: u32, ly: u32, ds: i32, zc: i32, gl: f64, gp: f64) 
     return rise_set_azimuth_set(dd_dh(x), 0.0, 0.0, y, 0.0, 0.0, di, gp);
 }
 
-/// Helper function for sunset_az()
+/// Helper function for sunset_az().
 pub fn sunset_az_l3710(
     gd: f64,
     gm: u32,
@@ -2151,7 +2150,7 @@ pub fn sunset_az_l3710(
 
 /// Calculate morning twilight start, in local time.
 ///
-/// Twilight type (TT) can be one of "C" (civil), "N" (nautical), or "A" (astronomical)
+/// Twilight type (TT) can be one of "C" (civil), "N" (nautical), or "A" (astronomical).
 ///
 /// Original macro name: TwilightAMLCT
 pub fn twilight_am_lct(
@@ -2204,7 +2203,7 @@ pub fn twilight_am_lct(
     return xx;
 }
 
-/// Helper function for twilight_am_lct()
+/// Helper function for twilight_am_lct().
 pub fn twilight_am_lct_l3710(
     gd: f64,
     gm: u32,
@@ -2224,7 +2223,7 @@ pub fn twilight_am_lct_l3710(
 
 /// Calculate evening twilight end, in local time.
 ///
-/// Twilight type can be one of "C" (civil), "N" (nautical), or "A" (astronomical)
+/// Twilight type can be one of "C" (civil), "N" (nautical), or "A" (astronomical).
 ///
 /// Original macro name: TwilightPMLCT
 pub fn twilight_pm_lct(
@@ -2275,7 +2274,7 @@ pub fn twilight_pm_lct(
     return ut_lct(ut, 0.0, 0.0, ds, zc, gd, gm, gy);
 }
 
-/// Helper function for twilight_pm_lct()
+/// Helper function for twilight_pm_lct().
 pub fn twilight_pm_lct_l3710(
     gd: f64,
     gm: u32,
@@ -2295,7 +2294,7 @@ pub fn twilight_pm_lct_l3710(
 
 /// Twilight calculation status.
 ///
-/// Twilight type can be one of "C" (civil), "N" (nautical), or "A" (astronomical)
+/// Twilight type can be one of "C" (civil), "N" (nautical), or "A" (astronomical).
 ///
 /// Original macro name: eTwilight
 ///
@@ -2352,7 +2351,7 @@ pub fn e_twilight(
     return s;
 }
 
-/// Helper function for e_twilight()
+/// Helper function for e_twilight().
 pub fn e_twilight_l3710(
     gd: f64,
     gm: u32,
@@ -2380,7 +2379,7 @@ pub fn e_twilight_l3710(
     return (a, x, y, la, s);
 }
 
-/// Calculate the angle between two celestial objects
+/// Calculate the angle between two celestial objects.
 ///
 /// Original macro name: Angle
 pub fn angle(
@@ -3115,7 +3114,7 @@ pub fn planet_coordinates(
     );
 }
 
-/// Helper function for planet_long_lat()
+/// Helper function for planet_long_lat().
 pub fn planet_long_l4685(ap: Vec<f64>) -> (f64, f64) {
     let qa = 0.00204 * (5.0 * ap[2] - 2.0 * ap[1] + 0.21328).cos();
     let qa = qa + 0.00103 * (2.0 * ap[2] - ap[1] - 2.8046).cos();
@@ -3130,7 +3129,7 @@ pub fn planet_long_l4685(ap: Vec<f64>) -> (f64, f64) {
     return (qa, qb);
 }
 
-/// Helper function for planet_long_lat()
+/// Helper function for planet_long_lat().
 pub fn planet_long_l4735(ap: Vec<f64>, ms: f64, t: f64) -> (f64, f64, f64, f64) {
     let qc = 0.00077 * (4.1406 + t * 2.6227).sin();
     let qc = qc.to_radians();
@@ -3153,7 +3152,7 @@ pub fn planet_long_l4735(ap: Vec<f64>, ms: f64, t: f64) -> (f64, f64, f64, f64) 
     return (qa, qb, qc, qe);
 }
 
-/// Helper function for planet_long_lat()
+/// Helper function for planet_long_lat().
 pub fn planet_long_l4810(ap: Vec<f64>, ms: f64) -> (f64, f64, f64, f64, f64, f64, f64) {
     let a = 3.0 * ap[4] - 8.0 * ap[3] + 4.0 * ms;
     let sa = a.sin();
@@ -3189,7 +3188,7 @@ pub fn planet_long_l4810(ap: Vec<f64>, ms: f64) -> (f64, f64, f64, f64, f64, f64
     return (a, sa, ca, qc, qe, qa, qb);
 }
 
-/// Helper function for planet_long_lat()
+/// Helper function for planet_long_lat().
 pub fn planet_long_l4945(
     t: f64,
     ip: i32,
@@ -3471,14 +3470,14 @@ pub fn solve_cubic(w: f64) -> f64 {
 /// Original macro names: PcometLong, PcometLat, PcometDist
 ///
 /// ## Arguments
-/// * `lh` -- Local civil time, hour part.
-/// * `lm` -- Local civil time, minutes part.
-/// * `ls` -- Local civil time, seconds part.
-/// * `ds` -- Daylight Savings offset.
-/// * `zc` -- Time zone correction, in hours.
-/// * `dy` -- Local date, day part.
-/// * `mn` -- Local date, month part.
-/// * `yr` -- Local date, year part.
+/// * `lh` -- Local civil time, hour part
+/// * `lm` -- Local civil time, minutes part
+/// * `ls` -- Local civil time, seconds part
+/// * `ds` -- Daylight Savings offset
+/// * `zc` -- Time zone correction, in hours
+/// * `dy` -- Local date, day part
+/// * `mn` -- Local date, month part
+/// * `yr` -- Local date, year part
 /// * `td` -- Perihelion epoch (day)
 /// * `tm` -- Perihelion epoch (month)
 /// * `ty` -- Perihelion epoch (year)
@@ -3574,14 +3573,14 @@ pub fn p_comet_long_lat_dist(
 /// Original macro names: MoonLong, MoonLat, MoonHP
 ///
 /// ## Arguments
-/// * `lh` -- Local civil time, hour part.
-/// * `lm` -- Local civil time, minutes part.
-/// * `ls` -- Local civil time, seconds part.
-/// * `ds` -- Daylight Savings offset.
-/// * `zc` -- Time zone correction, in hours.
-/// * `dy` -- Local date, day part.
-/// * `mn` -- Local date, month part.
-/// * `yr` -- Local date, year part.
+/// * `lh` -- Local civil time, hour part
+/// * `lm` -- Local civil time, minutes part
+/// * `ls` -- Local civil time, seconds part
+/// * `ds` -- Daylight Savings offset
+/// * `zc` -- Time zone correction, in hours
+/// * `dy` -- Local date, day part
+/// * `mn` -- Local date, month part
+/// * `yr` -- Local date, year part
 ///
 /// ## Returns
 /// * `moon_long_deg` -- Moon longitude (degrees)
@@ -3829,11 +3828,11 @@ pub fn moon_mean_anomaly(
 /// Original macro name: NewMoon
 ///
 /// ## Arguments
-/// * `ds` -- Daylight Savings offset.
-/// * `zc` -- Time zone correction, in hours.
-/// * `dy` -- Local date, day part.
-/// * `mn` -- Local date, month part.
-/// * `yr` -- Local date, year part.
+/// * `ds` -- Daylight Savings offset
+/// * `zc` -- Time zone correction, in hours
+/// * `dy` -- Local date, day part
+/// * `mn` -- Local date, month part
+/// * `yr` -- Local date, year part
 pub fn new_moon(ds: i32, zc: i32, dy: f64, mn: u32, yr: u32) -> f64 {
     let d0 = lct_gday(12.0, 0.0, 0.0, ds, zc, dy, mn, yr);
     let m0 = lct_gmonth(12.0, 0.0, 0.0, ds, zc, dy, mn, yr);
@@ -3870,11 +3869,11 @@ pub fn new_moon(ds: i32, zc: i32, dy: f64, mn: u32, yr: u32) -> f64 {
 /// Original macro name: FullMoon
 ///
 /// ## Arguments
-/// * `ds` -- Daylight Savings offset.
-/// * `zc` -- Time zone correction, in hours.
-/// * `dy` -- Local date, day part.
-/// * `mn` -- Local date, month part.
-/// * `yr` -- Local date, year part.
+/// * `ds` -- Daylight Savings offset
+/// * `zc` -- Time zone correction, in hours
+/// * `dy` -- Local date, day part
+/// * `mn` -- Local date, month part
+/// * `yr` -- Local date, year part
 pub fn full_moon(ds: i32, zc: i32, dy: f64, mn: u32, yr: u32) -> f64 {
     let d0 = lct_gday(12.0, 0.0, 0.0, ds, zc, dy, mn, yr);
     let m0 = lct_gmonth(12.0, 0.0, 0.0, ds, zc, dy, mn, yr);
@@ -3906,7 +3905,7 @@ pub fn full_moon(ds: i32, zc: i32, dy: f64, mn: u32, yr: u32) -> f64 {
     return fi + 2415020.0 + ff;
 }
 
-/// Helper function for new_moon() and full_moon() """
+/// Helper function for new_moon() and full_moon()
 pub fn new_moon_full_moon_l6855(k: f64, t: f64) -> (f64, f64, f64) {
     let t2 = t * t;
     let e = 29.53 * k;
@@ -4133,7 +4132,7 @@ pub fn moon_rise_lct(dy: f64, mn: u32, yr: u32, ds: i32, zc: i32, g_long: f64, g
     return lct;
 }
 
-/// Helper function for moon_rise_lct
+/// Helper function for moon_rise_lct.
 pub fn moon_rise_lct_l6680(
     x: f64,
     ds: i32,
@@ -4163,7 +4162,7 @@ pub fn moon_rise_lct_l6680(
     return (ut, lct, dy1, mn1, yr1, gdy, gmn, gyr);
 }
 
-/// Helper function for moon_rise_lct
+/// Helper function for moon_rise_lct.
 pub fn moon_rise_lct_l6700(
     mut lct: f64,
     ds: i32,
@@ -4285,7 +4284,7 @@ pub fn e_moon_rise(dy: f64, mn: u32, yr: u32, ds: i32, zc: i32, g_long: f64, g_l
     return s4;
 }
 
-/// Helper function for e_moon_rise()
+/// Helper function for e_moon_rise().
 pub fn e_moon_rise_l6680(
     s3: String,
     g1: f64,
@@ -4318,7 +4317,7 @@ pub fn e_moon_rise_l6680(
     return (ut, lct, dy1, mn1, yr1, gdy, gmn, gyr);
 }
 
-/// Helper function for e_moon_rise()
+/// Helper function for e_moon_rise().
 pub fn e_moon_rise_l6700(
     lct: f64,
     ds: i32,
@@ -4449,7 +4448,7 @@ pub fn moon_rise_lc_dmy(
     return (dy1, mn1, yr1);
 }
 
-/// Helper function for moon_rise_lc_dmy
+/// Helper function for moon_rise_lc_dmy.
 pub fn moon_rise_lc_dmy_l6680(
     x: f64,
     ds: i32,
@@ -4479,7 +4478,7 @@ pub fn moon_rise_lc_dmy_l6680(
     return (ut, lct, dy1, mn1, yr1, gdy, gmn, gyr);
 }
 
-/// Helper function for moon_rise_lc_dmy
+/// Helper function for moon_rise_lc_dmy.
 pub fn moon_rise_lc_dmy_l6700(
     lct: f64,
     ds: i32,
@@ -4603,7 +4602,7 @@ pub fn moon_rise_az(dy: f64, mn: u32, yr: u32, ds: i32, zc: i32, g_long: f64, g_
     return au;
 }
 
-/// Helper function for moon_rise_az
+/// Helper function for moon_rise_az.
 pub fn moon_rise_az_l6680(
     x: f64,
     ds: i32,
@@ -4633,7 +4632,7 @@ pub fn moon_rise_az_l6680(
     return (ut, lct, dy1, mn1, yr1, gdy, gmn, gyr);
 }
 
-/// Helper function for moon_rise_az
+/// Helper function for moon_rise_az.
 pub fn moon_rise_az_l6700(
     lct: f64,
     ds: i32,
@@ -4752,7 +4751,7 @@ pub fn moon_set_lct(dy: f64, mn: u32, yr: u32, ds: i32, zc: i32, g_long: f64, g_
     return lct;
 }
 
-/// Helper function for moon_set_lct
+/// Helper function for moon_set_lct.
 pub fn moon_set_lct_l6680(
     x: f64,
     ds: i32,
@@ -4782,7 +4781,7 @@ pub fn moon_set_lct_l6680(
     return (ut, lct, dy1, mn1, yr1, gdy, gmn, gyr);
 }
 
-/// Helper function for moon_set_lct
+/// Helper function for moon_set_lct.
 pub fn moon_set_lct_l6700(
     mut lct: f64,
     ds: i32,
@@ -4905,7 +4904,7 @@ pub fn e_moon_set(dy: f64, mn: u32, yr: u32, ds: i32, zc: i32, g_long: f64, g_la
     return s4;
 }
 
-/// Helper function for e_moon_set()
+/// Helper function for e_moon_set().
 pub fn e_moon_set_l6680(
     x: f64,
     g1: f64,
@@ -4938,7 +4937,7 @@ pub fn e_moon_set_l6680(
     return (ut, lct, dy1, mn1, yr1, gdy, gmn, gyr);
 }
 
-/// Helper function for e_moon_set()
+/// Helper function for e_moon_set().
 pub fn e_moon_set_l6700(
     lct: f64,
     ds: i32,
@@ -5069,7 +5068,7 @@ pub fn moon_set_lc_dmy(
     return (dy1, mn1, yr1);
 }
 
-/// Helper function for moon_set_lc_dmy
+/// Helper function for moon_set_lc_dmy.
 pub fn moon_set_lc_dmy_l6680(
     x: f64,
     ds: i32,
@@ -5099,7 +5098,7 @@ pub fn moon_set_lc_dmy_l6680(
     return (ut, lct, dy1, mn1, yr1, gdy, gmn, gyr);
 }
 
-/// Helper function for moon_set_lc_dmy
+/// Helper function for moon_set_lc_dmy.
 pub fn moon_set_lc_dmy_l6700(
     lct: f64,
     ds: i32,
@@ -5223,7 +5222,7 @@ pub fn moon_set_az(dy: f64, mn: u32, yr: u32, ds: i32, zc: i32, g_long: f64, g_l
     return au;
 }
 
-/// Helper function for moon_set_az
+/// Helper function for moon_set_az.
 pub fn moon_set_az_l6680(
     x: f64,
     ds: i32,
@@ -5253,7 +5252,7 @@ pub fn moon_set_az_l6680(
     return (ut, lct, dy1, mn1, yr1, gdy, gmn, gyr);
 }
 
-/// Helper function for moon_set_az
+/// Helper function for moon_set_az.
 pub fn moon_set_az_l6700(
     lct: f64,
     ds: i32,
@@ -5329,7 +5328,7 @@ pub fn lunar_eclipse_occurrence(ds: i32, zc: i32, dy: f64, mn: u32, yr: u32) -> 
     return s.to_string();
 }
 
-/// Helper function for lunar_eclipse_occurrence
+/// Helper function for lunar_eclipse_occurrence.
 pub fn lunar_eclipse_occurrence_l6855(t: f64, k: f64) -> (f64, f64, f64, f64, f64, f64) {
     let t2 = t * t;
     let e = 29.53 * k;
@@ -5366,7 +5365,7 @@ pub fn lunar_eclipse_occurrence_l6855(t: f64, k: f64) -> (f64, f64, f64, f64, f6
     return (f, dd, e1, b1, a, b);
 }
 
-/// Calculate time of maximum shadow for lunar eclipse (UT)
+/// Calculate time of maximum shadow for lunar eclipse (UT).
 ///
 /// Original macro name: UTMaxLunarEclipse
 pub fn ut_max_lunar_eclipse(dy: f64, mn: u32, yr: u32, ds: i32, zc: i32) -> f64 {
@@ -5443,7 +5442,7 @@ pub fn ut_max_lunar_eclipse(dy: f64, mn: u32, yr: u32, ds: i32, zc: i32) -> f64 
     return z1;
 }
 
-/// Calculate time of first shadow contact for lunar eclipse (UT)
+/// Calculate time of first shadow contact for lunar eclipse (UT).
 ///
 /// Original macro name: UTFirstContactLunarEclipse
 pub fn ut_first_contact_lunar_eclipse(dy: f64, mn: u32, yr: u32, ds: i32, zc: i32) -> f64 {
@@ -5527,7 +5526,7 @@ pub fn ut_first_contact_lunar_eclipse(dy: f64, mn: u32, yr: u32, ds: i32, zc: i3
     return z6;
 }
 
-/// Calculate time of last shadow contact for lunar eclipse (UT)
+/// Calculate time of last shadow contact for lunar eclipse (UT).
 ///
 /// Original macro name: UTLastContactLunarEclipse
 pub fn ut_last_contact_lunar_eclipse(dy: f64, mn: u32, yr: u32, ds: i32, zc: i32) -> f64 {
@@ -5608,7 +5607,7 @@ pub fn ut_last_contact_lunar_eclipse(dy: f64, mn: u32, yr: u32, ds: i32, zc: i32
     return z7;
 }
 
-/// Calculate start time of umbra phase of lunar eclipse (UT)
+/// Calculate start time of umbra phase of lunar eclipse (UT).
 ///
 /// Original macro name: UTStartUmbraLunarEclipse
 pub fn ut_start_umbra_lunar_eclipse(dy: f64, mn: u32, yr: u32, ds: i32, zc: i32) -> f64 {
@@ -5710,7 +5709,7 @@ pub fn ut_start_umbra_lunar_eclipse(dy: f64, mn: u32, yr: u32, ds: i32, zc: i32)
     return z8;
 }
 
-/// Calculate end time of umbra phase of lunar eclipse (UT)
+/// Calculate end time of umbra phase of lunar eclipse (UT).
 ///
 /// Original macro name: UTEndUmbraLunarEclipse
 pub fn ut_end_umbra_lunar_eclipse(dy: f64, mn: u32, yr: u32, ds: i32, zc: i32) -> f64 {
@@ -5808,7 +5807,7 @@ pub fn ut_end_umbra_lunar_eclipse(dy: f64, mn: u32, yr: u32, ds: i32, zc: i32) -
     return z9;
 }
 
-/// Calculate start time of total phase of lunar eclipse (UT)
+/// Calculate start time of total phase of lunar eclipse (UT).
 ///
 /// Original macro name: UTStartTotalLunarEclipse
 pub fn ut_start_total_lunar_eclipse(dy: f64, mn: u32, yr: u32, ds: i32, zc: i32) -> f64 {
@@ -5927,7 +5926,7 @@ pub fn ut_start_total_lunar_eclipse(dy: f64, mn: u32, yr: u32, ds: i32, zc: i32)
     return zcc;
 }
 
-/// Calculate end time of total phase of lunar eclipse (UT)
+/// Calculate end time of total phase of lunar eclipse (UT).
 ///
 /// Original macro name: UTEndTotalLunarEclipse
 pub fn ut_end_total_lunar_eclipse(dy: f64, mn: u32, yr: u32, ds: i32, zc: i32) -> f64 {
@@ -6191,7 +6190,7 @@ pub fn solar_eclipse_occurrence(ds: i32, zc: i32, dy: f64, mn: u32, yr: u32) -> 
     return s.to_string();
 }
 
-/// Helper function for solar_eclipse_occurrence
+/// Helper function for solar_eclipse_occurrence.
 pub fn solar_eclipse_occurrence_l6855(t: f64, k: f64) -> (f64, f64, f64, f64, f64, f64) {
     let t2 = t * t;
     let e = 29.53 * k;
@@ -6228,7 +6227,7 @@ pub fn solar_eclipse_occurrence_l6855(t: f64, k: f64) -> (f64, f64, f64, f64, f6
     return (f, dd, e1, b1, a, b);
 }
 
-/// Calculate time of maximum shadow for solar eclipse (UT)
+/// Calculate time of maximum shadow for solar eclipse (UT).
 ///
 /// Original macro name: UTMaxSolarEclipse
 pub fn ut_max_solar_eclipse(
@@ -6348,7 +6347,7 @@ pub fn ut_max_solar_eclipse(
     return z1;
 }
 
-/// Helper function for ut_max_solar_eclipse
+/// Helper function for ut_max_solar_eclipse.
 pub fn ut_max_solar_eclipse_l7390(
     x: f64,
     y: f64,
@@ -6429,7 +6428,7 @@ pub fn ut_max_solar_eclipse_l7390(
     return (paa, qaa, xaa, pbb, qbb, xbb, p, q);
 }
 
-/// Calculate time of first contact for solar eclipse (UT)
+/// Calculate time of first contact for solar eclipse (UT).
 ///
 /// Original macro name: UTFirstContactSolarEclipse
 pub fn ut_first_contact_solar_eclipse(
@@ -6547,7 +6546,7 @@ pub fn ut_first_contact_solar_eclipse(
     return z6;
 }
 
-/// Helper function for ut_first_contact_solar_eclipse
+/// Helper function for ut_first_contact_solar_eclipse.
 pub fn ut_first_contact_solar_eclipse_l7390(
     x: f64,
     y: f64,
@@ -6628,7 +6627,7 @@ pub fn ut_first_contact_solar_eclipse_l7390(
     return (paa, qaa, xaa, pbb, qbb, xbb, p, q);
 }
 
-/// Calculate time of last contact for solar eclipse (UT)
+/// Calculate time of last contact for solar eclipse (UT).
 ///
 /// Original macro name: UTLastContactSolarEclipse
 pub fn ut_last_contact_solar_eclipse(
@@ -6748,7 +6747,7 @@ pub fn ut_last_contact_solar_eclipse(
     return z7;
 }
 
-/// Helper function for ut_last_contact_solar_eclipse
+/// Helper function for ut_last_contact_solar_eclipse.
 pub fn ut_last_contact_solar_eclipse_l7390(
     x: f64,
     y: f64,
@@ -6949,7 +6948,7 @@ pub fn mag_solar_eclipse(
     return mg;
 }
 
-/// Helper function for mag_solar_eclipse
+/// Helper function for mag_solar_eclipse.
 pub fn mag_solar_eclipse_l7390(
     x: f64,
     y: f64,

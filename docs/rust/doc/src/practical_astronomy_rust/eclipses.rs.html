@@ -637,8 +637,8 @@
 <span id="637">637</span>
 <span id="638">638</span>
 <span id="639">639</span>
-</pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::macros;
-<span class="kw">use </span><span class="kw">crate</span>::util;
+</pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::macros <span class="kw">as </span>pa_m;
+<span class="kw">use </span><span class="kw">crate</span>::util <span class="kw">as </span>pa_u;
 
 <span class="doccomment">/// Determine if a lunar eclipse is likely to occur.
 ///
@@ -663,19 +663,19 @@
 ) -&gt; (String, f64, u32, u32) {
     <span class="kw">let </span>daylight_saving = <span class="kw">if </span>is_daylight_saving == <span class="bool-val">true </span>{ <span class="number">1 </span>} <span class="kw">else </span>{ <span class="number">0 </span>};
 
-    <span class="kw">let </span>julian_date_of_full_moon = macros::full_moon(
+    <span class="kw">let </span>julian_date_of_full_moon = pa_m::full_moon(
         daylight_saving,
         zone_correction_hours,
         local_date_day,
         local_date_month,
         local_date_year,
     );
-    <span class="kw">let </span>g_date_of_full_moon_day = macros::jdc_day(julian_date_of_full_moon);
+    <span class="kw">let </span>g_date_of_full_moon_day = pa_m::jdc_day(julian_date_of_full_moon);
     <span class="kw">let </span>integer_day = (g_date_of_full_moon_day).floor();
-    <span class="kw">let </span>g_date_of_full_moon_month = macros::jdc_month(julian_date_of_full_moon);
-    <span class="kw">let </span>g_date_of_full_moon_year = macros::jdc_year(julian_date_of_full_moon);
+    <span class="kw">let </span>g_date_of_full_moon_month = pa_m::jdc_month(julian_date_of_full_moon);
+    <span class="kw">let </span>g_date_of_full_moon_year = pa_m::jdc_year(julian_date_of_full_moon);
     <span class="kw">let </span>ut_of_full_moon_hours = g_date_of_full_moon_day - integer_day;
-    <span class="kw">let </span>_local_civil_time_hours = macros::ut_lct(
+    <span class="kw">let </span>_local_civil_time_hours = pa_m::ut_lct(
         ut_of_full_moon_hours,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -685,7 +685,7 @@
         g_date_of_full_moon_month,
         g_date_of_full_moon_year,
     );
-    <span class="kw">let </span>local_civil_date_day = macros::ut_lc_day(
+    <span class="kw">let </span>local_civil_date_day = pa_m::ut_lc_day(
         ut_of_full_moon_hours,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -695,7 +695,7 @@
         g_date_of_full_moon_month,
         g_date_of_full_moon_year,
     );
-    <span class="kw">let </span>local_civil_date_month = macros::ut_lc_month(
+    <span class="kw">let </span>local_civil_date_month = pa_m::ut_lc_month(
         ut_of_full_moon_hours,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -705,7 +705,7 @@
         g_date_of_full_moon_month,
         g_date_of_full_moon_year,
     );
-    <span class="kw">let </span>local_civil_date_year = macros::ut_lc_year(
+    <span class="kw">let </span>local_civil_date_year = pa_m::ut_lc_year(
         ut_of_full_moon_hours,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -715,7 +715,7 @@
         g_date_of_full_moon_month,
         g_date_of_full_moon_year,
     );
-    <span class="kw">let </span>eclipse_occurrence = macros::lunar_eclipse_occurrence(
+    <span class="kw">let </span>eclipse_occurrence = pa_m::lunar_eclipse_occurrence(
         daylight_saving,
         zone_correction_hours,
         local_date_day,
@@ -787,19 +787,19 @@
 ) {
     <span class="kw">let </span>daylight_saving = <span class="kw">if </span>is_daylight_saving == <span class="bool-val">true </span>{ <span class="number">1 </span>} <span class="kw">else </span>{ <span class="number">0 </span>};
 
-    <span class="kw">let </span>julian_date_of_full_moon = macros::full_moon(
+    <span class="kw">let </span>julian_date_of_full_moon = pa_m::full_moon(
         daylight_saving,
         zone_correction_hours,
         local_date_day,
         local_date_month,
         local_date_year,
     );
-    <span class="kw">let </span>g_date_of_full_moon_day = macros::jdc_day(julian_date_of_full_moon);
+    <span class="kw">let </span>g_date_of_full_moon_day = pa_m::jdc_day(julian_date_of_full_moon);
     <span class="kw">let </span>integer_day = g_date_of_full_moon_day.floor();
-    <span class="kw">let </span>g_date_of_full_moon_month = macros::jdc_month(julian_date_of_full_moon);
-    <span class="kw">let </span>g_date_of_full_moon_year = macros::jdc_year(julian_date_of_full_moon);
+    <span class="kw">let </span>g_date_of_full_moon_month = pa_m::jdc_month(julian_date_of_full_moon);
+    <span class="kw">let </span>g_date_of_full_moon_year = pa_m::jdc_year(julian_date_of_full_moon);
     <span class="kw">let </span>ut_of_full_moon_hours = g_date_of_full_moon_day - integer_day;
-    <span class="kw">let </span>_local_civil_time_hours = macros::ut_lct(
+    <span class="kw">let </span>_local_civil_time_hours = pa_m::ut_lct(
         ut_of_full_moon_hours,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -809,7 +809,7 @@
         g_date_of_full_moon_month,
         g_date_of_full_moon_year,
     );
-    <span class="kw">let </span>local_civil_date_day = macros::ut_lc_day(
+    <span class="kw">let </span>local_civil_date_day = pa_m::ut_lc_day(
         ut_of_full_moon_hours,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -819,7 +819,7 @@
         g_date_of_full_moon_month,
         g_date_of_full_moon_year,
     );
-    <span class="kw">let </span>local_civil_date_month = macros::ut_lc_month(
+    <span class="kw">let </span>local_civil_date_month = pa_m::ut_lc_month(
         ut_of_full_moon_hours,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -829,7 +829,7 @@
         g_date_of_full_moon_month,
         g_date_of_full_moon_year,
     );
-    <span class="kw">let </span>local_civil_date_year = macros::ut_lc_year(
+    <span class="kw">let </span>local_civil_date_year = pa_m::ut_lc_year(
         ut_of_full_moon_hours,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -839,63 +839,63 @@
         g_date_of_full_moon_month,
         g_date_of_full_moon_year,
     );
-    <span class="kw">let </span>_eclipse_occurrence = macros::lunar_eclipse_occurrence(
+    <span class="kw">let </span>_eclipse_occurrence = pa_m::lunar_eclipse_occurrence(
         daylight_saving,
         zone_correction_hours,
         local_date_day,
         local_date_month,
         local_date_year,
     );
-    <span class="kw">let </span>ut_max_eclipse = macros::ut_max_lunar_eclipse(
+    <span class="kw">let </span>ut_max_eclipse = pa_m::ut_max_lunar_eclipse(
         local_date_day,
         local_date_month,
         local_date_year,
         daylight_saving,
         zone_correction_hours,
     );
-    <span class="kw">let </span>ut_first_contact = macros::ut_first_contact_lunar_eclipse(
+    <span class="kw">let </span>ut_first_contact = pa_m::ut_first_contact_lunar_eclipse(
         local_date_day,
         local_date_month,
         local_date_year,
         daylight_saving,
         zone_correction_hours,
     );
-    <span class="kw">let </span>ut_last_contact = macros::ut_last_contact_lunar_eclipse(
+    <span class="kw">let </span>ut_last_contact = pa_m::ut_last_contact_lunar_eclipse(
         local_date_day,
         local_date_month,
         local_date_year,
         daylight_saving,
         zone_correction_hours,
     );
-    <span class="kw">let </span>ut_start_umbral_phase = macros::ut_start_umbra_lunar_eclipse(
+    <span class="kw">let </span>ut_start_umbral_phase = pa_m::ut_start_umbra_lunar_eclipse(
         local_date_day,
         local_date_month,
         local_date_year,
         daylight_saving,
         zone_correction_hours,
     );
-    <span class="kw">let </span>ut_end_umbral_phase = macros::ut_end_umbra_lunar_eclipse(
+    <span class="kw">let </span>ut_end_umbral_phase = pa_m::ut_end_umbra_lunar_eclipse(
         local_date_day,
         local_date_month,
         local_date_year,
         daylight_saving,
         zone_correction_hours,
     );
-    <span class="kw">let </span>ut_start_total_phase = macros::ut_start_total_lunar_eclipse(
+    <span class="kw">let </span>ut_start_total_phase = pa_m::ut_start_total_lunar_eclipse(
         local_date_day,
         local_date_month,
         local_date_year,
         daylight_saving,
         zone_correction_hours,
     );
-    <span class="kw">let </span>ut_end_total_phase = macros::ut_end_total_lunar_eclipse(
+    <span class="kw">let </span>ut_end_total_phase = pa_m::ut_end_total_lunar_eclipse(
         local_date_day,
         local_date_month,
         local_date_year,
         daylight_saving,
         zone_correction_hours,
     );
-    <span class="kw">let </span>eclipse_magnitude1 = macros::mag_lunar_eclipse(
+    <span class="kw">let </span>eclipse_magnitude1 = pa_m::mag_lunar_eclipse(
         local_date_day,
         local_date_month,
         local_date_year,
@@ -909,77 +909,77 @@
     <span class="kw">let </span>ut_start_pen_phase_hour = <span class="kw">if </span>ut_first_contact == -<span class="number">99.0 </span>{
         -<span class="number">99.0
     </span>} <span class="kw">else </span>{
-        macros::dh_hour(ut_first_contact + <span class="number">0.008333</span>) <span class="kw">as </span>f64
+        pa_m::dh_hour(ut_first_contact + <span class="number">0.008333</span>) <span class="kw">as </span>f64
     };
     <span class="kw">let </span>ut_start_pen_phase_minutes = <span class="kw">if </span>ut_first_contact == -<span class="number">99.0 </span>{
         -<span class="number">99.0
     </span>} <span class="kw">else </span>{
-        macros::dh_min(ut_first_contact + <span class="number">0.008333</span>) <span class="kw">as </span>f64
+        pa_m::dh_min(ut_first_contact + <span class="number">0.008333</span>) <span class="kw">as </span>f64
     };
     <span class="kw">let </span>ut_start_umbral_phase_hour = <span class="kw">if </span>ut_start_umbral_phase == -<span class="number">99.0 </span>{
         -<span class="number">99.0
     </span>} <span class="kw">else </span>{
-        macros::dh_hour(ut_start_umbral_phase + <span class="number">0.008333</span>) <span class="kw">as </span>f64
+        pa_m::dh_hour(ut_start_umbral_phase + <span class="number">0.008333</span>) <span class="kw">as </span>f64
     };
     <span class="kw">let </span>ut_start_umbral_phase_minutes = <span class="kw">if </span>ut_start_umbral_phase == -<span class="number">99.0 </span>{
         -<span class="number">99.0
     </span>} <span class="kw">else </span>{
-        macros::dh_min(ut_start_umbral_phase + <span class="number">0.008333</span>) <span class="kw">as </span>f64
+        pa_m::dh_min(ut_start_umbral_phase + <span class="number">0.008333</span>) <span class="kw">as </span>f64
     };
     <span class="kw">let </span>ut_start_total_phase_hour = <span class="kw">if </span>ut_start_total_phase == -<span class="number">99.0 </span>{
         -<span class="number">99.0
     </span>} <span class="kw">else </span>{
-        macros::dh_hour(ut_start_total_phase + <span class="number">0.008333</span>) <span class="kw">as </span>f64
+        pa_m::dh_hour(ut_start_total_phase + <span class="number">0.008333</span>) <span class="kw">as </span>f64
     };
     <span class="kw">let </span>ut_start_total_phase_minutes = <span class="kw">if </span>ut_start_total_phase == -<span class="number">99.0 </span>{
         -<span class="number">99.0
     </span>} <span class="kw">else </span>{
-        macros::dh_min(ut_start_total_phase + <span class="number">0.008333</span>) <span class="kw">as </span>f64
+        pa_m::dh_min(ut_start_total_phase + <span class="number">0.008333</span>) <span class="kw">as </span>f64
     };
     <span class="kw">let </span>ut_mid_eclipse_hour = <span class="kw">if </span>ut_max_eclipse == -<span class="number">99.0 </span>{
         -<span class="number">99.0
     </span>} <span class="kw">else </span>{
-        macros::dh_hour(ut_max_eclipse + <span class="number">0.008333</span>) <span class="kw">as </span>f64
+        pa_m::dh_hour(ut_max_eclipse + <span class="number">0.008333</span>) <span class="kw">as </span>f64
     };
     <span class="kw">let </span>ut_mid_eclipse_minutes = <span class="kw">if </span>ut_max_eclipse == -<span class="number">99.0 </span>{
         -<span class="number">99.0
     </span>} <span class="kw">else </span>{
-        macros::dh_min(ut_max_eclipse + <span class="number">0.008333</span>) <span class="kw">as </span>f64
+        pa_m::dh_min(ut_max_eclipse + <span class="number">0.008333</span>) <span class="kw">as </span>f64
     };
     <span class="kw">let </span>ut_end_total_phase_hour = <span class="kw">if </span>ut_end_total_phase == -<span class="number">99.0 </span>{
         -<span class="number">99.0
     </span>} <span class="kw">else </span>{
-        macros::dh_hour(ut_end_total_phase + <span class="number">0.008333</span>) <span class="kw">as </span>f64
+        pa_m::dh_hour(ut_end_total_phase + <span class="number">0.008333</span>) <span class="kw">as </span>f64
     };
     <span class="kw">let </span>ut_end_total_phase_minutes = <span class="kw">if </span>ut_end_total_phase == -<span class="number">99.0 </span>{
         -<span class="number">99.0
     </span>} <span class="kw">else </span>{
-        macros::dh_min(ut_end_total_phase + <span class="number">0.008333</span>) <span class="kw">as </span>f64
+        pa_m::dh_min(ut_end_total_phase + <span class="number">0.008333</span>) <span class="kw">as </span>f64
     };
     <span class="kw">let </span>ut_end_umbral_phase_hour = <span class="kw">if </span>ut_end_umbral_phase == -<span class="number">99.0 </span>{
         -<span class="number">99.0
     </span>} <span class="kw">else </span>{
-        macros::dh_hour(ut_end_umbral_phase + <span class="number">0.008333</span>) <span class="kw">as </span>f64
+        pa_m::dh_hour(ut_end_umbral_phase + <span class="number">0.008333</span>) <span class="kw">as </span>f64
     };
     <span class="kw">let </span>ut_end_umbral_phase_minutes = <span class="kw">if </span>ut_end_umbral_phase == -<span class="number">99.0 </span>{
         -<span class="number">99.0
     </span>} <span class="kw">else </span>{
-        macros::dh_min(ut_end_umbral_phase + <span class="number">0.008333</span>) <span class="kw">as </span>f64
+        pa_m::dh_min(ut_end_umbral_phase + <span class="number">0.008333</span>) <span class="kw">as </span>f64
     };
     <span class="kw">let </span>ut_end_pen_phase_hour = <span class="kw">if </span>ut_last_contact == -<span class="number">99.0 </span>{
         -<span class="number">99.0
     </span>} <span class="kw">else </span>{
-        macros::dh_hour(ut_last_contact + <span class="number">0.008333</span>) <span class="kw">as </span>f64
+        pa_m::dh_hour(ut_last_contact + <span class="number">0.008333</span>) <span class="kw">as </span>f64
     };
     <span class="kw">let </span>ut_end_pen_phase_minutes = <span class="kw">if </span>ut_last_contact == -<span class="number">99.0 </span>{
         -<span class="number">99.0
     </span>} <span class="kw">else </span>{
-        macros::dh_min(ut_last_contact + <span class="number">0.008333</span>) <span class="kw">as </span>f64
+        pa_m::dh_min(ut_last_contact + <span class="number">0.008333</span>) <span class="kw">as </span>f64
     };
     <span class="kw">let </span>eclipse_magnitude = <span class="kw">if </span>eclipse_magnitude1 == -<span class="number">99.0 </span>{
         -<span class="number">99.0
     </span>} <span class="kw">else </span>{
-        util::round_f64(eclipse_magnitude1, <span class="number">2</span>)
+        pa_u::round_f64(eclipse_magnitude1, <span class="number">2</span>)
     };
 
     <span class="kw">return </span>(
@@ -1027,19 +1027,19 @@
 ) -&gt; (String, f64, u32, u32) {
     <span class="kw">let </span>daylight_saving = <span class="kw">if </span>is_daylight_saving == <span class="bool-val">true </span>{ <span class="number">1 </span>} <span class="kw">else </span>{ <span class="number">0 </span>};
 
-    <span class="kw">let </span>julian_date_of_new_moon = macros::new_moon(
+    <span class="kw">let </span>julian_date_of_new_moon = pa_m::new_moon(
         daylight_saving,
         zone_correction_hours,
         local_date_day,
         local_date_month,
         local_date_year,
     );
-    <span class="kw">let </span>g_date_of_new_moon_day = macros::jdc_day(julian_date_of_new_moon);
+    <span class="kw">let </span>g_date_of_new_moon_day = pa_m::jdc_day(julian_date_of_new_moon);
     <span class="kw">let </span>integer_day = (g_date_of_new_moon_day).floor();
-    <span class="kw">let </span>g_date_of_new_moon_month = macros::jdc_month(julian_date_of_new_moon);
-    <span class="kw">let </span>g_date_of_new_moon_year = macros::jdc_year(julian_date_of_new_moon);
+    <span class="kw">let </span>g_date_of_new_moon_month = pa_m::jdc_month(julian_date_of_new_moon);
+    <span class="kw">let </span>g_date_of_new_moon_year = pa_m::jdc_year(julian_date_of_new_moon);
     <span class="kw">let </span>ut_of_new_moon_hours = g_date_of_new_moon_day - integer_day;
-    <span class="kw">let </span>_local_civil_time_hours = macros::ut_lct(
+    <span class="kw">let </span>_local_civil_time_hours = pa_m::ut_lct(
         ut_of_new_moon_hours,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -1049,7 +1049,7 @@
         g_date_of_new_moon_month,
         g_date_of_new_moon_year,
     );
-    <span class="kw">let </span>local_civil_date_day = macros::ut_lc_day(
+    <span class="kw">let </span>local_civil_date_day = pa_m::ut_lc_day(
         ut_of_new_moon_hours,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -1059,7 +1059,7 @@
         g_date_of_new_moon_month,
         g_date_of_new_moon_year,
     );
-    <span class="kw">let </span>local_civil_date_month = macros::ut_lc_month(
+    <span class="kw">let </span>local_civil_date_month = pa_m::ut_lc_month(
         ut_of_new_moon_hours,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -1069,7 +1069,7 @@
         g_date_of_new_moon_month,
         g_date_of_new_moon_year,
     );
-    <span class="kw">let </span>local_civil_date_year = macros::ut_lc_year(
+    <span class="kw">let </span>local_civil_date_year = pa_m::ut_lc_year(
         ut_of_new_moon_hours,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -1079,7 +1079,7 @@
         g_date_of_new_moon_month,
         g_date_of_new_moon_year,
     );
-    <span class="kw">let </span>eclipse_occurrence = macros::solar_eclipse_occurrence(
+    <span class="kw">let </span>eclipse_occurrence = pa_m::solar_eclipse_occurrence(
         daylight_saving,
         zone_correction_hours,
         local_date_day,
@@ -1128,19 +1128,19 @@
 ) -&gt; (f64, u32, u32, f64, f64, f64, f64, f64, f64, f64) {
     <span class="kw">let </span>daylight_saving = <span class="kw">if </span>is_daylight_saving == <span class="bool-val">true </span>{ <span class="number">1 </span>} <span class="kw">else </span>{ <span class="number">0 </span>};
 
-    <span class="kw">let </span>julian_date_of_new_moon = macros::new_moon(
+    <span class="kw">let </span>julian_date_of_new_moon = pa_m::new_moon(
         daylight_saving,
         zone_correction_hours,
         local_date_day,
         local_date_month,
         local_date_year,
     );
-    <span class="kw">let </span>g_date_of_new_moon_day = macros::jdc_day(julian_date_of_new_moon);
+    <span class="kw">let </span>g_date_of_new_moon_day = pa_m::jdc_day(julian_date_of_new_moon);
     <span class="kw">let </span>integer_day = (g_date_of_new_moon_day).floor();
-    <span class="kw">let </span>g_date_of_new_moon_month = macros::jdc_month(julian_date_of_new_moon);
-    <span class="kw">let </span>g_date_of_new_moon_year = macros::jdc_year(julian_date_of_new_moon);
+    <span class="kw">let </span>g_date_of_new_moon_month = pa_m::jdc_month(julian_date_of_new_moon);
+    <span class="kw">let </span>g_date_of_new_moon_year = pa_m::jdc_year(julian_date_of_new_moon);
     <span class="kw">let </span>ut_of_new_moon_hours = g_date_of_new_moon_day - integer_day;
-    <span class="kw">let </span>_local_civil_time_hours = macros::ut_lct(
+    <span class="kw">let </span>_local_civil_time_hours = pa_m::ut_lct(
         ut_of_new_moon_hours,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -1150,7 +1150,7 @@
         g_date_of_new_moon_month,
         g_date_of_new_moon_year,
     );
-    <span class="kw">let </span>local_civil_date_day = macros::ut_lc_day(
+    <span class="kw">let </span>local_civil_date_day = pa_m::ut_lc_day(
         ut_of_new_moon_hours,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -1160,7 +1160,7 @@
         g_date_of_new_moon_month,
         g_date_of_new_moon_year,
     );
-    <span class="kw">let </span>local_civil_date_month = macros::ut_lc_month(
+    <span class="kw">let </span>local_civil_date_month = pa_m::ut_lc_month(
         ut_of_new_moon_hours,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -1170,7 +1170,7 @@
         g_date_of_new_moon_month,
         g_date_of_new_moon_year,
     );
-    <span class="kw">let </span>local_civil_date_year = macros::ut_lc_year(
+    <span class="kw">let </span>local_civil_date_year = pa_m::ut_lc_year(
         ut_of_new_moon_hours,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -1180,23 +1180,14 @@
         g_date_of_new_moon_month,
         g_date_of_new_moon_year,
     );
-    <span class="kw">let </span>_eclipse_occurrence = macros::solar_eclipse_occurrence(
+    <span class="kw">let </span>_eclipse_occurrence = pa_m::solar_eclipse_occurrence(
         daylight_saving,
         zone_correction_hours,
         local_date_day,
         local_date_month,
         local_date_year,
     );
-    <span class="kw">let </span>ut_max_eclipse = macros::ut_max_solar_eclipse(
-        local_date_day,
-        local_date_month,
-        local_date_year,
-        daylight_saving,
-        zone_correction_hours,
-        geog_longitude_deg,
-        geog_latitude_deg,
-    );
-    <span class="kw">let </span>ut_first_contact = macros::ut_first_contact_solar_eclipse(
+    <span class="kw">let </span>ut_max_eclipse = pa_m::ut_max_solar_eclipse(
         local_date_day,
         local_date_month,
         local_date_year,
@@ -1205,7 +1196,7 @@
         geog_longitude_deg,
         geog_latitude_deg,
     );
-    <span class="kw">let </span>ut_last_contact = macros::ut_last_contact_solar_eclipse(
+    <span class="kw">let </span>ut_first_contact = pa_m::ut_first_contact_solar_eclipse(
         local_date_day,
         local_date_month,
         local_date_year,
@@ -1214,7 +1205,16 @@
         geog_longitude_deg,
         geog_latitude_deg,
     );
-    <span class="kw">let </span>magnitude = macros::mag_solar_eclipse(
+    <span class="kw">let </span>ut_last_contact = pa_m::ut_last_contact_solar_eclipse(
+        local_date_day,
+        local_date_month,
+        local_date_year,
+        daylight_saving,
+        zone_correction_hours,
+        geog_longitude_deg,
+        geog_latitude_deg,
+    );
+    <span class="kw">let </span>magnitude = pa_m::mag_solar_eclipse(
         local_date_day,
         local_date_month,
         local_date_year,
@@ -1230,37 +1230,37 @@
     <span class="kw">let </span>ut_first_contact_hour = <span class="kw">if </span>ut_first_contact == -<span class="number">99.0 </span>{
         -<span class="number">99.0
     </span>} <span class="kw">else </span>{
-        macros::dh_hour(ut_first_contact + <span class="number">0.008333</span>) <span class="kw">as </span>f64
+        pa_m::dh_hour(ut_first_contact + <span class="number">0.008333</span>) <span class="kw">as </span>f64
     };
     <span class="kw">let </span>ut_first_contact_minutes = <span class="kw">if </span>ut_first_contact == -<span class="number">99.0 </span>{
         -<span class="number">99.0
     </span>} <span class="kw">else </span>{
-        macros::dh_min(ut_first_contact + <span class="number">0.008333</span>) <span class="kw">as </span>f64
+        pa_m::dh_min(ut_first_contact + <span class="number">0.008333</span>) <span class="kw">as </span>f64
     };
     <span class="kw">let </span>ut_mid_eclipse_hour = <span class="kw">if </span>ut_max_eclipse == -<span class="number">99.0 </span>{
         -<span class="number">99.0
     </span>} <span class="kw">else </span>{
-        macros::dh_hour(ut_max_eclipse + <span class="number">0.008333</span>) <span class="kw">as </span>f64
+        pa_m::dh_hour(ut_max_eclipse + <span class="number">0.008333</span>) <span class="kw">as </span>f64
     };
     <span class="kw">let </span>ut_mid_eclipse_minutes = <span class="kw">if </span>ut_max_eclipse == -<span class="number">99.0 </span>{
         -<span class="number">99.0
     </span>} <span class="kw">else </span>{
-        macros::dh_min(ut_max_eclipse + <span class="number">0.008333</span>) <span class="kw">as </span>f64
+        pa_m::dh_min(ut_max_eclipse + <span class="number">0.008333</span>) <span class="kw">as </span>f64
     };
     <span class="kw">let </span>ut_last_contact_hour = <span class="kw">if </span>ut_last_contact == -<span class="number">99.0 </span>{
         -<span class="number">99.0
     </span>} <span class="kw">else </span>{
-        macros::dh_hour(ut_last_contact + <span class="number">0.008333</span>) <span class="kw">as </span>f64
+        pa_m::dh_hour(ut_last_contact + <span class="number">0.008333</span>) <span class="kw">as </span>f64
     };
     <span class="kw">let </span>ut_last_contact_minutes = <span class="kw">if </span>ut_last_contact == -<span class="number">99.0 </span>{
         -<span class="number">99.0
     </span>} <span class="kw">else </span>{
-        macros::dh_min(ut_last_contact + <span class="number">0.008333</span>) <span class="kw">as </span>f64
+        pa_m::dh_min(ut_last_contact + <span class="number">0.008333</span>) <span class="kw">as </span>f64
     };
     <span class="kw">let </span>eclipse_magnitude = <span class="kw">if </span>magnitude == -<span class="number">99.0 </span>{
         -<span class="number">99.0
     </span>} <span class="kw">else </span>{
-        util::round_f64(magnitude, <span class="number">3</span>)
+        pa_u::round_f64(magnitude, <span class="number">3</span>)
     };
 
     <span class="kw">return </span>(

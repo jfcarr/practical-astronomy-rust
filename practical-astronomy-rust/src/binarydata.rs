@@ -21,7 +21,7 @@ pub struct BinaryInfo {
 /// Retrieve info about a binary system.
 ///
 /// ## Returns
-/// * BinaryInfo structure.
+/// * BinaryInfo structure
 /// * status
 pub fn get_binary_info_vector(binary_name: String) -> (BinaryInfo, String) {
     let mut binary_info_vector: Vec<BinaryInfo> = Vec::new();

@@ -50,13 +50,9 @@
 <span id="50">50</span>
 <span id="51">51</span>
 <span id="52">52</span>
-<span id="53">53</span>
-<span id="54">54</span>
-</pre><pre class="rust"><code><span class="kw">use </span>std::path;
-
-<span class="kw">use </span><span class="kw">crate</span>::binarydata;
-<span class="kw">use </span><span class="kw">crate</span>::macros;
-<span class="kw">use </span><span class="kw">crate</span>::util;
+</pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::binarydata <span class="kw">as </span>pa_bd;
+<span class="kw">use </span><span class="kw">crate</span>::macros <span class="kw">as </span>pa_m;
+<span class="kw">use </span><span class="kw">crate</span>::util <span class="kw">as </span>pa_u;
 
 <span class="doccomment">/// Calculate orbital data for binary star.
 ///
@@ -75,34 +71,34 @@
     greenwich_date_year: u32,
     binary_name: String,
 ) -&gt; (f64, f64) {
-    <span class="kw">let </span>(binary_info, _binary_info_status) = binarydata::get_binary_info_vector(binary_name);
+    <span class="kw">let </span>(binary_info, _binary_info_status) = pa_bd::get_binary_info_vector(binary_name);
 
     <span class="kw">let </span>y_years = (greenwich_date_year <span class="kw">as </span>f64
-        + (macros::cd_jd(
+        + (pa_m::cd_jd(
             greenwich_date_day,
             greenwich_date_month,
             greenwich_date_year,
-        ) - macros::cd_jd(<span class="number">0.0</span>, <span class="number">1</span>, greenwich_date_year))
+        ) - pa_m::cd_jd(<span class="number">0.0</span>, <span class="number">1</span>, greenwich_date_year))
             / <span class="number">365.242191</span>)
         - binary_info.epoch_peri;
     <span class="kw">let </span>m_deg = <span class="number">360.0 </span>* y_years / binary_info.period;
     <span class="kw">let </span>m_rad = (m_deg - <span class="number">360.0 </span>* (m_deg / <span class="number">360.0</span>).floor()).to_radians();
     <span class="kw">let </span>eccentricity = binary_info.ecc;
-    <span class="kw">let </span>true_anomaly_rad = macros::true_anomaly(m_rad, eccentricity);
-    <span class="kw">let </span>r_arcsec = (<span class="number">1.0 </span>- eccentricity * (macros::eccentric_anomaly(m_rad, eccentricity)).cos())
+    <span class="kw">let </span>true_anomaly_rad = pa_m::true_anomaly(m_rad, eccentricity);
+    <span class="kw">let </span>r_arcsec = (<span class="number">1.0 </span>- eccentricity * (pa_m::eccentric_anomaly(m_rad, eccentricity)).cos())
         * binary_info.axis;
     <span class="kw">let </span>ta_peri_rad = true_anomaly_rad + binary_info.long_peri.to_radians();
 
     <span class="kw">let </span>y = (ta_peri_rad).sin() * ((binary_info.incl).to_radians()).cos();
     <span class="kw">let </span>x = (ta_peri_rad).cos();
-    <span class="kw">let </span>a_deg = macros::degrees(y.atan2(x));
+    <span class="kw">let </span>a_deg = pa_m::degrees(y.atan2(x));
     <span class="kw">let </span>theta_deg1 = a_deg + binary_info.pa_node;
     <span class="kw">let </span>theta_deg2 = theta_deg1 - <span class="number">360.0 </span>* (theta_deg1 / <span class="number">360.0</span>).floor();
     <span class="kw">let </span>rho_arcsec =
         r_arcsec * (ta_peri_rad).cos() / ((theta_deg2 - binary_info.pa_node).to_radians()).cos();
 
-    <span class="kw">let </span>position_angle_deg = util::round_f64(theta_deg2, <span class="number">1</span>);
-    <span class="kw">let </span>separation_arcsec = util::round_f64(rho_arcsec, <span class="number">2</span>);
+    <span class="kw">let </span>position_angle_deg = pa_u::round_f64(theta_deg2, <span class="number">1</span>);
+    <span class="kw">let </span>separation_arcsec = pa_u::round_f64(rho_arcsec, <span class="number">2</span>);
 
     <span class="kw">return </span>(position_angle_deg, separation_arcsec);
 }

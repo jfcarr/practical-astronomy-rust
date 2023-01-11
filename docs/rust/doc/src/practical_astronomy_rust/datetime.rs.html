@@ -263,8 +263,8 @@
 <span id="263">263</span>
 <span id="264">264</span>
 <span id="265">265</span>
-</pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::macros;
-<span class="kw">use </span><span class="kw">crate</span>::util <span class="kw">as </span>utils;
+</pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::macros <span class="kw">as </span>pa_m;
+<span class="kw">use </span><span class="kw">crate</span>::util <span class="kw">as </span>pa_u;
 
 <span class="doccomment">/// Gets the date of Easter for the year specified.
 ///
@@ -311,7 +311,7 @@
 </span><span class="kw">pub fn </span>civil_date_to_day_number(<span class="kw-2">mut </span>month: u32, day: u32, year: u32) -&gt; u32 {
     <span class="kw">if </span>month &lt;= <span class="number">2 </span>{
         month = month - <span class="number">1</span>;
-        month = <span class="kw">if </span>utils::is_leap_year(year) {
+        month = <span class="kw">if </span>pa_u::is_leap_year(year) {
             month * <span class="number">62
         </span>} <span class="kw">else </span>{
             month * <span class="number">63
@@ -319,7 +319,7 @@
         month = (month <span class="kw">as </span>f64 / <span class="number">2.0</span>).floor() <span class="kw">as </span>u32;
     } <span class="kw">else </span>{
         month = ((month <span class="kw">as </span>f64 + <span class="number">1.0</span>) * <span class="number">30.6</span>).floor() <span class="kw">as </span>u32;
-        month = <span class="kw">if </span>utils::is_leap_year(year) {
+        month = <span class="kw">if </span>pa_u::is_leap_year(year) {
             month - <span class="number">62
         </span>} <span class="kw">else </span>{
             month - <span class="number">63
@@ -329,25 +329,25 @@
     <span class="kw">return </span>month + day;
 }
 
-<span class="doccomment">/// Convert a Civil Time (hours,minutes,seconds) to Decimal Hours
+<span class="doccomment">/// Convert a Civil Time (hours,minutes,seconds) to Decimal Hours.
 </span><span class="kw">pub fn </span>civil_time_to_decimal_hours(hours: f64, minutes: f64, seconds: f64) -&gt; f64 {
-    <span class="kw">return </span>macros::hms_dh(hours, minutes, seconds <span class="kw">as </span>f64);
+    <span class="kw">return </span>pa_m::hms_dh(hours, minutes, seconds <span class="kw">as </span>f64);
 }
 
-<span class="doccomment">/// Convert Decimal Hours to Civil Time
+<span class="doccomment">/// Convert Decimal Hours to Civil Time.
 ///
 /// ## Returns
 ///
 /// hours (u32), minutes (u32), seconds (u32)
 </span><span class="kw">pub fn </span>decimal_hours_to_civil_time(decimal_hours: f64) -&gt; (f64, f64, f64) {
-    <span class="kw">let </span>hours = macros::dh_hour(decimal_hours);
-    <span class="kw">let </span>minutes = macros::dh_min(decimal_hours);
-    <span class="kw">let </span>seconds = macros::dh_sec(decimal_hours);
+    <span class="kw">let </span>hours = pa_m::dh_hour(decimal_hours);
+    <span class="kw">let </span>minutes = pa_m::dh_min(decimal_hours);
+    <span class="kw">let </span>seconds = pa_m::dh_sec(decimal_hours);
 
     <span class="kw">return </span>(hours <span class="kw">as </span>f64, minutes <span class="kw">as </span>f64, seconds <span class="kw">as </span>f64);
 }
 
-<span class="doccomment">/// Convert local Civil Time to Universal Time
+<span class="doccomment">/// Convert local Civil Time to Universal Time.
 ///
 /// ## Returns
 ///
@@ -369,25 +369,25 @@
     <span class="kw">let </span>ut_interim = lct - daylight_savings_offset <span class="kw">as </span>f64 - zone_correction <span class="kw">as </span>f64;
     <span class="kw">let </span>gday_interim = local_day <span class="kw">as </span>f64 + (ut_interim / <span class="number">24.0</span>);
 
-    <span class="kw">let </span>jd = macros::cd_jd(gday_interim, local_month, local_year);
+    <span class="kw">let </span>jd = pa_m::cd_jd(gday_interim, local_month, local_year);
 
-    <span class="kw">let </span>g_day = macros::jdc_day(jd) <span class="kw">as </span>f64;
-    <span class="kw">let </span>g_month = macros::jdc_month(jd);
-    <span class="kw">let </span>g_year = macros::jdc_year(jd);
+    <span class="kw">let </span>g_day = pa_m::jdc_day(jd) <span class="kw">as </span>f64;
+    <span class="kw">let </span>g_month = pa_m::jdc_month(jd);
+    <span class="kw">let </span>g_year = pa_m::jdc_year(jd);
 
     <span class="kw">let </span>ut = <span class="number">24.0 </span>* (g_day - g_day.floor());
 
     <span class="kw">return </span>(
-        macros::dh_hour(ut),
-        macros::dh_min(ut),
-        macros::dh_sec(ut) <span class="kw">as </span>u32,
+        pa_m::dh_hour(ut),
+        pa_m::dh_min(ut),
+        pa_m::dh_sec(ut) <span class="kw">as </span>u32,
         g_day.floor() <span class="kw">as </span>u32,
         g_month,
         g_year,
     );
 }
 
-<span class="doccomment">/// Convert Universal Time to local Civil Time
+<span class="doccomment">/// Convert Universal Time to local Civil Time.
 ///
 /// ## Returns
 ///
@@ -403,29 +403,29 @@
     gw_year: u32,
 ) -&gt; (u32, u32, u32, u32, u32, u32) {
     <span class="kw">let </span>dst_value = <span class="kw">if </span>is_daylight_savings == <span class="bool-val">true </span>{ <span class="number">1 </span>} <span class="kw">else </span>{ <span class="number">0 </span>};
-    <span class="kw">let </span>ut = macros::hms_dh(ut_hours, ut_minutes, ut_seconds);
+    <span class="kw">let </span>ut = pa_m::hms_dh(ut_hours, ut_minutes, ut_seconds);
     <span class="kw">let </span>zone_time = ut + zone_correction <span class="kw">as </span>f64;
     <span class="kw">let </span>local_time = zone_time + dst_value <span class="kw">as </span>f64;
     <span class="kw">let </span>local_jd_plus_local_time =
-        macros::cd_jd(gw_day <span class="kw">as </span>f64, gw_month, gw_year) + (local_time / <span class="number">24.0</span>);
-    <span class="kw">let </span>local_day = macros::jdc_day(local_jd_plus_local_time) <span class="kw">as </span>f64;
+        pa_m::cd_jd(gw_day <span class="kw">as </span>f64, gw_month, gw_year) + (local_time / <span class="number">24.0</span>);
+    <span class="kw">let </span>local_day = pa_m::jdc_day(local_jd_plus_local_time) <span class="kw">as </span>f64;
     <span class="kw">let </span>integer_day = local_day.floor();
-    <span class="kw">let </span>local_month = macros::jdc_month(local_jd_plus_local_time);
-    <span class="kw">let </span>local_year = macros::jdc_year(local_jd_plus_local_time);
+    <span class="kw">let </span>local_month = pa_m::jdc_month(local_jd_plus_local_time);
+    <span class="kw">let </span>local_year = pa_m::jdc_year(local_jd_plus_local_time);
 
     <span class="kw">let </span>lct = <span class="number">24.0 </span>* (local_day - integer_day <span class="kw">as </span>f64);
 
     <span class="kw">return </span>(
-        macros::dh_hour(lct),
-        macros::dh_min(lct),
-        macros::dh_sec(lct) <span class="kw">as </span>u32,
+        pa_m::dh_hour(lct),
+        pa_m::dh_min(lct),
+        pa_m::dh_sec(lct) <span class="kw">as </span>u32,
         integer_day <span class="kw">as </span>u32,
         local_month,
         local_year,
     );
 }
 
-<span class="doccomment">/// Convert Universal Time to Greenwich Sidereal Time
+<span class="doccomment">/// Convert Universal Time to Greenwich Sidereal Time.
 ///
 /// ## Returns
 /// GST hours, GST minutes, GST seconds
@@ -437,24 +437,24 @@
     gw_month: u32,
     gw_year: u32,
 ) -&gt; (u32, u32, f64) {
-    <span class="kw">let </span>jd = macros::cd_jd(gw_day <span class="kw">as </span>f64, gw_month, gw_year);
+    <span class="kw">let </span>jd = pa_m::cd_jd(gw_day <span class="kw">as </span>f64, gw_month, gw_year);
     <span class="kw">let </span>s = jd - <span class="number">2451545.0</span>;
     <span class="kw">let </span>t = s / <span class="number">36525.0</span>;
     <span class="kw">let </span>t01 = <span class="number">6.697374558 </span>+ (<span class="number">2400.051336 </span>* t) + (<span class="number">0.000025862 </span>* t * t);
     <span class="kw">let </span>t02 = t01 - (<span class="number">24.0 </span>* (t01 / <span class="number">24.0</span>).floor());
-    <span class="kw">let </span>ut = macros::hms_dh(ut_hours, ut_minutes, ut_seconds);
+    <span class="kw">let </span>ut = pa_m::hms_dh(ut_hours, ut_minutes, ut_seconds);
     <span class="kw">let </span>a = ut * <span class="number">1.002737909</span>;
     <span class="kw">let </span>gst1 = t02 + a;
     <span class="kw">let </span>gst2 = gst1 - (<span class="number">24.0 </span>* (gst1 / <span class="number">24.0</span>).floor());
 
-    <span class="kw">let </span>gst_hours = macros::dh_hour(gst2);
-    <span class="kw">let </span>gst_minutes = macros::dh_min(gst2);
-    <span class="kw">let </span>gst_seconds = macros::dh_sec(gst2);
+    <span class="kw">let </span>gst_hours = pa_m::dh_hour(gst2);
+    <span class="kw">let </span>gst_minutes = pa_m::dh_min(gst2);
+    <span class="kw">let </span>gst_seconds = pa_m::dh_sec(gst2);
 
     <span class="kw">return </span>(gst_hours, gst_minutes, gst_seconds);
 }
 
-<span class="doccomment">/// Convert Greenwich Sidereal Time to Universal Time
+<span class="doccomment">/// Convert Greenwich Sidereal Time to Universal Time.
 ///
 /// ## Returns
 /// UT hours, UT minutes, UT seconds, Warning Flag
@@ -466,26 +466,26 @@
     gw_month: u32,
     gw_year: u32,
 ) -&gt; (u32, u32, f64, String) {
-    <span class="kw">let </span>jd = macros::cd_jd(gw_day, gw_month, gw_year);
+    <span class="kw">let </span>jd = pa_m::cd_jd(gw_day, gw_month, gw_year);
     <span class="kw">let </span>s = jd - <span class="number">2451545.0</span>;
     <span class="kw">let </span>t = s / <span class="number">36525.0</span>;
     <span class="kw">let </span>t01 = <span class="number">6.697374558 </span>+ (<span class="number">2400.051336 </span>* t) + (<span class="number">0.000025862 </span>* t * t);
     <span class="kw">let </span>t02 = t01 - (<span class="number">24.0 </span>* (t01 / <span class="number">24.0</span>).floor());
-    <span class="kw">let </span>gst_hours1 = macros::hms_dh(gst_hours, gst_minutes, gst_seconds);
+    <span class="kw">let </span>gst_hours1 = pa_m::hms_dh(gst_hours, gst_minutes, gst_seconds);
 
     <span class="kw">let </span>a = gst_hours1 - t02;
     <span class="kw">let </span>b = a - (<span class="number">24.0 </span>* (a / <span class="number">24.0</span>).floor());
     <span class="kw">let </span>ut = b * <span class="number">0.9972695663</span>;
-    <span class="kw">let </span>ut_hours = macros::dh_hour(ut);
-    <span class="kw">let </span>ut_minutes = macros::dh_min(ut);
-    <span class="kw">let </span>ut_seconds = macros::dh_sec(ut);
+    <span class="kw">let </span>ut_hours = pa_m::dh_hour(ut);
+    <span class="kw">let </span>ut_minutes = pa_m::dh_min(ut);
+    <span class="kw">let </span>ut_seconds = pa_m::dh_sec(ut);
 
     <span class="kw">let </span>warning_flag = <span class="kw">if </span>ut &lt; <span class="number">0.065574 </span>{ <span class="string">&quot;Warning&quot; </span>} <span class="kw">else </span>{ <span class="string">&quot;OK&quot; </span>};
 
     <span class="kw">return </span>(ut_hours, ut_minutes, ut_seconds, warning_flag.to_string());
 }
 
-<span class="doccomment">/// Convert Greenwich Sidereal Time to Local Sidereal Time
+<span class="doccomment">/// Convert Greenwich Sidereal Time to Local Sidereal Time.
 ///
 /// ## Returns
 /// LST hours, LST minutes, LST seconds
@@ -495,19 +495,19 @@
     gst_seconds: f64,
     geographical_longitude: f64,
 ) -&gt; (u32, u32, f64) {
-    <span class="kw">let </span>gst = macros::hms_dh(gst_hour, gst_minutes, gst_seconds);
+    <span class="kw">let </span>gst = pa_m::hms_dh(gst_hour, gst_minutes, gst_seconds);
     <span class="kw">let </span>offset = geographical_longitude / <span class="number">15.0</span>;
     <span class="kw">let </span>lst_hours1 = gst + offset;
     <span class="kw">let </span>lst_hours2 = lst_hours1 - (<span class="number">24.0 </span>* (lst_hours1 / <span class="number">24.0</span>).floor());
 
-    <span class="kw">let </span>lst_hours = macros::dh_hour(lst_hours2);
-    <span class="kw">let </span>lst_minutes = macros::dh_min(lst_hours2);
-    <span class="kw">let </span>lst_seconds = macros::dh_sec(lst_hours2);
+    <span class="kw">let </span>lst_hours = pa_m::dh_hour(lst_hours2);
+    <span class="kw">let </span>lst_minutes = pa_m::dh_min(lst_hours2);
+    <span class="kw">let </span>lst_seconds = pa_m::dh_sec(lst_hours2);
 
     <span class="kw">return </span>(lst_hours, lst_minutes, lst_seconds);
 }
 
-<span class="doccomment">/// Convert Local Sidereal Time to Greenwich Sidereal Time
+<span class="doccomment">/// Convert Local Sidereal Time to Greenwich Sidereal Time.
 ///
 /// ## Returns
 /// GST hours, GST minutes, GST seconds
@@ -517,14 +517,14 @@
     lst_seconds: f64,
     geographical_longitude: f64,
 ) -&gt; (u32, u32, f64) {
-    <span class="kw">let </span>gst = macros::hms_dh(lst_hours, lst_minutes, lst_seconds);
+    <span class="kw">let </span>gst = pa_m::hms_dh(lst_hours, lst_minutes, lst_seconds);
     <span class="kw">let </span>long_hours = geographical_longitude / <span class="number">15.0</span>;
     <span class="kw">let </span>gst1 = gst - long_hours;
     <span class="kw">let </span>gst2 = gst1 - (<span class="number">24.0 </span>* (gst1 / <span class="number">24.0</span>).floor());
 
-    <span class="kw">let </span>gst_hours = macros::dh_hour(gst2);
-    <span class="kw">let </span>gst_minutes = macros::dh_min(gst2);
-    <span class="kw">let </span>gst_seconds = macros::dh_sec(gst2);
+    <span class="kw">let </span>gst_hours = pa_m::dh_hour(gst2);
+    <span class="kw">let </span>gst_minutes = pa_m::dh_min(gst2);
+    <span class="kw">let </span>gst_seconds = pa_m::dh_sec(gst2);
 
     <span class="kw">return </span>(gst_hours, gst_minutes, gst_seconds);
 }

@@ -321,9 +321,9 @@
 <span id="321">321</span>
 <span id="322">322</span>
 <span id="323">323</span>
-</pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::cometdata;
-<span class="kw">use </span><span class="kw">crate</span>::macros;
-<span class="kw">use </span><span class="kw">crate</span>::util;
+</pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::cometdata <span class="kw">as </span>pa_c;
+<span class="kw">use </span><span class="kw">crate</span>::macros <span class="kw">as </span>pa_m;
+<span class="kw">use </span><span class="kw">crate</span>::util <span class="kw">as </span>pa_u;
 
 <span class="doccomment">/// Calculate position of an elliptical comet.
 ///
@@ -336,7 +336,7 @@
 /// * `local_date_day` -- Local date, day part.
 /// * `local_date_month` -- Local date, month part.
 /// * `local_date_year` -- Local date, year part.
-/// * `comet_name` -- Name of comet, e.g., &quot;Halley&quot;
+/// * `comet_name` -- Name of comet, e.g., &quot;Halley&quot;.
 ///
 /// ## Returns
 /// * `comet_ra_hour` -- Right ascension of comet (hour part)
@@ -357,7 +357,7 @@
 ) -&gt; (f64, f64, f64, f64, f64) {
     <span class="kw">let </span>daylight_saving = <span class="kw">if </span>is_daylight_saving == <span class="bool-val">true </span>{ <span class="number">1 </span>} <span class="kw">else </span>{ <span class="number">0 </span>};
 
-    <span class="kw">let </span>greenwich_date_day = macros::lct_gday(
+    <span class="kw">let </span>greenwich_date_day = pa_m::lct_gday(
         lct_hour,
         lct_min,
         lct_sec,
@@ -367,7 +367,7 @@
         local_date_month,
         local_date_year,
     );
-    <span class="kw">let </span>greenwich_date_month = macros::lct_gmonth(
+    <span class="kw">let </span>greenwich_date_month = pa_m::lct_gmonth(
         lct_hour,
         lct_min,
         lct_sec,
@@ -377,7 +377,7 @@
         local_date_month,
         local_date_year,
     );
-    <span class="kw">let </span>greenwich_date_year = macros::lct_gyear(
+    <span class="kw">let </span>greenwich_date_year = pa_m::lct_gyear(
         lct_hour,
         lct_min,
         lct_sec,
@@ -388,20 +388,20 @@
         local_date_year,
     );
 
-    <span class="kw">let </span>(comet_info, _comet_info_status) = cometdata::get_comet_info_elliptical_vector(comet_name);
+    <span class="kw">let </span>(comet_info, _comet_info_status) = pa_c::get_comet_info_elliptical_vector(comet_name);
 
-    <span class="kw">let </span>time_since_epoch_years = (macros::cd_jd(
+    <span class="kw">let </span>time_since_epoch_years = (pa_m::cd_jd(
         greenwich_date_day,
         greenwich_date_month,
         greenwich_date_year,
-    ) - macros::cd_jd(<span class="number">0.0</span>, <span class="number">1</span>, greenwich_date_year))
+    ) - pa_m::cd_jd(<span class="number">0.0</span>, <span class="number">1</span>, greenwich_date_year))
         / <span class="number">365.242191
         </span>+ greenwich_date_year <span class="kw">as </span>f64
         - comet_info.epoch;
     <span class="kw">let </span>mc_deg = <span class="number">360.0 </span>* time_since_epoch_years / comet_info.period;
     <span class="kw">let </span>mc_rad = (mc_deg - <span class="number">360.0 </span>* (mc_deg / <span class="number">360.0</span>).floor()).to_radians();
     <span class="kw">let </span>eccentricity = comet_info.ecc;
-    <span class="kw">let </span>true_anomaly_deg = macros::degrees(macros::true_anomaly(mc_rad, eccentricity));
+    <span class="kw">let </span>true_anomaly_deg = pa_m::degrees(pa_m::true_anomaly(mc_rad, eccentricity));
     <span class="kw">let </span>lc_deg = true_anomaly_deg + comet_info.peri;
     <span class="kw">let </span>r_au = comet_info.axis * (<span class="number">1.0 </span>- eccentricity * eccentricity)
         / (<span class="number">1.0 </span>+ eccentricity * ((true_anomaly_deg).to_radians()).cos());
@@ -411,10 +411,10 @@
     <span class="kw">let </span>y = (lc_node_rad).sin() * ((comet_info.incl).to_radians()).cos();
     <span class="kw">let </span>x = (lc_node_rad).cos();
 
-    <span class="kw">let </span>ld_deg = macros::degrees(y.atan2(x)) + comet_info.node;
+    <span class="kw">let </span>ld_deg = pa_m::degrees(y.atan2(x)) + comet_info.node;
     <span class="kw">let </span>rd_au = r_au * (psi_rad).cos();
 
-    <span class="kw">let </span>earth_longitude_le_deg = macros::sun_long(
+    <span class="kw">let </span>earth_longitude_le_deg = pa_m::sun_long(
         lct_hour,
         lct_min,
         lct_sec,
@@ -424,7 +424,7 @@
         local_date_month,
         local_date_year,
     ) + <span class="number">180.0</span>;
-    <span class="kw">let </span>earth_radius_vector_au = macros::sun_dist(
+    <span class="kw">let </span>earth_radius_vector_au = pa_m::sun_dist(
         lct_hour,
         lct_min,
         lct_sec,
@@ -444,17 +444,17 @@
     };
 
     <span class="kw">let </span>comet_long_deg1 = <span class="kw">if </span>rd_au &lt; earth_radius_vector_au {
-        <span class="number">180.0 </span>+ earth_longitude_le_deg + macros::degrees(a_rad)
+        <span class="number">180.0 </span>+ earth_longitude_le_deg + pa_m::degrees(a_rad)
     } <span class="kw">else </span>{
-        macros::degrees(a_rad) + ld_deg
+        pa_m::degrees(a_rad) + ld_deg
     };
     <span class="kw">let </span>comet_long_deg = comet_long_deg1 - <span class="number">360.0 </span>* (comet_long_deg1 / <span class="number">360.0</span>).floor();
-    <span class="kw">let </span>comet_lat_deg = macros::degrees(
+    <span class="kw">let </span>comet_lat_deg = pa_m::degrees(
         (rd_au * (psi_rad).tan() * ((comet_long_deg1 - ld_deg).to_radians()).sin()
             / (earth_radius_vector_au * (-le_ld_rad).sin()))
         .atan(),
     );
-    <span class="kw">let </span>comet_ra_hours1 = macros::dd_dh(macros::ec_ra(
+    <span class="kw">let </span>comet_ra_hours1 = pa_m::dd_dh(pa_m::ec_ra(
         comet_long_deg,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -465,7 +465,7 @@
         greenwich_date_month,
         greenwich_date_year,
     ));
-    <span class="kw">let </span>comet_dec_deg1 = macros::ec_dec(
+    <span class="kw">let </span>comet_dec_deg1 = pa_m::ec_dec(
         comet_long_deg,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -484,11 +484,11 @@
             * (psi_rad).cos())
     .sqrt();
 
-    <span class="kw">let </span>comet_ra_hour = macros::dh_hour(comet_ra_hours1 + <span class="number">0.008333</span>);
-    <span class="kw">let </span>comet_ra_min = macros::dh_min(comet_ra_hours1 + <span class="number">0.008333</span>);
-    <span class="kw">let </span>comet_dec_deg = macros::dd_deg(comet_dec_deg1 + <span class="number">0.008333</span>);
-    <span class="kw">let </span>comet_dec_min = macros::dd_min(comet_dec_deg1 + <span class="number">0.008333</span>);
-    <span class="kw">let </span>comet_dist_earth = util::round_f64(comet_distance_au, <span class="number">2</span>);
+    <span class="kw">let </span>comet_ra_hour = pa_m::dh_hour(comet_ra_hours1 + <span class="number">0.008333</span>);
+    <span class="kw">let </span>comet_ra_min = pa_m::dh_min(comet_ra_hours1 + <span class="number">0.008333</span>);
+    <span class="kw">let </span>comet_dec_deg = pa_m::dd_deg(comet_dec_deg1 + <span class="number">0.008333</span>);
+    <span class="kw">let </span>comet_dec_min = pa_m::dd_min(comet_dec_deg1 + <span class="number">0.008333</span>);
+    <span class="kw">let </span>comet_dist_earth = pa_u::round_f64(comet_distance_au, <span class="number">2</span>);
 
     <span class="kw">return </span>(
         comet_ra_hour <span class="kw">as </span>f64,
@@ -510,7 +510,7 @@
 /// * `local_date_day` -- Local date, day part.
 /// * `local_date_month` -- Local date, month part.
 /// * `local_date_year` -- Local date, year part.
-/// * `comet_name` -- Name of comet, e.g., &quot;Kohler&quot;
+/// * `comet_name` -- Name of comet, e.g., &quot;Kohler&quot;.
 ///
 /// ## Returns
 /// * `comet_ra_hour` -- Right ascension of comet (hour part)
@@ -533,7 +533,7 @@
 ) -&gt; (f64, f64, f64, f64, f64, f64, f64) {
     <span class="kw">let </span>daylight_saving = <span class="kw">if </span>is_daylight_saving == <span class="bool-val">true </span>{ <span class="number">1 </span>} <span class="kw">else </span>{ <span class="number">0 </span>};
 
-    <span class="kw">let </span>greenwich_date_day = macros::lct_gday(
+    <span class="kw">let </span>greenwich_date_day = pa_m::lct_gday(
         lct_hour,
         lct_min,
         lct_sec,
@@ -543,7 +543,7 @@
         local_date_month,
         local_date_year,
     );
-    <span class="kw">let </span>greenwich_date_month = macros::lct_gmonth(
+    <span class="kw">let </span>greenwich_date_month = pa_m::lct_gmonth(
         lct_hour,
         lct_min,
         lct_sec,
@@ -553,18 +553,7 @@
         local_date_month,
         local_date_year,
     );
-    <span class="kw">let </span>greenwich_date_year = macros::lct_gyear(
-        lct_hour,
-        lct_min,
-        lct_sec,
-        daylight_saving,
-        zone_correction_hours,
-        local_date_day,
-        local_date_month,
-        local_date_year,
-    );
-
-    <span class="kw">let </span>_ut_hours = macros::lct_ut(
+    <span class="kw">let </span>greenwich_date_year = pa_m::lct_gyear(
         lct_hour,
         lct_min,
         lct_sec,
@@ -575,7 +564,18 @@
         local_date_year,
     );
 
-    <span class="kw">let </span>(comet_info, _comet_info_status) = cometdata::get_comet_info_parabolic_vector(comet_name);
+    <span class="kw">let </span>_ut_hours = pa_m::lct_ut(
+        lct_hour,
+        lct_min,
+        lct_sec,
+        daylight_saving,
+        zone_correction_hours,
+        local_date_day,
+        local_date_month,
+        local_date_year,
+    );
+
+    <span class="kw">let </span>(comet_info, _comet_info_status) = pa_c::get_comet_info_parabolic_vector(comet_name);
 
     <span class="kw">let </span>perihelion_epoch_day = comet_info.epoch_peri_day;
     <span class="kw">let </span>perihelion_epoch_month = comet_info.epoch_peri_month;
@@ -585,7 +585,7 @@
     <span class="kw">let </span>perihelion_deg = comet_info.arg_peri;
     <span class="kw">let </span>node_deg = comet_info.node;
 
-    <span class="kw">let </span>(comet_long_deg, comet_lat_deg, comet_dist_au) = macros::p_comet_long_lat_dist(
+    <span class="kw">let </span>(comet_long_deg, comet_lat_deg, comet_dist_au) = pa_m::p_comet_long_lat_dist(
         lct_hour,
         lct_min,
         lct_sec,
@@ -603,7 +603,7 @@
         node_deg,
     );
 
-    <span class="kw">let </span>comet_ra_hours = macros::dd_dh(macros::ec_ra(
+    <span class="kw">let </span>comet_ra_hours = pa_m::dd_dh(pa_m::ec_ra(
         comet_long_deg,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -614,7 +614,7 @@
         greenwich_date_month,
         greenwich_date_year,
     ));
-    <span class="kw">let </span>comet_dec_deg1 = macros::ec_dec(
+    <span class="kw">let </span>comet_dec_deg1 = pa_m::ec_dec(
         comet_long_deg,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -626,13 +626,13 @@
         greenwich_date_year,
     );
 
-    <span class="kw">let </span>comet_ra_hour = macros::dh_hour(comet_ra_hours);
-    <span class="kw">let </span>comet_ra_min = macros::dh_min(comet_ra_hours);
-    <span class="kw">let </span>comet_ra_sec = macros::dh_sec(comet_ra_hours);
-    <span class="kw">let </span>comet_dec_deg = macros::dd_deg(comet_dec_deg1);
-    <span class="kw">let </span>comet_dec_min = macros::dd_min(comet_dec_deg1);
-    <span class="kw">let </span>comet_dec_sec = macros::dd_sec(comet_dec_deg1);
-    <span class="kw">let </span>comet_dist_earth = util::round_f64(comet_dist_au, <span class="number">2</span>);
+    <span class="kw">let </span>comet_ra_hour = pa_m::dh_hour(comet_ra_hours);
+    <span class="kw">let </span>comet_ra_min = pa_m::dh_min(comet_ra_hours);
+    <span class="kw">let </span>comet_ra_sec = pa_m::dh_sec(comet_ra_hours);
+    <span class="kw">let </span>comet_dec_deg = pa_m::dd_deg(comet_dec_deg1);
+    <span class="kw">let </span>comet_dec_min = pa_m::dd_min(comet_dec_deg1);
+    <span class="kw">let </span>comet_dec_sec = pa_m::dd_sec(comet_dec_deg1);
+    <span class="kw">let </span>comet_dist_earth = pa_u::round_f64(comet_dist_au, <span class="number">2</span>);
 
     <span class="kw">return </span>(
         comet_ra_hour <span class="kw">as </span>f64,

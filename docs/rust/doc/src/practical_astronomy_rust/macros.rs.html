@@ -7028,11 +7028,10 @@
 <span id="7028">7028</span>
 <span id="7029">7029</span>
 <span id="7030">7030</span>
-<span id="7031">7031</span>
-</pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::types <span class="kw">as </span>pa_types;
-<span class="kw">use </span><span class="kw">crate</span>::util <span class="kw">as </span>utils;
+</pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::types <span class="kw">as </span>pa_t;
+<span class="kw">use </span><span class="kw">crate</span>::util <span class="kw">as </span>pa_u;
 
-<span class="doccomment">/// Convert a Civil Time (hours,minutes,seconds) to Decimal Hours
+<span class="doccomment">/// Convert a Civil Time (hours,minutes,seconds) to Decimal Hours.
 ///
 /// Original macro name: HMSDH
 </span><span class="kw">pub fn </span>hms_dh(hours: f64, minutes: f64, seconds: f64) -&gt; f64 {
@@ -7051,13 +7050,13 @@
     };
 }
 
-<span class="doccomment">/// Return the hour part of a Decimal Hours
+<span class="doccomment">/// Return the hour part of a Decimal Hours.
 ///
 /// Original macro name: DHHour
 </span><span class="kw">pub fn </span>dh_hour(decimal_hours: f64) -&gt; u32 {
     <span class="kw">let </span>a = decimal_hours.abs();
     <span class="kw">let </span>b = a * <span class="number">3600.0</span>;
-    <span class="kw">let </span>c = utils::round_f64(b - <span class="number">60.0 </span>* (b / <span class="number">60.0</span>).floor(), <span class="number">2</span>);
+    <span class="kw">let </span>c = pa_u::round_f64(b - <span class="number">60.0 </span>* (b / <span class="number">60.0</span>).floor(), <span class="number">2</span>);
     <span class="comment">// let d = if c == 60.0 { 0.0 } else { c };
     </span><span class="kw">let </span>e = <span class="kw">if </span>c == <span class="number">60.0 </span>{ b + <span class="number">60.0 </span>} <span class="kw">else </span>{ b };
 
@@ -7068,31 +7067,31 @@
     };
 }
 
-<span class="doccomment">/// Return the minutes part of a Decimal Hours
+<span class="doccomment">/// Return the minutes part of a Decimal Hours.
 ///
 /// Original macro name: DHMin
 </span><span class="kw">pub fn </span>dh_min(decimal_hours: f64) -&gt; u32 {
     <span class="kw">let </span>a = decimal_hours.abs();
     <span class="kw">let </span>b = a * <span class="number">3600.0</span>;
-    <span class="kw">let </span>c = utils::round_f64(b - <span class="number">60.0 </span>* (b / <span class="number">60.0</span>).floor(), <span class="number">2</span>);
+    <span class="kw">let </span>c = pa_u::round_f64(b - <span class="number">60.0 </span>* (b / <span class="number">60.0</span>).floor(), <span class="number">2</span>);
     <span class="kw">let </span>e = <span class="kw">if </span>c == <span class="number">60.0 </span>{ b + <span class="number">60.0 </span>} <span class="kw">else </span>{ b };
 
     <span class="kw">return </span>((e / <span class="number">60.0</span>).floor() % <span class="number">60.0</span>) <span class="kw">as </span>u32;
 }
 
-<span class="doccomment">/// Return the seconds part of a Decimal Hours
+<span class="doccomment">/// Return the seconds part of a Decimal Hours.
 ///
 /// Original macro name: DHSec
 </span><span class="kw">pub fn </span>dh_sec(decimal_hours: f64) -&gt; f64 {
     <span class="kw">let </span>a = decimal_hours.abs();
     <span class="kw">let </span>b = a * <span class="number">3600.0</span>;
-    <span class="kw">let </span>c = utils::round_f64(b - <span class="number">60.0 </span>* (b / <span class="number">60.0</span>).floor(), <span class="number">2</span>);
+    <span class="kw">let </span>c = pa_u::round_f64(b - <span class="number">60.0 </span>* (b / <span class="number">60.0</span>).floor(), <span class="number">2</span>);
     <span class="kw">let </span>d = <span class="kw">if </span>c == <span class="number">60.0 </span>{ <span class="number">0.0 </span>} <span class="kw">else </span>{ c };
 
     <span class="kw">return </span>d;
 }
 
-<span class="doccomment">/// Convert a Greenwich Date/Civil Date (day,month,year) to Julian Date
+<span class="doccomment">/// Convert a Greenwich Date/Civil Date (day,month,year) to Julian Date.
 ///
 /// Original macro name: CDJD
 </span><span class="kw">pub fn </span>cd_jd(day: f64, month: u32, year: u32) -&gt; f64 {
@@ -7137,7 +7136,7 @@
     <span class="kw">return </span>b + c + d + f_day + <span class="number">1720994.5</span>;
 }
 
-<span class="doccomment">/// Returns the day part of a Julian Date
+<span class="doccomment">/// Returns the day part of a Julian Date.
 ///
 /// Original macro name: JDCDay
 </span><span class="kw">pub fn </span>jdc_day(julian_date: f64) -&gt; f64 {
@@ -7157,7 +7156,7 @@
     <span class="kw">return </span>c - e + f - (<span class="number">30.6001 </span>* g).floor();
 }
 
-<span class="doccomment">/// Returns the month part of a Julian Date
+<span class="doccomment">/// Returns the month part of a Julian Date.
 ///
 /// Original macro name: JDCMonth
 </span><span class="kw">pub fn </span>jdc_month(julian_date: f64) -&gt; u32 {
@@ -7179,7 +7178,7 @@
     <span class="kw">return </span>return_value <span class="kw">as </span>u32;
 }
 
-<span class="doccomment">/// Returns the year part of a Julian Date
+<span class="doccomment">/// Returns the year part of a Julian Date.
 ///
 /// Original macro name: JDCYear
 </span><span class="kw">pub fn </span>jdc_year(julian_date: f64) -&gt; u32 {
@@ -7202,7 +7201,7 @@
     <span class="kw">return </span>return_value <span class="kw">as </span>u32;
 }
 
-<span class="doccomment">/// Convert a Julian Date to Day-of-Week (e.g., Sunday)
+<span class="doccomment">/// Convert a Julian Date to Day-of-Week (e.g., Sunday).
 ///
 /// Original macro name: FDOW
 </span><span class="kw">pub fn </span>f_dow(julian_date: f64) -&gt; String {
@@ -7224,7 +7223,7 @@
     <span class="kw">return </span>return_value.to_string();
 }
 
-<span class="doccomment">/// Convert Right Ascension to Hour Angle
+<span class="doccomment">/// Convert Right Ascension to Hour Angle.
 ///
 /// Original macro name: RAHA
 </span><span class="kw">pub fn </span>ra_ha(
@@ -7289,7 +7288,7 @@
     <span class="kw">return if </span>h &lt; <span class="number">0.0 </span>{ <span class="number">24.0 </span>+ h } <span class="kw">else </span>{ h };
 }
 
-<span class="doccomment">/// Convert Hour Angle to Right Ascension
+<span class="doccomment">/// Convert Hour Angle to Right Ascension.
 ///
 /// Original macro name: HARA
 </span><span class="kw">pub fn </span>ha_ra(
@@ -7354,7 +7353,7 @@
     <span class="kw">return if </span>h &lt; <span class="number">0.0 </span>{ <span class="number">24.0 </span>+ h } <span class="kw">else </span>{ h };
 }
 
-<span class="doccomment">/// Convert Local Civil Time to Universal Time
+<span class="doccomment">/// Convert Local Civil Time to Universal Time.
 ///
 /// Original macro name: LctUT
 </span><span class="kw">pub fn </span>lct_ut(
@@ -7377,7 +7376,7 @@
     <span class="kw">return </span><span class="number">24.0 </span>* (e - e1);
 }
 
-<span class="doccomment">/// Convert Universal Time to Local Civil Time
+<span class="doccomment">/// Convert Universal Time to Local Civil Time.
 ///
 /// Original macro name: UTLct
 </span><span class="kw">pub fn </span>ut_lct(
@@ -7400,7 +7399,7 @@
     <span class="kw">return </span><span class="number">24.0 </span>* (e - e1);
 }
 
-<span class="doccomment">/// Get Local Civil Day for Universal Time
+<span class="doccomment">/// Get Local Civil Day for Universal Time.
 ///
 /// Original macro name: UTLcDay
 </span><span class="kw">pub fn </span>ut_lc_day(
@@ -7423,7 +7422,7 @@
     <span class="kw">return </span>e1;
 }
 
-<span class="doccomment">/// Get Local Civil Month for Universal Time
+<span class="doccomment">/// Get Local Civil Month for Universal Time.
 ///
 /// Original macro name: UTLcMonth
 </span><span class="kw">pub fn </span>ut_lc_month(
@@ -7444,7 +7443,7 @@
     <span class="kw">return </span>jdc_month(d);
 }
 
-<span class="doccomment">/// Get Local Civil Year for Universal Time
+<span class="doccomment">/// Get Local Civil Year for Universal Time.
 ///
 /// Original macro name: UTLcYear
 </span><span class="kw">pub fn </span>ut_lc_year(
@@ -7465,7 +7464,7 @@
     <span class="kw">return </span>jdc_year(d);
 }
 
-<span class="doccomment">/// Determine Greenwich Day for Local Time
+<span class="doccomment">/// Determine Greenwich Day for Local Time.
 ///
 /// Original macro name: LctGDay
 </span><span class="kw">pub fn </span>lct_gday(
@@ -7487,7 +7486,7 @@
     <span class="kw">return </span>e.floor();
 }
 
-<span class="doccomment">/// Determine Greenwich Month for Local Time
+<span class="doccomment">/// Determine Greenwich Month for Local Time.
 ///
 /// Original macro name: LctGMonth
 </span><span class="kw">pub fn </span>lct_gmonth(
@@ -7508,7 +7507,7 @@
     <span class="kw">return </span>jdc_month(d);
 }
 
-<span class="doccomment">/// Determine Greenwich Year for Local Time
+<span class="doccomment">/// Determine Greenwich Year for Local Time.
 ///
 /// Original macro name: LctGYear
 </span><span class="kw">pub fn </span>lct_gyear(
@@ -7529,7 +7528,7 @@
     <span class="kw">return </span>jdc_year(d);
 }
 
-<span class="doccomment">/// Convert Universal Time to Greenwich Sidereal Time
+<span class="doccomment">/// Convert Universal Time to Greenwich Sidereal Time.
 ///
 /// Original macro name: UTGST
 </span><span class="kw">pub fn </span>ut_gst(
@@ -7551,7 +7550,7 @@
     <span class="kw">return </span>h - (<span class="number">24.0 </span>* (h / <span class="number">24.0</span>).floor());
 }
 
-<span class="doccomment">/// Convert Greenwich Sidereal Time to Local Sidereal Time
+<span class="doccomment">/// Convert Greenwich Sidereal Time to Local Sidereal Time.
 ///
 /// Original macro name: GSTLST
 </span><span class="kw">pub fn </span>gst_lst(
@@ -7567,7 +7566,7 @@
     <span class="kw">return </span>c - (<span class="number">24.0 </span>* (c / <span class="number">24.0</span>).floor());
 }
 
-<span class="doccomment">/// Convert Equatorial Coordinates to Azimuth (in decimal degrees)
+<span class="doccomment">/// Convert Equatorial Coordinates to Azimuth (in decimal degrees).
 ///
 /// Original macro name: EQAz
 </span><span class="kw">pub fn </span>eq_az(
@@ -7597,7 +7596,7 @@
     <span class="kw">return </span>j - <span class="number">360.0 </span>* (j / <span class="number">360.0</span>).floor();
 }
 
-<span class="doccomment">/// Convert Equatorial Coordinates to Altitude (in decimal degrees)
+<span class="doccomment">/// Convert Equatorial Coordinates to Altitude (in decimal degrees).
 ///
 /// Original macro name: EQAlt
 </span><span class="kw">pub fn </span>eq_alt(
@@ -7624,7 +7623,7 @@
     <span class="kw">return </span>degrees(g.asin());
 }
 
-<span class="doccomment">/// Convert Degrees Minutes Seconds to Decimal Degrees
+<span class="doccomment">/// Convert Degrees Minutes Seconds to Decimal Degrees.
 ///
 /// Original macro name: DMSDD
 </span><span class="kw">pub fn </span>dms_dd(degrees: f64, minutes: f64, seconds: f64) -&gt; f64 {
@@ -7639,20 +7638,20 @@
     };
 }
 
-<span class="doccomment">/// Convert W to Degrees
+<span class="doccomment">/// Convert W to Degrees.
 ///
 /// Original macro name: Degrees
 </span><span class="kw">pub fn </span>degrees(w: f64) -&gt; f64 {
     <span class="kw">return </span>w * <span class="number">57.29577951</span>;
 }
 
-<span class="doccomment">/// Return Degrees part of Decimal Degrees
+<span class="doccomment">/// Return Degrees part of Decimal Degrees.
 ///
 /// Original macro name: DDDeg
 </span><span class="kw">pub fn </span>dd_deg(decimal_degrees: f64) -&gt; f64 {
     <span class="kw">let </span>a = decimal_degrees.abs();
     <span class="kw">let </span>b = a * <span class="number">3600.0</span>;
-    <span class="kw">let </span>c = utils::round_f64(b - <span class="number">60.0 </span>* (b / <span class="number">60.0</span>).floor(), <span class="number">2</span>);
+    <span class="kw">let </span>c = pa_u::round_f64(b - <span class="number">60.0 </span>* (b / <span class="number">60.0</span>).floor(), <span class="number">2</span>);
     <span class="kw">let </span>_d = <span class="kw">if </span>c == <span class="number">60.0 </span>{ <span class="number">0.0 </span>} <span class="kw">else </span>{ c };
     <span class="kw">let </span>e = <span class="kw">if </span>c == <span class="number">60.0 </span>{ <span class="number">60.0 </span>} <span class="kw">else </span>{ b };
 
@@ -7663,46 +7662,46 @@
     };
 }
 
-<span class="doccomment">/// Return Minutes part of Decimal Degrees
+<span class="doccomment">/// Return Minutes part of Decimal Degrees.
 ///
 /// Original macro name: DDMin
 </span><span class="kw">pub fn </span>dd_min(decimal_degrees: f64) -&gt; f64 {
     <span class="kw">let </span>a = decimal_degrees.abs();
     <span class="kw">let </span>b = a * <span class="number">3600.0</span>;
-    <span class="kw">let </span>c = utils::round_f64(b - <span class="number">60.0 </span>* (b / <span class="number">60.0</span>).floor(), <span class="number">2</span>);
+    <span class="kw">let </span>c = pa_u::round_f64(b - <span class="number">60.0 </span>* (b / <span class="number">60.0</span>).floor(), <span class="number">2</span>);
     <span class="kw">let </span>_d = <span class="kw">if </span>c == <span class="number">60.0 </span>{ <span class="number">0.0 </span>} <span class="kw">else </span>{ c };
     <span class="kw">let </span>e = <span class="kw">if </span>c == <span class="number">60.0 </span>{ b + <span class="number">60.0 </span>} <span class="kw">else </span>{ b };
 
     <span class="kw">return </span>(e / <span class="number">60.0</span>).floor() % <span class="number">60.0</span>;
 }
 
-<span class="doccomment">/// Return Seconds part of Decimal Degrees
+<span class="doccomment">/// Return Seconds part of Decimal Degrees.
 ///
 /// Original macro name: DDSec
 </span><span class="kw">pub fn </span>dd_sec(decimal_degrees: f64) -&gt; f64 {
     <span class="kw">let </span>a = decimal_degrees.abs();
     <span class="kw">let </span>b = a * <span class="number">3600.0</span>;
-    <span class="kw">let </span>c = utils::round_f64(b - <span class="number">60.0 </span>* (b / <span class="number">60.0</span>).floor(), <span class="number">2</span>);
+    <span class="kw">let </span>c = pa_u::round_f64(b - <span class="number">60.0 </span>* (b / <span class="number">60.0</span>).floor(), <span class="number">2</span>);
     <span class="kw">let </span>d = <span class="kw">if </span>c == <span class="number">60.0 </span>{ <span class="number">0.0 </span>} <span class="kw">else </span>{ c };
 
     <span class="kw">return </span>d;
 }
 
-<span class="doccomment">/// Convert Decimal Degrees to Degree-Hours
+<span class="doccomment">/// Convert Decimal Degrees to Degree-Hours.
 ///
 /// Original macro name: DDDH
 </span><span class="kw">pub fn </span>dd_dh(decimal_degrees: f64) -&gt; f64 {
     <span class="kw">return </span>decimal_degrees / <span class="number">15.0</span>;
 }
 
-<span class="doccomment">/// Convert Degree-Hours to Decimal Degrees
+<span class="doccomment">/// Convert Degree-Hours to Decimal Degrees.
 ///
 /// Original macro name: DHDD
 </span><span class="kw">pub fn </span>dh_dd(degree_hours: f64) -&gt; f64 {
     <span class="kw">return </span>degree_hours * <span class="number">15.0</span>;
 }
 
-<span class="doccomment">/// Convert Horizon Coordinates to Declination (in decimal degrees)
+<span class="doccomment">/// Convert Horizon Coordinates to Declination (in decimal degrees).
 ///
 /// Original macro name: HORDec
 </span><span class="kw">pub fn </span>hor_dec(
@@ -7724,7 +7723,7 @@
     <span class="kw">return </span>degrees(f.asin());
 }
 
-<span class="doccomment">/// Convert Horizon Coordinates to Hour Angle (in decimal degrees)
+<span class="doccomment">/// Convert Horizon Coordinates to Hour Angle (in decimal degrees).
 ///
 /// Original macro name: HORHa
 </span><span class="kw">pub fn </span>hor_ha(
@@ -7800,7 +7799,7 @@
     <span class="kw">return </span>dp / <span class="number">3600.0</span>;
 }
 
-<span class="doccomment">/// Nutation of Obliquity
+<span class="doccomment">/// Nutation of Obliquity.
 ///
 /// Original macro name: NutatObl
 </span><span class="kw">pub fn </span>nutat_obl(greenwich_day: f64, greenwich_month: u32, greenwich_year: u32) -&gt; f64 {
@@ -7849,7 +7848,7 @@
     <span class="kw">return </span>ddo / <span class="number">3600.0</span>;
 }
 
-<span class="doccomment">/// Obliquity of the Ecliptic for a Greenwich Date
+<span class="doccomment">/// Obliquity of the Ecliptic for a Greenwich Date.
 ///
 /// Original macro name: Obliq
 </span><span class="kw">pub fn </span>obliq(greenwich_day: f64, greenwich_month: u32, greenwich_year: u32) -&gt; f64 {
@@ -7862,7 +7861,7 @@
     <span class="kw">return </span><span class="number">23.43929167 </span>- e + nutat_obl(greenwich_day, greenwich_month, greenwich_year);
 }
 
-<span class="doccomment">/// Convert Local Sidereal Time to Greenwich Sidereal Time
+<span class="doccomment">/// Convert Local Sidereal Time to Greenwich Sidereal Time.
 ///
 /// Original macro name: LSTGST
 </span><span class="kw">pub fn </span>lst_gst(local_hours: f64, local_minutes: f64, local_seconds: f64, longitude: f64) -&gt; f64 {
@@ -7872,7 +7871,7 @@
     <span class="kw">return </span>c - (<span class="number">24.0 </span>* (c / <span class="number">24.0</span>).floor());
 }
 
-<span class="doccomment">/// Convert Greenwich Sidereal Time to Universal Time
+<span class="doccomment">/// Convert Greenwich Sidereal Time to Universal Time.
 ///
 /// Original macro name: GSTUT
 </span><span class="kw">pub fn </span>gst_ut(
@@ -7918,7 +7917,7 @@
     };
 }
 
-<span class="doccomment">/// Calculate Sun&#39;s ecliptic longitude
+<span class="doccomment">/// Calculate Sun&#39;s ecliptic longitude.
 ///
 /// Original macro name: SunLong
 </span><span class="kw">pub fn </span>sun_long(lch: f64, lcm: f64, lcs: f64, ds: i32, zc: i32, ld: f64, lm: u32, ly: u32) -&gt; f64 {
@@ -7977,7 +7976,7 @@
     <span class="kw">return </span>degrees(sr);
 }
 
-<span class="doccomment">/// Solve Kepler&#39;s equation, and return value of the true anomaly in radians
+<span class="doccomment">/// Solve Kepler&#39;s equation, and return value of the true anomaly in radians.
 ///
 /// Original macro name: TrueAnomaly
 </span><span class="kw">pub fn </span>true_anomaly(am: f64, ec: f64) -&gt; f64 {
@@ -8000,7 +7999,7 @@
     <span class="kw">return </span>at;
 }
 
-<span class="doccomment">/// Solve Kepler&#39;s equation, and return value of the eccentric anomaly in radians
+<span class="doccomment">/// Solve Kepler&#39;s equation, and return value of the eccentric anomaly in radians.
 ///
 /// Original macro name: EccentricAnomaly
 </span><span class="kw">pub fn </span>eccentric_anomaly(am: f64, ec: f64) -&gt; f64 {
@@ -8022,7 +8021,7 @@
     <span class="kw">return </span>ae;
 }
 
-<span class="doccomment">/// Calculate effects of refraction
+<span class="doccomment">/// Calculate effects of refraction.
 ///
 /// Original macro name: Refract
 </span><span class="kw">pub fn </span>refract(y2: f64, sw: String, pr: f64, tr: f64) -&gt; f64 {
@@ -8068,7 +8067,7 @@
     <span class="kw">return </span>degrees(q + rf);
 }
 
-<span class="doccomment">/// Helper function for refract
+<span class="doccomment">/// Helper function for refract.
 </span><span class="kw">pub fn </span>refract_l3035(pr: f64, tr: f64, y: f64, d: f64) -&gt; f64 {
     <span class="kw">if </span>y &lt; <span class="number">0.2617994 </span>{
         <span class="kw">if </span>y &lt; -<span class="number">0.087 </span>{
@@ -8085,7 +8084,7 @@
     <span class="kw">return </span>-d * <span class="number">0.00007888888 </span>* pr / ((<span class="number">273.0 </span>+ tr) * (y).tan());
 }
 
-<span class="doccomment">/// Calculate corrected hour angle in decimal hours
+<span class="doccomment">/// Calculate corrected hour angle in decimal hours.
 ///
 /// Original macro name: ParallaxHA
 </span><span class="kw">pub fn </span>parallax_ha(
@@ -8161,7 +8160,7 @@
     <span class="kw">return </span>dd_dh(degrees(<span class="number">0.0</span>));
 }
 
-<span class="doccomment">/// Helper function for parallax_ha
+<span class="doccomment">/// Helper function for parallax_ha.
 </span><span class="kw">pub fn </span>parallax_ha_l2870(x: f64, y: f64, rc: f64, rp: f64, rs: f64, tp: f64) -&gt; (f64, f64) {
     <span class="kw">let </span>cx = x.cos();
     <span class="kw">let </span>sy = y.sin();
@@ -8179,10 +8178,9 @@
     <span class="kw">return </span>(p, q);
 }
 
-<span class="doccomment">/// Calculate corrected declination in decimal degrees
+<span class="doccomment">/// Calculate corrected declination in decimal degrees.
 ///
 /// Original macro name: ParallaxDec
-/// HH,HM,HS,DD,DM,DS,SW,GP,HT,HP
 </span><span class="kw">pub fn </span>parallax_dec(
     hh: f64,
     hm: f64,
@@ -8254,7 +8252,7 @@
     <span class="kw">return </span>degrees(<span class="number">0.0</span>);
 }
 
-<span class="doccomment">/// Helper function for parallax_dec
+<span class="doccomment">/// Helper function for parallax_dec.
 </span><span class="kw">pub fn </span>parallax_dec_l2870(x: f64, y: f64, rc: f64, rp: f64, rs: f64, tp: f64) -&gt; (f64, f64) {
     <span class="kw">let </span>cx = x.cos();
     <span class="kw">let </span>sy = y.sin();
@@ -8271,7 +8269,7 @@
     <span class="kw">return </span>(p, q);
 }
 
-<span class="doccomment">/// Calculate Sun&#39;s angular diameter in decimal degrees
+<span class="doccomment">/// Calculate Sun&#39;s angular diameter in decimal degrees.
 ///
 /// Original macro name: SunDia
 </span><span class="kw">pub fn </span>sun_dia(lch: f64, lcm: f64, lcs: f64, ds: i32, zc: i32, ld: f64, lm: u32, ly: u32) -&gt; f64 {
@@ -8280,7 +8278,7 @@
     <span class="kw">return </span><span class="number">0.533128 </span>/ a;
 }
 
-<span class="doccomment">/// Calculate Sun&#39;s distance from the Earth in astronomical units
+<span class="doccomment">/// Calculate Sun&#39;s distance from the Earth in astronomical units.
 ///
 /// Original macro name: SunDist
 </span><span class="kw">pub fn </span>sun_dist(lch: f64, lcm: f64, lcs: f64, ds: i32, zc: i32, ld: f64, lm: u32, ly: u32) -&gt; f64 {
@@ -8331,7 +8329,7 @@
     <span class="kw">return </span><span class="number">1.0000002 </span>* (<span class="number">1.0 </span>- ec * ae.cos()) + d3;
 }
 
-<span class="doccomment">/// Calculate geocentric ecliptic longitude for the Moon
+<span class="doccomment">/// Calculate geocentric ecliptic longitude for the Moon.
 ///
 /// Original macro name: MoonLong
 </span><span class="kw">pub fn </span>moon_long(lh: f64, lm: f64, ls: f64, ds: i32, zc: i32, dy: f64, mn: u32, yr: u32) -&gt; f64 {
@@ -8422,7 +8420,7 @@
     <span class="kw">return </span>degrees(mm);
 }
 
-<span class="doccomment">/// Calculate geocentric ecliptic latitude for the Moon
+<span class="doccomment">/// Calculate geocentric ecliptic latitude for the Moon.
 ///
 /// Original macro name: MoonLat
 </span><span class="kw">pub fn </span>moon_lat(lh: f64, lm: f64, ls: f64, ds: i32, zc: i32, dy: f64, mn: u32, yr: u32) -&gt; f64 {
@@ -8517,7 +8515,7 @@
     <span class="kw">return </span>degrees(bm);
 }
 
-<span class="doccomment">/// Calculate horizontal parallax for the Moon
+<span class="doccomment">/// Calculate horizontal parallax for the Moon.
 ///
 /// Original macro name: MoonHP
 </span><span class="kw">pub fn </span>moon_hp(lh: f64, lm: f64, ls: f64, ds: i32, zc: i32, dy: f64, mn: u32, yr: u32) -&gt; f64 {
@@ -8597,7 +8595,7 @@
     <span class="kw">return </span>pm;
 }
 
-<span class="doccomment">/// Calculate distance from the Earth to the Moon (km)
+<span class="doccomment">/// Calculate distance from the Earth to the Moon (km).
 ///
 /// Original macro name: MoonDist
 </span><span class="kw">pub fn </span>moon_dist(lh: f64, lm: f64, ls: f64, ds: i32, zc: i32, dy: f64, mn: u32, yr: u32) -&gt; f64 {
@@ -8607,7 +8605,7 @@
     <span class="kw">return </span>r;
 }
 
-<span class="doccomment">/// Calculate the Moon&#39;s angular diameter (degrees)
+<span class="doccomment">/// Calculate the Moon&#39;s angular diameter (degrees).
 ///
 /// Original macro name: MoonSize
 </span><span class="kw">pub fn </span>moon_size(lh: f64, lm: f64, ls: f64, ds: i32, zc: i32, dy: f64, mn: u32, yr: u32) -&gt; f64 {
@@ -8640,7 +8638,7 @@
     <span class="kw">return </span>w - <span class="number">6.283185308 </span>* (w / <span class="number">6.283185308</span>).floor();
 }
 
-<span class="doccomment">/// Mean ecliptic longitude of the Sun at the epoch
+<span class="doccomment">/// Mean ecliptic longitude of the Sun at the epoch.
 ///
 /// Original macro name: SunElong
 </span><span class="kw">pub fn </span>sun_e_long(gd: f64, gm: u32, gy: u32) -&gt; f64 {
@@ -8651,7 +8649,7 @@
     <span class="kw">return </span>x - <span class="number">360.0 </span>* (x / <span class="number">360.0</span>).floor();
 }
 
-<span class="doccomment">/// Longitude of the Sun at perigee
+<span class="doccomment">/// Longitude of the Sun at perigee.
 ///
 /// Original macro name: SunPeri
 </span><span class="kw">pub fn </span>sun_peri(gd: f64, gm: u32, gy: u32) -&gt; f64 {
@@ -8662,7 +8660,7 @@
     <span class="kw">return </span>x - <span class="number">360.0 </span>* (x / <span class="number">360.0</span>).floor();
 }
 
-<span class="doccomment">/// Eccentricity of the Sun-Earth orbit
+<span class="doccomment">/// Eccentricity of the Sun-Earth orbit.
 ///
 /// Original macro name: SunEcc
 </span><span class="kw">pub fn </span>sun_ecc(gd: f64, gm: u32, gy: u32) -&gt; f64 {
@@ -8672,7 +8670,7 @@
     <span class="kw">return </span><span class="number">0.01675104 </span>- <span class="number">0.0000418 </span>* t - <span class="number">0.000000126 </span>* t2;
 }
 
-<span class="doccomment">/// Ecliptic - Declination (degrees)
+<span class="doccomment">/// Ecliptic - Declination (degrees).
 ///
 /// Original macro name: ECDec
 </span><span class="kw">pub fn </span>ec_dec(
@@ -8693,7 +8691,7 @@
     <span class="kw">return </span>degrees(d.asin());
 }
 
-<span class="doccomment">/// Ecliptic - Right Ascension (degrees)
+<span class="doccomment">/// Ecliptic - Right Ascension (degrees).
 ///
 /// Original macro name: ECRA
 </span><span class="kw">pub fn </span>ec_ra(
@@ -8820,7 +8818,7 @@
     <span class="kw">return </span>xx;
 }
 
-<span class="doccomment">/// Helper function for sunrise_lct()
+<span class="doccomment">/// Helper function for sunrise_lct().
 </span><span class="kw">pub fn </span>sunrise_lct_l3710(
     gd: f64,
     gm: u32,
@@ -9001,7 +8999,7 @@
     <span class="kw">return </span>i - <span class="number">360.0 </span>* (i / <span class="number">360.0</span>).floor();
 }
 
-<span class="doccomment">/// Rise/Set status
+<span class="doccomment">/// Rise/Set status.
 ///
 /// Possible values: &quot;OK&quot;, &quot;** never rises&quot;, &quot;** circumpolar&quot;
 ///
@@ -9060,7 +9058,7 @@
     }
 }
 
-<span class="doccomment">/// Helper function for e_sun_rs()
+<span class="doccomment">/// Helper function for e_sun_rs().
 </span><span class="kw">pub fn </span>e_sun_rs_l3710(
     gd: f64,
     gm: u32,
@@ -9111,7 +9109,7 @@
     <span class="kw">return </span>rise_set_azimuth_rise(dd_dh(x), <span class="number">0.0</span>, <span class="number">0.0</span>, y, <span class="number">0.0</span>, <span class="number">0.0</span>, di, gp);
 }
 
-<span class="doccomment">/// Helper function for sunrise_az()
+<span class="doccomment">/// Helper function for sunrise_az().
 </span><span class="kw">pub fn </span>sunrise_az_l3710(
     gd: f64,
     gm: u32,
@@ -9162,7 +9160,7 @@
     <span class="kw">return </span>rise_set_azimuth_set(dd_dh(x), <span class="number">0.0</span>, <span class="number">0.0</span>, y, <span class="number">0.0</span>, <span class="number">0.0</span>, di, gp);
 }
 
-<span class="doccomment">/// Helper function for sunset_az()
+<span class="doccomment">/// Helper function for sunset_az().
 </span><span class="kw">pub fn </span>sunset_az_l3710(
     gd: f64,
     gm: u32,
@@ -9182,7 +9180,7 @@
 
 <span class="doccomment">/// Calculate morning twilight start, in local time.
 ///
-/// Twilight type (TT) can be one of &quot;C&quot; (civil), &quot;N&quot; (nautical), or &quot;A&quot; (astronomical)
+/// Twilight type (TT) can be one of &quot;C&quot; (civil), &quot;N&quot; (nautical), or &quot;A&quot; (astronomical).
 ///
 /// Original macro name: TwilightAMLCT
 </span><span class="kw">pub fn </span>twilight_am_lct(
@@ -9193,12 +9191,12 @@
     zc: i32,
     gl: f64,
     gp: f64,
-    tt: <span class="kw-2">&amp;</span>pa_types::TwilightType,
+    tt: <span class="kw-2">&amp;</span>pa_t::TwilightType,
 ) -&gt; f64 {
     <span class="kw">let </span>di = <span class="kw">match </span>tt {
-        pa_types::TwilightType::Astronomical =&gt; <span class="number">18.0</span>,
-        pa_types::TwilightType::Civil =&gt; <span class="number">6.0</span>,
-        pa_types::TwilightType::Nautical =&gt; <span class="number">12.0</span>,
+        pa_t::TwilightType::Astronomical =&gt; <span class="number">18.0</span>,
+        pa_t::TwilightType::Civil =&gt; <span class="number">6.0</span>,
+        pa_t::TwilightType::Nautical =&gt; <span class="number">12.0</span>,
     };
 
     <span class="kw">let </span>gd = lct_gday(<span class="number">12.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>, ds, zc, ld, lm, ly);
@@ -9235,7 +9233,7 @@
     <span class="kw">return </span>xx;
 }
 
-<span class="doccomment">/// Helper function for twilight_am_lct()
+<span class="doccomment">/// Helper function for twilight_am_lct().
 </span><span class="kw">pub fn </span>twilight_am_lct_l3710(
     gd: f64,
     gm: u32,
@@ -9255,7 +9253,7 @@
 
 <span class="doccomment">/// Calculate evening twilight end, in local time.
 ///
-/// Twilight type can be one of &quot;C&quot; (civil), &quot;N&quot; (nautical), or &quot;A&quot; (astronomical)
+/// Twilight type can be one of &quot;C&quot; (civil), &quot;N&quot; (nautical), or &quot;A&quot; (astronomical).
 ///
 /// Original macro name: TwilightPMLCT
 </span><span class="kw">pub fn </span>twilight_pm_lct(
@@ -9266,12 +9264,12 @@
     zc: i32,
     gl: f64,
     gp: f64,
-    tt: <span class="kw-2">&amp;</span>pa_types::TwilightType,
+    tt: <span class="kw-2">&amp;</span>pa_t::TwilightType,
 ) -&gt; f64 {
     <span class="kw">let </span>di = <span class="kw">match </span>tt {
-        pa_types::TwilightType::Astronomical =&gt; <span class="number">18.0</span>,
-        pa_types::TwilightType::Civil =&gt; <span class="number">6.0</span>,
-        pa_types::TwilightType::Nautical =&gt; <span class="number">12.0</span>,
+        pa_t::TwilightType::Astronomical =&gt; <span class="number">18.0</span>,
+        pa_t::TwilightType::Civil =&gt; <span class="number">6.0</span>,
+        pa_t::TwilightType::Nautical =&gt; <span class="number">12.0</span>,
     };
 
     <span class="kw">let </span>gd = lct_gday(<span class="number">12.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>, ds, zc, ld, lm, ly);
@@ -9306,7 +9304,7 @@
     <span class="kw">return </span>ut_lct(ut, <span class="number">0.0</span>, <span class="number">0.0</span>, ds, zc, gd, gm, gy);
 }
 
-<span class="doccomment">/// Helper function for twilight_pm_lct()
+<span class="doccomment">/// Helper function for twilight_pm_lct().
 </span><span class="kw">pub fn </span>twilight_pm_lct_l3710(
     gd: f64,
     gm: u32,
@@ -9326,7 +9324,7 @@
 
 <span class="doccomment">/// Twilight calculation status.
 ///
-/// Twilight type can be one of &quot;C&quot; (civil), &quot;N&quot; (nautical), or &quot;A&quot; (astronomical)
+/// Twilight type can be one of &quot;C&quot; (civil), &quot;N&quot; (nautical), or &quot;A&quot; (astronomical).
 ///
 /// Original macro name: eTwilight
 ///
@@ -9340,14 +9338,14 @@
     zc: i32,
     gl: f64,
     gp: f64,
-    tt: <span class="kw-2">&amp;</span>pa_types::TwilightType,
+    tt: <span class="kw-2">&amp;</span>pa_t::TwilightType,
 ) -&gt; String {
     <span class="comment">// S = &quot;&quot;
 
     </span><span class="kw">let </span>di = <span class="kw">match </span>tt {
-        pa_types::TwilightType::Astronomical =&gt; <span class="number">18.0</span>,
-        pa_types::TwilightType::Civil =&gt; <span class="number">6.0</span>,
-        pa_types::TwilightType::Nautical =&gt; <span class="number">12.0</span>,
+        pa_t::TwilightType::Astronomical =&gt; <span class="number">18.0</span>,
+        pa_t::TwilightType::Civil =&gt; <span class="number">6.0</span>,
+        pa_t::TwilightType::Nautical =&gt; <span class="number">12.0</span>,
     };
 
     <span class="kw">let </span>gd = lct_gday(<span class="number">12.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>, ds, zc, ld, lm, ly);
@@ -9383,7 +9381,7 @@
     <span class="kw">return </span>s;
 }
 
-<span class="doccomment">/// Helper function for e_twilight()
+<span class="doccomment">/// Helper function for e_twilight().
 </span><span class="kw">pub fn </span>e_twilight_l3710(
     gd: f64,
     gm: u32,
@@ -9411,7 +9409,7 @@
     <span class="kw">return </span>(a, x, y, la, s);
 }
 
-<span class="doccomment">/// Calculate the angle between two celestial objects
+<span class="doccomment">/// Calculate the angle between two celestial objects.
 ///
 /// Original macro name: Angle
 </span><span class="kw">pub fn </span>angle(
@@ -9427,11 +9425,11 @@
     dd2: f64,
     dm2: f64,
     ds2: f64,
-    s: pa_types::AngleMeasure,
+    s: pa_t::AngleMeasure,
 ) -&gt; f64 {
     <span class="kw">let </span>s_value = <span class="kw">match </span>s {
-        pa_types::AngleMeasure::Degrees =&gt; <span class="string">&quot;D&quot;</span>,
-        pa_types::AngleMeasure::Hours =&gt; <span class="string">&quot;H&quot;</span>,
+        pa_t::AngleMeasure::Degrees =&gt; <span class="string">&quot;D&quot;</span>,
+        pa_t::AngleMeasure::Hours =&gt; <span class="string">&quot;H&quot;</span>,
     };
 
     <span class="kw">let </span>a = <span class="kw">if </span>s_value == <span class="string">&quot;H&quot; </span>{
@@ -10146,7 +10144,7 @@
     );
 }
 
-<span class="doccomment">/// Helper function for planet_long_lat()
+<span class="doccomment">/// Helper function for planet_long_lat().
 </span><span class="kw">pub fn </span>planet_long_l4685(ap: Vec&lt;f64&gt;) -&gt; (f64, f64) {
     <span class="kw">let </span>qa = <span class="number">0.00204 </span>* (<span class="number">5.0 </span>* ap[<span class="number">2</span>] - <span class="number">2.0 </span>* ap[<span class="number">1</span>] + <span class="number">0.21328</span>).cos();
     <span class="kw">let </span>qa = qa + <span class="number">0.00103 </span>* (<span class="number">2.0 </span>* ap[<span class="number">2</span>] - ap[<span class="number">1</span>] - <span class="number">2.8046</span>).cos();
@@ -10161,7 +10159,7 @@
     <span class="kw">return </span>(qa, qb);
 }
 
-<span class="doccomment">/// Helper function for planet_long_lat()
+<span class="doccomment">/// Helper function for planet_long_lat().
 </span><span class="kw">pub fn </span>planet_long_l4735(ap: Vec&lt;f64&gt;, ms: f64, t: f64) -&gt; (f64, f64, f64, f64) {
     <span class="kw">let </span>qc = <span class="number">0.00077 </span>* (<span class="number">4.1406 </span>+ t * <span class="number">2.6227</span>).sin();
     <span class="kw">let </span>qc = qc.to_radians();
@@ -10184,7 +10182,7 @@
     <span class="kw">return </span>(qa, qb, qc, qe);
 }
 
-<span class="doccomment">/// Helper function for planet_long_lat()
+<span class="doccomment">/// Helper function for planet_long_lat().
 </span><span class="kw">pub fn </span>planet_long_l4810(ap: Vec&lt;f64&gt;, ms: f64) -&gt; (f64, f64, f64, f64, f64, f64, f64) {
     <span class="kw">let </span>a = <span class="number">3.0 </span>* ap[<span class="number">4</span>] - <span class="number">8.0 </span>* ap[<span class="number">3</span>] + <span class="number">4.0 </span>* ms;
     <span class="kw">let </span>sa = a.sin();
@@ -10220,7 +10218,7 @@
     <span class="kw">return </span>(a, sa, ca, qc, qe, qa, qb);
 }
 
-<span class="doccomment">/// Helper function for planet_long_lat()
+<span class="doccomment">/// Helper function for planet_long_lat().
 </span><span class="kw">pub fn </span>planet_long_l4945(
     t: f64,
     ip: i32,
@@ -10502,14 +10500,14 @@
 /// Original macro names: PcometLong, PcometLat, PcometDist
 ///
 /// ## Arguments
-/// * `lh` -- Local civil time, hour part.
-/// * `lm` -- Local civil time, minutes part.
-/// * `ls` -- Local civil time, seconds part.
-/// * `ds` -- Daylight Savings offset.
-/// * `zc` -- Time zone correction, in hours.
-/// * `dy` -- Local date, day part.
-/// * `mn` -- Local date, month part.
-/// * `yr` -- Local date, year part.
+/// * `lh` -- Local civil time, hour part
+/// * `lm` -- Local civil time, minutes part
+/// * `ls` -- Local civil time, seconds part
+/// * `ds` -- Daylight Savings offset
+/// * `zc` -- Time zone correction, in hours
+/// * `dy` -- Local date, day part
+/// * `mn` -- Local date, month part
+/// * `yr` -- Local date, year part
 /// * `td` -- Perihelion epoch (day)
 /// * `tm` -- Perihelion epoch (month)
 /// * `ty` -- Perihelion epoch (year)
@@ -10605,14 +10603,14 @@
 /// Original macro names: MoonLong, MoonLat, MoonHP
 ///
 /// ## Arguments
-/// * `lh` -- Local civil time, hour part.
-/// * `lm` -- Local civil time, minutes part.
-/// * `ls` -- Local civil time, seconds part.
-/// * `ds` -- Daylight Savings offset.
-/// * `zc` -- Time zone correction, in hours.
-/// * `dy` -- Local date, day part.
-/// * `mn` -- Local date, month part.
-/// * `yr` -- Local date, year part.
+/// * `lh` -- Local civil time, hour part
+/// * `lm` -- Local civil time, minutes part
+/// * `ls` -- Local civil time, seconds part
+/// * `ds` -- Daylight Savings offset
+/// * `zc` -- Time zone correction, in hours
+/// * `dy` -- Local date, day part
+/// * `mn` -- Local date, month part
+/// * `yr` -- Local date, year part
 ///
 /// ## Returns
 /// * `moon_long_deg` -- Moon longitude (degrees)
@@ -10792,7 +10790,7 @@
     <span class="kw">let </span>i = <span class="number">3.141592654 </span>- d - i.to_radians();
     <span class="kw">let </span>k = (<span class="number">1.0 </span>+ (i).cos()) / <span class="number">2.0</span>;
 
-    <span class="kw">return </span>utils::round_f64(k, <span class="number">2</span>);
+    <span class="kw">return </span>pa_u::round_f64(k, <span class="number">2</span>);
 }
 
 <span class="doccomment">/// Calculate the Moon&#39;s mean anomaly.
@@ -10860,11 +10858,11 @@
 /// Original macro name: NewMoon
 ///
 /// ## Arguments
-/// * `ds` -- Daylight Savings offset.
-/// * `zc` -- Time zone correction, in hours.
-/// * `dy` -- Local date, day part.
-/// * `mn` -- Local date, month part.
-/// * `yr` -- Local date, year part.
+/// * `ds` -- Daylight Savings offset
+/// * `zc` -- Time zone correction, in hours
+/// * `dy` -- Local date, day part
+/// * `mn` -- Local date, month part
+/// * `yr` -- Local date, year part
 </span><span class="kw">pub fn </span>new_moon(ds: i32, zc: i32, dy: f64, mn: u32, yr: u32) -&gt; f64 {
     <span class="kw">let </span>d0 = lct_gday(<span class="number">12.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>, ds, zc, dy, mn, yr);
     <span class="kw">let </span>m0 = lct_gmonth(<span class="number">12.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>, ds, zc, dy, mn, yr);
@@ -10901,11 +10899,11 @@
 /// Original macro name: FullMoon
 ///
 /// ## Arguments
-/// * `ds` -- Daylight Savings offset.
-/// * `zc` -- Time zone correction, in hours.
-/// * `dy` -- Local date, day part.
-/// * `mn` -- Local date, month part.
-/// * `yr` -- Local date, year part.
+/// * `ds` -- Daylight Savings offset
+/// * `zc` -- Time zone correction, in hours
+/// * `dy` -- Local date, day part
+/// * `mn` -- Local date, month part
+/// * `yr` -- Local date, year part
 </span><span class="kw">pub fn </span>full_moon(ds: i32, zc: i32, dy: f64, mn: u32, yr: u32) -&gt; f64 {
     <span class="kw">let </span>d0 = lct_gday(<span class="number">12.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>, ds, zc, dy, mn, yr);
     <span class="kw">let </span>m0 = lct_gmonth(<span class="number">12.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>, ds, zc, dy, mn, yr);
@@ -10937,7 +10935,7 @@
     <span class="kw">return </span>fi + <span class="number">2415020.0 </span>+ ff;
 }
 
-<span class="doccomment">/// Helper function for new_moon() and full_moon() &quot;&quot;&quot;
+<span class="doccomment">/// Helper function for new_moon() and full_moon()
 </span><span class="kw">pub fn </span>new_moon_full_moon_l6855(k: f64, t: f64) -&gt; (f64, f64, f64) {
     <span class="kw">let </span>t2 = t * t;
     <span class="kw">let </span>e = <span class="number">29.53 </span>* k;
@@ -11164,7 +11162,7 @@
     <span class="kw">return </span>lct;
 }
 
-<span class="doccomment">/// Helper function for moon_rise_lct
+<span class="doccomment">/// Helper function for moon_rise_lct.
 </span><span class="kw">pub fn </span>moon_rise_lct_l6680(
     x: f64,
     ds: i32,
@@ -11194,7 +11192,7 @@
     <span class="kw">return </span>(ut, lct, dy1, mn1, yr1, gdy, gmn, gyr);
 }
 
-<span class="doccomment">/// Helper function for moon_rise_lct
+<span class="doccomment">/// Helper function for moon_rise_lct.
 </span><span class="kw">pub fn </span>moon_rise_lct_l6700(
     <span class="kw-2">mut </span>lct: f64,
     ds: i32,
@@ -11316,7 +11314,7 @@
     <span class="kw">return </span>s4;
 }
 
-<span class="doccomment">/// Helper function for e_moon_rise()
+<span class="doccomment">/// Helper function for e_moon_rise().
 </span><span class="kw">pub fn </span>e_moon_rise_l6680(
     s3: String,
     g1: f64,
@@ -11349,7 +11347,7 @@
     <span class="kw">return </span>(ut, lct, dy1, mn1, yr1, gdy, gmn, gyr);
 }
 
-<span class="doccomment">/// Helper function for e_moon_rise()
+<span class="doccomment">/// Helper function for e_moon_rise().
 </span><span class="kw">pub fn </span>e_moon_rise_l6700(
     lct: f64,
     ds: i32,
@@ -11480,7 +11478,7 @@
     <span class="kw">return </span>(dy1, mn1, yr1);
 }
 
-<span class="doccomment">/// Helper function for moon_rise_lc_dmy
+<span class="doccomment">/// Helper function for moon_rise_lc_dmy.
 </span><span class="kw">pub fn </span>moon_rise_lc_dmy_l6680(
     x: f64,
     ds: i32,
@@ -11510,7 +11508,7 @@
     <span class="kw">return </span>(ut, lct, dy1, mn1, yr1, gdy, gmn, gyr);
 }
 
-<span class="doccomment">/// Helper function for moon_rise_lc_dmy
+<span class="doccomment">/// Helper function for moon_rise_lc_dmy.
 </span><span class="kw">pub fn </span>moon_rise_lc_dmy_l6700(
     lct: f64,
     ds: i32,
@@ -11634,7 +11632,7 @@
     <span class="kw">return </span>au;
 }
 
-<span class="doccomment">/// Helper function for moon_rise_az
+<span class="doccomment">/// Helper function for moon_rise_az.
 </span><span class="kw">pub fn </span>moon_rise_az_l6680(
     x: f64,
     ds: i32,
@@ -11664,7 +11662,7 @@
     <span class="kw">return </span>(ut, lct, dy1, mn1, yr1, gdy, gmn, gyr);
 }
 
-<span class="doccomment">/// Helper function for moon_rise_az
+<span class="doccomment">/// Helper function for moon_rise_az.
 </span><span class="kw">pub fn </span>moon_rise_az_l6700(
     lct: f64,
     ds: i32,
@@ -11783,7 +11781,7 @@
     <span class="kw">return </span>lct;
 }
 
-<span class="doccomment">/// Helper function for moon_set_lct
+<span class="doccomment">/// Helper function for moon_set_lct.
 </span><span class="kw">pub fn </span>moon_set_lct_l6680(
     x: f64,
     ds: i32,
@@ -11813,7 +11811,7 @@
     <span class="kw">return </span>(ut, lct, dy1, mn1, yr1, gdy, gmn, gyr);
 }
 
-<span class="doccomment">/// Helper function for moon_set_lct
+<span class="doccomment">/// Helper function for moon_set_lct.
 </span><span class="kw">pub fn </span>moon_set_lct_l6700(
     <span class="kw-2">mut </span>lct: f64,
     ds: i32,
@@ -11936,7 +11934,7 @@
     <span class="kw">return </span>s4;
 }
 
-<span class="doccomment">/// Helper function for e_moon_set()
+<span class="doccomment">/// Helper function for e_moon_set().
 </span><span class="kw">pub fn </span>e_moon_set_l6680(
     x: f64,
     g1: f64,
@@ -11969,7 +11967,7 @@
     <span class="kw">return </span>(ut, lct, dy1, mn1, yr1, gdy, gmn, gyr);
 }
 
-<span class="doccomment">/// Helper function for e_moon_set()
+<span class="doccomment">/// Helper function for e_moon_set().
 </span><span class="kw">pub fn </span>e_moon_set_l6700(
     lct: f64,
     ds: i32,
@@ -12100,7 +12098,7 @@
     <span class="kw">return </span>(dy1, mn1, yr1);
 }
 
-<span class="doccomment">/// Helper function for moon_set_lc_dmy
+<span class="doccomment">/// Helper function for moon_set_lc_dmy.
 </span><span class="kw">pub fn </span>moon_set_lc_dmy_l6680(
     x: f64,
     ds: i32,
@@ -12130,7 +12128,7 @@
     <span class="kw">return </span>(ut, lct, dy1, mn1, yr1, gdy, gmn, gyr);
 }
 
-<span class="doccomment">/// Helper function for moon_set_lc_dmy
+<span class="doccomment">/// Helper function for moon_set_lc_dmy.
 </span><span class="kw">pub fn </span>moon_set_lc_dmy_l6700(
     lct: f64,
     ds: i32,
@@ -12254,7 +12252,7 @@
     <span class="kw">return </span>au;
 }
 
-<span class="doccomment">/// Helper function for moon_set_az
+<span class="doccomment">/// Helper function for moon_set_az.
 </span><span class="kw">pub fn </span>moon_set_az_l6680(
     x: f64,
     ds: i32,
@@ -12284,7 +12282,7 @@
     <span class="kw">return </span>(ut, lct, dy1, mn1, yr1, gdy, gmn, gyr);
 }
 
-<span class="doccomment">/// Helper function for moon_set_az
+<span class="doccomment">/// Helper function for moon_set_az.
 </span><span class="kw">pub fn </span>moon_set_az_l6700(
     lct: f64,
     ds: i32,
@@ -12360,7 +12358,7 @@
     <span class="kw">return </span>s.to_string();
 }
 
-<span class="doccomment">/// Helper function for lunar_eclipse_occurrence
+<span class="doccomment">/// Helper function for lunar_eclipse_occurrence.
 </span><span class="kw">pub fn </span>lunar_eclipse_occurrence_l6855(t: f64, k: f64) -&gt; (f64, f64, f64, f64, f64, f64) {
     <span class="kw">let </span>t2 = t * t;
     <span class="kw">let </span>e = <span class="number">29.53 </span>* k;
@@ -12397,7 +12395,7 @@
     <span class="kw">return </span>(f, dd, e1, b1, a, b);
 }
 
-<span class="doccomment">/// Calculate time of maximum shadow for lunar eclipse (UT)
+<span class="doccomment">/// Calculate time of maximum shadow for lunar eclipse (UT).
 ///
 /// Original macro name: UTMaxLunarEclipse
 </span><span class="kw">pub fn </span>ut_max_lunar_eclipse(dy: f64, mn: u32, yr: u32, ds: i32, zc: i32) -&gt; f64 {
@@ -12474,7 +12472,7 @@
     <span class="kw">return </span>z1;
 }
 
-<span class="doccomment">/// Calculate time of first shadow contact for lunar eclipse (UT)
+<span class="doccomment">/// Calculate time of first shadow contact for lunar eclipse (UT).
 ///
 /// Original macro name: UTFirstContactLunarEclipse
 </span><span class="kw">pub fn </span>ut_first_contact_lunar_eclipse(dy: f64, mn: u32, yr: u32, ds: i32, zc: i32) -&gt; f64 {
@@ -12558,7 +12556,7 @@
     <span class="kw">return </span>z6;
 }
 
-<span class="doccomment">/// Calculate time of last shadow contact for lunar eclipse (UT)
+<span class="doccomment">/// Calculate time of last shadow contact for lunar eclipse (UT).
 ///
 /// Original macro name: UTLastContactLunarEclipse
 </span><span class="kw">pub fn </span>ut_last_contact_lunar_eclipse(dy: f64, mn: u32, yr: u32, ds: i32, zc: i32) -&gt; f64 {
@@ -12639,7 +12637,7 @@
     <span class="kw">return </span>z7;
 }
 
-<span class="doccomment">/// Calculate start time of umbra phase of lunar eclipse (UT)
+<span class="doccomment">/// Calculate start time of umbra phase of lunar eclipse (UT).
 ///
 /// Original macro name: UTStartUmbraLunarEclipse
 </span><span class="kw">pub fn </span>ut_start_umbra_lunar_eclipse(dy: f64, mn: u32, yr: u32, ds: i32, zc: i32) -&gt; f64 {
@@ -12741,7 +12739,7 @@
     <span class="kw">return </span>z8;
 }
 
-<span class="doccomment">/// Calculate end time of umbra phase of lunar eclipse (UT)
+<span class="doccomment">/// Calculate end time of umbra phase of lunar eclipse (UT).
 ///
 /// Original macro name: UTEndUmbraLunarEclipse
 </span><span class="kw">pub fn </span>ut_end_umbra_lunar_eclipse(dy: f64, mn: u32, yr: u32, ds: i32, zc: i32) -&gt; f64 {
@@ -12839,7 +12837,7 @@
     <span class="kw">return </span>z9;
 }
 
-<span class="doccomment">/// Calculate start time of total phase of lunar eclipse (UT)
+<span class="doccomment">/// Calculate start time of total phase of lunar eclipse (UT).
 ///
 /// Original macro name: UTStartTotalLunarEclipse
 </span><span class="kw">pub fn </span>ut_start_total_lunar_eclipse(dy: f64, mn: u32, yr: u32, ds: i32, zc: i32) -&gt; f64 {
@@ -12958,7 +12956,7 @@
     <span class="kw">return </span>zcc;
 }
 
-<span class="doccomment">/// Calculate end time of total phase of lunar eclipse (UT)
+<span class="doccomment">/// Calculate end time of total phase of lunar eclipse (UT).
 ///
 /// Original macro name: UTEndTotalLunarEclipse
 </span><span class="kw">pub fn </span>ut_end_total_lunar_eclipse(dy: f64, mn: u32, yr: u32, ds: i32, zc: i32) -&gt; f64 {
@@ -13222,7 +13220,7 @@
     <span class="kw">return </span>s.to_string();
 }
 
-<span class="doccomment">/// Helper function for solar_eclipse_occurrence
+<span class="doccomment">/// Helper function for solar_eclipse_occurrence.
 </span><span class="kw">pub fn </span>solar_eclipse_occurrence_l6855(t: f64, k: f64) -&gt; (f64, f64, f64, f64, f64, f64) {
     <span class="kw">let </span>t2 = t * t;
     <span class="kw">let </span>e = <span class="number">29.53 </span>* k;
@@ -13259,7 +13257,7 @@
     <span class="kw">return </span>(f, dd, e1, b1, a, b);
 }
 
-<span class="doccomment">/// Calculate time of maximum shadow for solar eclipse (UT)
+<span class="doccomment">/// Calculate time of maximum shadow for solar eclipse (UT).
 ///
 /// Original macro name: UTMaxSolarEclipse
 </span><span class="kw">pub fn </span>ut_max_solar_eclipse(
@@ -13379,7 +13377,7 @@
     <span class="kw">return </span>z1;
 }
 
-<span class="doccomment">/// Helper function for ut_max_solar_eclipse
+<span class="doccomment">/// Helper function for ut_max_solar_eclipse.
 </span><span class="kw">pub fn </span>ut_max_solar_eclipse_l7390(
     x: f64,
     y: f64,
@@ -13460,7 +13458,7 @@
     <span class="kw">return </span>(paa, qaa, xaa, pbb, qbb, xbb, p, q);
 }
 
-<span class="doccomment">/// Calculate time of first contact for solar eclipse (UT)
+<span class="doccomment">/// Calculate time of first contact for solar eclipse (UT).
 ///
 /// Original macro name: UTFirstContactSolarEclipse
 </span><span class="kw">pub fn </span>ut_first_contact_solar_eclipse(
@@ -13578,7 +13576,7 @@
     <span class="kw">return </span>z6;
 }
 
-<span class="doccomment">/// Helper function for ut_first_contact_solar_eclipse
+<span class="doccomment">/// Helper function for ut_first_contact_solar_eclipse.
 </span><span class="kw">pub fn </span>ut_first_contact_solar_eclipse_l7390(
     x: f64,
     y: f64,
@@ -13659,7 +13657,7 @@
     <span class="kw">return </span>(paa, qaa, xaa, pbb, qbb, xbb, p, q);
 }
 
-<span class="doccomment">/// Calculate time of last contact for solar eclipse (UT)
+<span class="doccomment">/// Calculate time of last contact for solar eclipse (UT).
 ///
 /// Original macro name: UTLastContactSolarEclipse
 </span><span class="kw">pub fn </span>ut_last_contact_solar_eclipse(
@@ -13779,7 +13777,7 @@
     <span class="kw">return </span>z7;
 }
 
-<span class="doccomment">/// Helper function for ut_last_contact_solar_eclipse
+<span class="doccomment">/// Helper function for ut_last_contact_solar_eclipse.
 </span><span class="kw">pub fn </span>ut_last_contact_solar_eclipse_l7390(
     x: f64,
     y: f64,
@@ -13980,7 +13978,7 @@
     <span class="kw">return </span>mg;
 }
 
-<span class="doccomment">/// Helper function for mag_solar_eclipse
+<span class="doccomment">/// Helper function for mag_solar_eclipse.
 </span><span class="kw">pub fn </span>mag_solar_eclipse_l7390(
     x: f64,
     y: f64,

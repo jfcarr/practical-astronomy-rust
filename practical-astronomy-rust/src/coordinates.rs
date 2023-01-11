@@ -1,7 +1,7 @@
 use crate::macros as pa_m;
 use crate::util as pa_u;
 
-/// Convert an Angle (degrees, minutes, and seconds) to Decimal Degrees
+/// Convert an Angle (degrees, minutes, and seconds) to Decimal Degrees.
 pub fn angle_to_decimal_degrees(degrees: f64, minutes: f64, seconds: f64) -> f64 {
     let a = seconds.abs() / 60.0;
     let b = (minutes.abs() + a) / 60.0;
@@ -15,7 +15,7 @@ pub fn angle_to_decimal_degrees(degrees: f64, minutes: f64, seconds: f64) -> f64
     return d;
 }
 
-/// Convert Decimal Degrees to an Angle (degrees, minutes, and seconds)
+/// Convert Decimal Degrees to an Angle (degrees, minutes, and seconds).
 ///
 /// ## Returns
 /// degrees, minutes, seconds
@@ -44,7 +44,7 @@ pub fn decimal_degrees_to_angle(decimal_degrees: f64) -> (f64, f64, f64) {
     return (signed_degrees, minutes, corrected_seconds.floor());
 }
 
-/// Convert Right Ascension to Hour Angle
+/// Convert Right Ascension to Hour Angle.
 pub fn right_ascension_to_hour_angle(
     ra_hours: f64,
     ra_minutes: f64,
@@ -87,7 +87,7 @@ pub fn right_ascension_to_hour_angle(
     );
 }
 
-/// Convert Hour Angle to Right Ascension
+/// Convert Hour Angle to Right Ascension.
 pub fn hour_angle_to_right_ascension(
     hour_angle_hours: f64,
     hour_angle_minutes: f64,
@@ -130,7 +130,7 @@ pub fn hour_angle_to_right_ascension(
     );
 }
 
-/// Convert Equatorial Coordinates to Horizon Coordinates
+/// Convert Equatorial Coordinates to Horizon Coordinates.
 pub fn equatorial_coordinates_to_horizon_coordinates(
     hour_angle_hours: f64,
     hour_angle_minutes: f64,
@@ -178,7 +178,7 @@ pub fn equatorial_coordinates_to_horizon_coordinates(
     );
 }
 
-/// Convert Horizon Coordinates to Equatorial Coordinates
+/// Convert Horizon Coordinates to Equatorial Coordinates.
 pub fn horizon_coordinates_to_equatorial_coordinates(
     azimuth_degrees: f64,
     azimuth_minutes: f64,
@@ -226,7 +226,7 @@ pub fn horizon_coordinates_to_equatorial_coordinates(
     );
 }
 
-/// Calculate Mean Obliquity of the Ecliptic for a Greenwich Date
+/// Calculate Mean Obliquity of the Ecliptic for a Greenwich Date.
 pub fn mean_obliquity_of_the_ecliptic(
     greenwich_day: f64,
     greenwich_month: u32,
@@ -241,7 +241,7 @@ pub fn mean_obliquity_of_the_ecliptic(
     return 23.439292 - de2;
 }
 
-/// Convert Ecliptic Coordinates to Equatorial Coordinates
+/// Convert Ecliptic Coordinates to Equatorial Coordinates.
 pub fn ecliptic_coordinate_to_equatorial_coordinate(
     ecliptic_longitude_degrees: f64,
     ecliptic_longitude_minutes: f64,
@@ -295,7 +295,7 @@ pub fn ecliptic_coordinate_to_equatorial_coordinate(
     );
 }
 
-/// Convert Equatorial Coordinates to Ecliptic Coordinates
+/// Convert Equatorial Coordinates to Ecliptic Coordinates.
 pub fn equatorial_coordinate_to_ecliptic_coordinate(
     ra_hours: f64,
     ra_minutes: f64,
@@ -340,7 +340,7 @@ pub fn equatorial_coordinate_to_ecliptic_coordinate(
     );
 }
 
-/// Convert Equatorial Coordinates to Galactic Coordinates
+/// Convert Equatorial Coordinates to Galactic Coordinates.
 pub fn equatorial_coordinate_to_galactic_coordinate(
     ra_hours: f64,
     ra_minutes: f64,
@@ -383,7 +383,7 @@ pub fn equatorial_coordinate_to_galactic_coordinate(
     );
 }
 
-/// Convert Galactic Coordinates to Equatorial Coordinates
+/// Convert Galactic Coordinates to Equatorial Coordinates.
 pub fn galactic_coordinate_to_equatorial_coordinate(
     gal_long_deg: f64,
     gal_long_min: f64,
@@ -429,7 +429,7 @@ pub fn galactic_coordinate_to_equatorial_coordinate(
     );
 }
 
-/// Calculate the angle between two celestial objects
+/// Calculate the angle between two celestial objects.
 pub fn angle_between_two_objects(
     ra_long_1_hour_deg: f64,
     ra_long_1_min: f64,
@@ -484,7 +484,7 @@ pub fn angle_between_two_objects(
     return (angle_deg, angle_min, angle_sec);
 }
 
-/// Rising and setting times
+/// Rising and Setting times.
 ///
 /// ## Arguments
 /// * `ra_hours` -- Right Ascension, in hours.
@@ -607,7 +607,7 @@ pub fn rising_and_setting(
     );
 }
 
-/// Calculate precession (corrected coordinates between two epochs)
+/// Calculate precession (corrected coordinates between two epochs).
 ///
 /// ## Returns
 /// * corrected RA hour
@@ -1014,7 +1014,7 @@ pub fn heliographic_coordinates(
     return (helio_long_deg, helio_lat_deg);
 }
 
-/// Calculate carrington rotation number for a Greenwich date
+/// Calculate carrington rotation number for a Greenwich date.
 ///
 /// ## Returns
 /// carrington rotation number
@@ -1026,7 +1026,7 @@ pub fn carrington_rotation_number(gwdate_day: f64, gwdate_month: u32, gwdate_yea
     return crn;
 }
 
-/// Calculate selenographic (lunar) coordinates (sub-Earth)
+/// Calculate selenographic (lunar) coordinates (sub-Earth).
 ///
 /// ## Returns
 /// * sub-earth longitude
@@ -1086,7 +1086,7 @@ pub fn selenographic_coordinates_1(
     );
 }
 
-/// Calculate selenographic (lunar) coordinates (sub-Solar)
+/// Calculate selenographic (lunar) coordinates (sub-Solar).
 ///
 /// ## Returns
 /// * sub-solar longitude
