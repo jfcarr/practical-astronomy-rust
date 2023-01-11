@@ -462,7 +462,7 @@ pub fn sunrise_and_sunset(
 /// * `zone_correction` -- Time zone correction, in hours.
 /// * `geographical_long_deg` -- Geographical longitude, in degrees.
 /// * `geographical_lat_deg` -- Geographical latitude, in degrees.
-/// * `twilight_type` -- "C" (civil), "N" (nautical), or "A" (astronomical)
+/// * `twilight_type` -- "C" (civil), "N" (nautical), or "A" (astronomical).
 ///
 /// ## Returns
 /// * `am_twilight_begins_hour` -- Beginning of AM twilight (hour part)

@@ -827,8 +827,8 @@
 <span id="827">827</span>
 <span id="828">828</span>
 <span id="829">829</span>
-</pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::macros;
-<span class="kw">use </span><span class="kw">crate</span>::util;
+</pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::macros <span class="kw">as </span>pa_m;
+<span class="kw">use </span><span class="kw">crate</span>::util <span class="kw">as </span>pa_u;
 
 <span class="doccomment">/// Calculate approximate position of the Moon.
 ///
@@ -866,7 +866,7 @@
     <span class="kw">let </span>n0 = <span class="number">291.682546643194</span>;
     <span class="kw">let </span>i: f64 = <span class="number">5.145396</span>;
 
-    <span class="kw">let </span>gdate_day = macros::lct_gday(
+    <span class="kw">let </span>gdate_day = pa_m::lct_gday(
         lct_hour,
         lct_min,
         lct_sec,
@@ -876,7 +876,7 @@
         local_date_month,
         local_date_year,
     );
-    <span class="kw">let </span>gdate_month = macros::lct_gmonth(
+    <span class="kw">let </span>gdate_month = pa_m::lct_gmonth(
         lct_hour,
         lct_min,
         lct_sec,
@@ -886,7 +886,7 @@
         local_date_month,
         local_date_year,
     );
-    <span class="kw">let </span>gdate_year = macros::lct_gyear(
+    <span class="kw">let </span>gdate_year = pa_m::lct_gyear(
         lct_hour,
         lct_min,
         lct_sec,
@@ -897,7 +897,7 @@
         local_date_year,
     );
 
-    <span class="kw">let </span>ut_hours = macros::lct_ut(
+    <span class="kw">let </span>ut_hours = pa_m::lct_ut(
         lct_hour,
         lct_min,
         lct_sec,
@@ -907,9 +907,9 @@
         local_date_month,
         local_date_year,
     );
-    <span class="kw">let </span>d_days = macros::cd_jd(gdate_day, gdate_month, gdate_year) - macros::cd_jd(<span class="number">0.0</span>, <span class="number">1</span>, <span class="number">2010</span>)
+    <span class="kw">let </span>d_days = pa_m::cd_jd(gdate_day, gdate_month, gdate_year) - pa_m::cd_jd(<span class="number">0.0</span>, <span class="number">1</span>, <span class="number">2010</span>)
         + ut_hours / <span class="number">24.0</span>;
-    <span class="kw">let </span>sun_long_deg = macros::sun_long(
+    <span class="kw">let </span>sun_long_deg = pa_m::sun_long(
         lct_hour,
         lct_min,
         lct_sec,
@@ -919,7 +919,7 @@
         local_date_month,
         local_date_year,
     );
-    <span class="kw">let </span>sun_mean_anomaly_rad = macros::sun_mean_anomaly(
+    <span class="kw">let </span>sun_mean_anomaly_rad = pa_m::sun_mean_anomaly(
         lct_hour,
         lct_min,
         lct_sec,
@@ -929,9 +929,9 @@
         local_date_month,
         local_date_year,
     );
-    <span class="kw">let </span>lm_deg = macros::unwind_deg(<span class="number">13.1763966 </span>* d_days + l0);
-    <span class="kw">let </span>mm_deg = macros::unwind_deg(lm_deg - <span class="number">0.1114041 </span>* d_days - p0);
-    <span class="kw">let </span>n_deg = macros::unwind_deg(n0 - (<span class="number">0.0529539 </span>* d_days));
+    <span class="kw">let </span>lm_deg = pa_m::unwind_deg(<span class="number">13.1763966 </span>* d_days + l0);
+    <span class="kw">let </span>mm_deg = pa_m::unwind_deg(lm_deg - <span class="number">0.1114041 </span>* d_days - p0);
+    <span class="kw">let </span>n_deg = pa_m::unwind_deg(n0 - (<span class="number">0.0529539 </span>* d_days));
     <span class="kw">let </span>ev_deg = <span class="number">1.2739 </span>* ((<span class="number">2.0 </span>* (lm_deg - sun_long_deg) - mm_deg).to_radians()).sin();
     <span class="kw">let </span>ae_deg = <span class="number">0.1858 </span>* (sun_mean_anomaly_rad).sin();
     <span class="kw">let </span>a3_deg = <span class="number">0.37 </span>* (sun_mean_anomaly_rad).sin();
@@ -945,10 +945,10 @@
     <span class="kw">let </span>y = ((ldd_deg - nd_deg).to_radians()).sin() * i.to_radians().cos();
     <span class="kw">let </span>x = (ldd_deg - nd_deg).to_radians().cos();
 
-    <span class="kw">let </span>moon_long_deg = macros::unwind_deg(macros::degrees(y.atan2(x)) + nd_deg);
+    <span class="kw">let </span>moon_long_deg = pa_m::unwind_deg(pa_m::degrees(y.atan2(x)) + nd_deg);
     <span class="kw">let </span>moon_lat_deg =
-        macros::degrees(((ldd_deg - nd_deg).to_radians().sin() * i.to_radians().sin()).asin());
-    <span class="kw">let </span>moon_ra_hours1 = macros::dd_dh(macros::ec_ra(
+        pa_m::degrees(((ldd_deg - nd_deg).to_radians().sin() * i.to_radians().sin()).asin());
+    <span class="kw">let </span>moon_ra_hours1 = pa_m::dd_dh(pa_m::ec_ra(
         moon_long_deg,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -959,7 +959,7 @@
         gdate_month,
         gdate_year,
     ));
-    <span class="kw">let </span>moon_dec_deg1 = macros::ec_dec(
+    <span class="kw">let </span>moon_dec_deg1 = pa_m::ec_dec(
         moon_long_deg,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -971,12 +971,12 @@
         gdate_year,
     );
 
-    <span class="kw">let </span>moon_ra_hour = macros::dh_hour(moon_ra_hours1);
-    <span class="kw">let </span>moon_ra_min = macros::dh_min(moon_ra_hours1);
-    <span class="kw">let </span>moon_ra_sec = macros::dh_sec(moon_ra_hours1);
-    <span class="kw">let </span>moon_dec_deg = macros::dd_deg(moon_dec_deg1);
-    <span class="kw">let </span>moon_dec_min = macros::dd_min(moon_dec_deg1);
-    <span class="kw">let </span>moon_dec_sec = macros::dd_sec(moon_dec_deg1);
+    <span class="kw">let </span>moon_ra_hour = pa_m::dh_hour(moon_ra_hours1);
+    <span class="kw">let </span>moon_ra_min = pa_m::dh_min(moon_ra_hours1);
+    <span class="kw">let </span>moon_ra_sec = pa_m::dh_sec(moon_ra_hours1);
+    <span class="kw">let </span>moon_dec_deg = pa_m::dd_deg(moon_dec_deg1);
+    <span class="kw">let </span>moon_dec_min = pa_m::dd_min(moon_dec_deg1);
+    <span class="kw">let </span>moon_dec_sec = pa_m::dd_sec(moon_dec_deg1);
 
     <span class="kw">return </span>(
         moon_ra_hour <span class="kw">as </span>f64,
@@ -1021,7 +1021,7 @@
 ) -&gt; (f64, f64, f64, f64, f64, f64, f64, f64) {
     <span class="kw">let </span>daylight_saving = <span class="kw">if </span>is_daylight_saving == <span class="bool-val">true </span>{ <span class="number">1 </span>} <span class="kw">else </span>{ <span class="number">0 </span>};
 
-    <span class="kw">let </span>gdate_day = macros::lct_gday(
+    <span class="kw">let </span>gdate_day = pa_m::lct_gday(
         lct_hour,
         lct_min,
         lct_sec,
@@ -1031,7 +1031,7 @@
         local_date_month,
         local_date_year,
     );
-    <span class="kw">let </span>gdate_month = macros::lct_gmonth(
+    <span class="kw">let </span>gdate_month = pa_m::lct_gmonth(
         lct_hour,
         lct_min,
         lct_sec,
@@ -1041,7 +1041,7 @@
         local_date_month,
         local_date_year,
     );
-    <span class="kw">let </span>gdate_year = macros::lct_gyear(
+    <span class="kw">let </span>gdate_year = pa_m::lct_gyear(
         lct_hour,
         lct_min,
         lct_sec,
@@ -1052,7 +1052,7 @@
         local_date_year,
     );
 
-    <span class="kw">let </span>_ut_hours = macros::lct_ut(
+    <span class="kw">let </span>_ut_hours = pa_m::lct_ut(
         lct_hour,
         lct_min,
         lct_sec,
@@ -1064,7 +1064,7 @@
     );
 
     <span class="kw">let </span>(moon_ecliptic_longitude_deg, moon_ecliptic_latitude_deg, moon_horizontal_parallax_deg) =
-        macros::moon_long_lat_hp(
+        pa_m::moon_long_lat_hp(
             lct_hour,
             lct_min,
             lct_sec,
@@ -1075,10 +1075,10 @@
             local_date_year,
         );
 
-    <span class="kw">let </span>nutation_in_longitude_deg = macros::nutat_long(gdate_day, gdate_month, gdate_year);
+    <span class="kw">let </span>nutation_in_longitude_deg = pa_m::nutat_long(gdate_day, gdate_month, gdate_year);
     <span class="kw">let </span>corrected_long_deg = moon_ecliptic_longitude_deg + nutation_in_longitude_deg;
     <span class="kw">let </span>earth_moon_distance_km = <span class="number">6378.14 </span>/ moon_horizontal_parallax_deg.to_radians().sin();
-    <span class="kw">let </span>moon_ra_hours_1 = macros::dd_dh(macros::ec_ra(
+    <span class="kw">let </span>moon_ra_hours_1 = pa_m::dd_dh(pa_m::ec_ra(
         corrected_long_deg,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -1089,7 +1089,7 @@
         gdate_month,
         gdate_year,
     ));
-    <span class="kw">let </span>moon_dec_deg1 = macros::ec_dec(
+    <span class="kw">let </span>moon_dec_deg1 = pa_m::ec_dec(
         corrected_long_deg,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -1101,14 +1101,14 @@
         gdate_year,
     );
 
-    <span class="kw">let </span>moon_ra_hour = macros::dh_hour(moon_ra_hours_1);
-    <span class="kw">let </span>moon_ra_min = macros::dh_min(moon_ra_hours_1);
-    <span class="kw">let </span>moon_ra_sec = macros::dh_sec(moon_ra_hours_1);
-    <span class="kw">let </span>moon_dec_deg = macros::dd_deg(moon_dec_deg1);
-    <span class="kw">let </span>moon_dec_min = macros::dd_min(moon_dec_deg1);
-    <span class="kw">let </span>moon_dec_sec = macros::dd_sec(moon_dec_deg1);
-    <span class="kw">let </span>earth_moon_dist_km = util::round_f64(earth_moon_distance_km, <span class="number">0</span>);
-    <span class="kw">let </span>moon_hor_parallax_deg = util::round_f64(moon_horizontal_parallax_deg, <span class="number">6</span>);
+    <span class="kw">let </span>moon_ra_hour = pa_m::dh_hour(moon_ra_hours_1);
+    <span class="kw">let </span>moon_ra_min = pa_m::dh_min(moon_ra_hours_1);
+    <span class="kw">let </span>moon_ra_sec = pa_m::dh_sec(moon_ra_hours_1);
+    <span class="kw">let </span>moon_dec_deg = pa_m::dd_deg(moon_dec_deg1);
+    <span class="kw">let </span>moon_dec_min = pa_m::dd_min(moon_dec_deg1);
+    <span class="kw">let </span>moon_dec_sec = pa_m::dd_sec(moon_dec_deg1);
+    <span class="kw">let </span>earth_moon_dist_km = pa_u::round_f64(earth_moon_distance_km, <span class="number">0</span>);
+    <span class="kw">let </span>moon_hor_parallax_deg = pa_u::round_f64(moon_horizontal_parallax_deg, <span class="number">6</span>);
 
     <span class="kw">return </span>(
         moon_ra_hour <span class="kw">as </span>f64,
@@ -1151,7 +1151,7 @@
 ) -&gt; (f64, f64) {
     <span class="kw">let </span>daylight_saving = <span class="kw">if </span>is_daylight_saving == <span class="bool-val">true </span>{ <span class="number">1 </span>} <span class="kw">else </span>{ <span class="number">0 </span>};
 
-    <span class="kw">let </span>gdate_day = macros::lct_gday(
+    <span class="kw">let </span>gdate_day = pa_m::lct_gday(
         lct_hour,
         lct_min,
         lct_sec,
@@ -1161,7 +1161,7 @@
         local_date_month,
         local_date_year,
     );
-    <span class="kw">let </span>gdate_month = macros::lct_gmonth(
+    <span class="kw">let </span>gdate_month = pa_m::lct_gmonth(
         lct_hour,
         lct_min,
         lct_sec,
@@ -1171,7 +1171,7 @@
         local_date_month,
         local_date_year,
     );
-    <span class="kw">let </span>gdate_year = macros::lct_gyear(
+    <span class="kw">let </span>gdate_year = pa_m::lct_gyear(
         lct_hour,
         lct_min,
         lct_sec,
@@ -1182,7 +1182,7 @@
         local_date_year,
     );
 
-    <span class="kw">let </span>sun_long_deg = macros::sun_long(
+    <span class="kw">let </span>sun_long_deg = pa_m::sun_long(
         lct_hour,
         lct_min,
         lct_sec,
@@ -1193,7 +1193,7 @@
         local_date_year,
     );
     <span class="kw">let </span>(moon_ecliptic_longitude_deg, moon_ecliptic_latitude_deg, _moon_horizontal_parallax_deg) =
-        macros::moon_long_lat_hp(
+        pa_m::moon_long_lat_hp(
             lct_hour,
             lct_min,
             lct_sec,
@@ -1206,7 +1206,7 @@
     <span class="kw">let </span>d_rad = (moon_ecliptic_longitude_deg - sun_long_deg).to_radians();
 
     <span class="kw">let </span>moon_phase1 = <span class="kw">if </span>accuracy_level.to_string() == <span class="string">&quot;P&quot; </span>{
-        macros::moon_phase(
+        pa_m::moon_phase(
             lct_hour,
             lct_min,
             lct_sec,
@@ -1220,7 +1220,7 @@
         (<span class="number">1.0 </span>- (d_rad).cos()) / <span class="number">2.0
     </span>};
 
-    <span class="kw">let </span>sun_ra_rad = (macros::ec_ra(
+    <span class="kw">let </span>sun_ra_rad = (pa_m::ec_ra(
         sun_long_deg,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -1232,7 +1232,7 @@
         gdate_year,
     ))
     .to_radians();
-    <span class="kw">let </span>moon_ra_rad = (macros::ec_ra(
+    <span class="kw">let </span>moon_ra_rad = (pa_m::ec_ra(
         moon_ecliptic_longitude_deg,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -1244,7 +1244,7 @@
         gdate_year,
     ))
     .to_radians();
-    <span class="kw">let </span>sun_dec_rad = (macros::ec_dec(
+    <span class="kw">let </span>sun_dec_rad = (pa_m::ec_dec(
         sun_long_deg,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -1256,7 +1256,7 @@
         gdate_year,
     ))
     .to_radians();
-    <span class="kw">let </span>moon_dec_rad = (macros::ec_dec(
+    <span class="kw">let </span>moon_dec_rad = (pa_m::ec_dec(
         moon_ecliptic_longitude_deg,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -1273,10 +1273,10 @@
     <span class="kw">let </span>x = (moon_dec_rad).cos() * (sun_dec_rad).sin()
         - (moon_dec_rad).sin() * (sun_dec_rad).cos() * (sun_ra_rad - moon_ra_rad).cos();
 
-    <span class="kw">let </span>chi_deg = macros::degrees(y.atan2(x));
+    <span class="kw">let </span>chi_deg = pa_m::degrees(y.atan2(x));
 
-    <span class="kw">let </span>moon_phase = util::round_f64(moon_phase1, <span class="number">2</span>);
-    <span class="kw">let </span>pa_bright_limb_deg = util::round_f64(chi_deg, <span class="number">2</span>);
+    <span class="kw">let </span>moon_phase = pa_u::round_f64(moon_phase1, <span class="number">2</span>);
+    <span class="kw">let </span>pa_bright_limb_deg = pa_u::round_f64(chi_deg, <span class="number">2</span>);
 
     <span class="kw">return </span>(moon_phase, pa_bright_limb_deg);
 }
@@ -1310,14 +1310,14 @@
 ) -&gt; (f64, f64, f64, u32, u32, f64, f64, f64, u32, u32) {
     <span class="kw">let </span>daylight_saving = <span class="kw">if </span>is_daylight_saving == <span class="bool-val">true </span>{ <span class="number">1 </span>} <span class="kw">else </span>{ <span class="number">0 </span>};
 
-    <span class="kw">let </span>jd_of_new_moon_days = macros::new_moon(
+    <span class="kw">let </span>jd_of_new_moon_days = pa_m::new_moon(
         daylight_saving,
         zone_correction_hours,
         local_date_day,
         local_date_month,
         local_date_year,
     );
-    <span class="kw">let </span>jd_of_full_moon_days = macros::full_moon(
+    <span class="kw">let </span>jd_of_full_moon_days = pa_m::full_moon(
         <span class="number">3</span>,
         zone_correction_hours,
         local_date_day,
@@ -1325,19 +1325,19 @@
         local_date_year,
     );
 
-    <span class="kw">let </span>g_date_of_new_moon_day = macros::jdc_day(jd_of_new_moon_days);
+    <span class="kw">let </span>g_date_of_new_moon_day = pa_m::jdc_day(jd_of_new_moon_days);
     <span class="kw">let </span>integer_day1 = g_date_of_new_moon_day.floor();
-    <span class="kw">let </span>g_date_of_new_moon_month = macros::jdc_month(jd_of_new_moon_days);
-    <span class="kw">let </span>g_date_of_new_moon_year = macros::jdc_year(jd_of_new_moon_days);
+    <span class="kw">let </span>g_date_of_new_moon_month = pa_m::jdc_month(jd_of_new_moon_days);
+    <span class="kw">let </span>g_date_of_new_moon_year = pa_m::jdc_year(jd_of_new_moon_days);
 
-    <span class="kw">let </span>g_date_of_full_moon_day = macros::jdc_day(jd_of_full_moon_days);
+    <span class="kw">let </span>g_date_of_full_moon_day = pa_m::jdc_day(jd_of_full_moon_days);
     <span class="kw">let </span>integer_day2 = g_date_of_full_moon_day.floor();
-    <span class="kw">let </span>g_date_of_full_moon_month = macros::jdc_month(jd_of_full_moon_days);
-    <span class="kw">let </span>g_date_of_full_moon_year = macros::jdc_year(jd_of_full_moon_days);
+    <span class="kw">let </span>g_date_of_full_moon_month = pa_m::jdc_month(jd_of_full_moon_days);
+    <span class="kw">let </span>g_date_of_full_moon_year = pa_m::jdc_year(jd_of_full_moon_days);
 
     <span class="kw">let </span>ut_of_new_moon_hours = <span class="number">24.0 </span>* (g_date_of_new_moon_day - integer_day1);
     <span class="kw">let </span>ut_of_full_moon_hours = <span class="number">24.0 </span>* (g_date_of_full_moon_day - integer_day2);
-    <span class="kw">let </span>lct_of_new_moon_hours = macros::ut_lct(
+    <span class="kw">let </span>lct_of_new_moon_hours = pa_m::ut_lct(
         ut_of_new_moon_hours + <span class="number">0.008333</span>,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -1347,7 +1347,7 @@
         g_date_of_new_moon_month,
         g_date_of_new_moon_year,
     );
-    <span class="kw">let </span>lct_of_full_moon_hours = macros::ut_lct(
+    <span class="kw">let </span>lct_of_full_moon_hours = pa_m::ut_lct(
         ut_of_full_moon_hours + <span class="number">0.008333</span>,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -1358,9 +1358,9 @@
         g_date_of_full_moon_year,
     );
 
-    <span class="kw">let </span>nm_local_time_hour = macros::dh_hour(lct_of_new_moon_hours);
-    <span class="kw">let </span>nm_local_time_min = macros::dh_min(lct_of_new_moon_hours);
-    <span class="kw">let </span>nm_local_date_day = macros::ut_lc_day(
+    <span class="kw">let </span>nm_local_time_hour = pa_m::dh_hour(lct_of_new_moon_hours);
+    <span class="kw">let </span>nm_local_time_min = pa_m::dh_min(lct_of_new_moon_hours);
+    <span class="kw">let </span>nm_local_date_day = pa_m::ut_lc_day(
         ut_of_new_moon_hours,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -1370,7 +1370,7 @@
         g_date_of_new_moon_month,
         g_date_of_new_moon_year,
     );
-    <span class="kw">let </span>nm_local_date_month = macros::ut_lc_month(
+    <span class="kw">let </span>nm_local_date_month = pa_m::ut_lc_month(
         ut_of_new_moon_hours,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -1380,7 +1380,7 @@
         g_date_of_new_moon_month,
         g_date_of_new_moon_year,
     );
-    <span class="kw">let </span>nm_local_date_year = macros::ut_lc_year(
+    <span class="kw">let </span>nm_local_date_year = pa_m::ut_lc_year(
         ut_of_new_moon_hours,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -1390,9 +1390,9 @@
         g_date_of_new_moon_month,
         g_date_of_new_moon_year,
     );
-    <span class="kw">let </span>fm_local_time_hour = macros::dh_hour(lct_of_full_moon_hours);
-    <span class="kw">let </span>fm_local_time_min = macros::dh_min(lct_of_full_moon_hours);
-    <span class="kw">let </span>fm_local_date_day = macros::ut_lc_day(
+    <span class="kw">let </span>fm_local_time_hour = pa_m::dh_hour(lct_of_full_moon_hours);
+    <span class="kw">let </span>fm_local_time_min = pa_m::dh_min(lct_of_full_moon_hours);
+    <span class="kw">let </span>fm_local_date_day = pa_m::ut_lc_day(
         ut_of_full_moon_hours,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -1402,7 +1402,7 @@
         g_date_of_full_moon_month,
         g_date_of_full_moon_year,
     );
-    <span class="kw">let </span>fm_local_date_month = macros::ut_lc_month(
+    <span class="kw">let </span>fm_local_date_month = pa_m::ut_lc_month(
         ut_of_full_moon_hours,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -1412,7 +1412,7 @@
         g_date_of_full_moon_month,
         g_date_of_full_moon_year,
     );
-    <span class="kw">let </span>fm_local_date_year = macros::ut_lc_year(
+    <span class="kw">let </span>fm_local_date_year = pa_m::ut_lc_year(
         ut_of_full_moon_hours,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -1468,7 +1468,7 @@
 ) -&gt; (f64, f64, f64, f64, f64, f64) {
     <span class="kw">let </span>daylight_saving = <span class="kw">if </span>is_daylight_saving == <span class="bool-val">true </span>{ <span class="number">1 </span>} <span class="kw">else </span>{ <span class="number">0 </span>};
 
-    <span class="kw">let </span>moon_distance = macros::moon_dist(
+    <span class="kw">let </span>moon_distance = pa_m::moon_dist(
         lct_hour,
         lct_min,
         lct_sec,
@@ -1478,7 +1478,7 @@
         local_date_month,
         local_date_year,
     );
-    <span class="kw">let </span>moon_angular_diameter = macros::moon_size(
+    <span class="kw">let </span>moon_angular_diameter = pa_m::moon_size(
         lct_hour,
         lct_min,
         lct_sec,
@@ -1488,7 +1488,7 @@
         local_date_month,
         local_date_year,
     );
-    <span class="kw">let </span>moon_horizontal_parallax = macros::moon_hp(
+    <span class="kw">let </span>moon_horizontal_parallax = pa_m::moon_hp(
         lct_hour,
         lct_min,
         lct_sec,
@@ -1500,12 +1500,12 @@
     );
 
     <span class="comment">// earth_moon_dist = round(moon_distance,-1)
-    </span><span class="kw">let </span>earth_moon_dist = util::round_f64(moon_distance, <span class="number">0</span>);
-    <span class="kw">let </span>ang_diameter_deg = macros::dd_deg(moon_angular_diameter + <span class="number">0.008333</span>);
-    <span class="kw">let </span>ang_diameter_min = macros::dd_min(moon_angular_diameter + <span class="number">0.008333</span>);
-    <span class="kw">let </span>hor_parallax_deg = macros::dd_deg(moon_horizontal_parallax);
-    <span class="kw">let </span>hor_parallax_min = macros::dd_min(moon_horizontal_parallax);
-    <span class="kw">let </span>hor_parallax_sec = macros::dd_sec(moon_horizontal_parallax);
+    </span><span class="kw">let </span>earth_moon_dist = pa_u::round_f64(moon_distance, <span class="number">0</span>);
+    <span class="kw">let </span>ang_diameter_deg = pa_m::dd_deg(moon_angular_diameter + <span class="number">0.008333</span>);
+    <span class="kw">let </span>ang_diameter_min = pa_m::dd_min(moon_angular_diameter + <span class="number">0.008333</span>);
+    <span class="kw">let </span>hor_parallax_deg = pa_m::dd_deg(moon_horizontal_parallax);
+    <span class="kw">let </span>hor_parallax_min = pa_m::dd_min(moon_horizontal_parallax);
+    <span class="kw">let </span>hor_parallax_sec = pa_m::dd_sec(moon_horizontal_parallax);
 
     <span class="kw">return </span>(
         earth_moon_dist,
@@ -1552,7 +1552,7 @@
 ) -&gt; (f64, f64, f64, u32, u32, f64, f64, f64, f64, u32, u32, f64) {
     <span class="kw">let </span>daylight_saving = <span class="kw">if </span>is_daylight_saving == <span class="bool-val">true </span>{ <span class="number">1 </span>} <span class="kw">else </span>{ <span class="number">0 </span>};
 
-    <span class="kw">let </span>local_time_of_moonrise_hours = macros::moon_rise_lct(
+    <span class="kw">let </span>local_time_of_moonrise_hours = pa_m::moon_rise_lct(
         local_date_day,
         local_date_month,
         local_date_year,
@@ -1561,7 +1561,7 @@
         geog_long_deg,
         geog_lat_deg,
     );
-    <span class="kw">let </span>_local_moonrise_status1 = macros::e_moon_rise(
+    <span class="kw">let </span>_local_moonrise_status1 = pa_m::e_moon_rise(
         local_date_day,
         local_date_month,
         local_date_year,
@@ -1571,7 +1571,7 @@
         geog_lat_deg,
     );
     <span class="kw">let </span>(local_date_of_moonrise_day, local_date_of_moonrise_month, local_date_of_moonrise_year) =
-        macros::moon_rise_lc_dmy(
+        pa_m::moon_rise_lc_dmy(
             local_date_day,
             local_date_month,
             local_date_year,
@@ -1580,7 +1580,7 @@
             geog_long_deg,
             geog_lat_deg,
         );
-    <span class="kw">let </span>local_azimuth_deg1 = macros::moon_rise_az(
+    <span class="kw">let </span>local_azimuth_deg1 = pa_m::moon_rise_az(
         local_date_day,
         local_date_month,
         local_date_year,
@@ -1590,7 +1590,7 @@
         geog_lat_deg,
     );
 
-    <span class="kw">let </span>local_time_of_moonset_hours = macros::moon_set_lct(
+    <span class="kw">let </span>local_time_of_moonset_hours = pa_m::moon_set_lct(
         local_date_day,
         local_date_month,
         local_date_year,
@@ -1599,7 +1599,7 @@
         geog_long_deg,
         geog_lat_deg,
     );
-    <span class="kw">let </span>_local_moonset_status1 = macros::e_moon_set(
+    <span class="kw">let </span>_local_moonset_status1 = pa_m::e_moon_set(
         local_date_day,
         local_date_month,
         local_date_year,
@@ -1609,7 +1609,7 @@
         geog_lat_deg,
     );
     <span class="kw">let </span>(local_date_of_moonset_day, local_date_of_moonset_month, local_date_of_moonset_year) =
-        macros::moon_set_lc_dmy(
+        pa_m::moon_set_lc_dmy(
             local_date_day,
             local_date_month,
             local_date_year,
@@ -1618,7 +1618,7 @@
             geog_long_deg,
             geog_lat_deg,
         );
-    <span class="kw">let </span>local_azimuth_deg2 = macros::moon_set_az(
+    <span class="kw">let </span>local_azimuth_deg2 = pa_m::moon_set_az(
         local_date_day,
         local_date_month,
         local_date_year,
@@ -1628,18 +1628,18 @@
         geog_lat_deg,
     );
 
-    <span class="kw">let </span>mr_lt_hour = macros::dh_hour(local_time_of_moonrise_hours + <span class="number">0.008333</span>);
-    <span class="kw">let </span>mr_lt_min = macros::dh_min(local_time_of_moonrise_hours + <span class="number">0.008333</span>);
+    <span class="kw">let </span>mr_lt_hour = pa_m::dh_hour(local_time_of_moonrise_hours + <span class="number">0.008333</span>);
+    <span class="kw">let </span>mr_lt_min = pa_m::dh_min(local_time_of_moonrise_hours + <span class="number">0.008333</span>);
     <span class="kw">let </span>mr_local_date_day = local_date_of_moonrise_day;
     <span class="kw">let </span>mr_local_date_month = local_date_of_moonrise_month;
     <span class="kw">let </span>mr_local_date_year = local_date_of_moonrise_year;
-    <span class="kw">let </span>mr_azimuth_deg = util::round_f64(local_azimuth_deg1, <span class="number">2</span>);
-    <span class="kw">let </span>ms_lt_hour = macros::dh_hour(local_time_of_moonset_hours + <span class="number">0.008333</span>);
-    <span class="kw">let </span>ms_lt_min = macros::dh_min(local_time_of_moonset_hours + <span class="number">0.008333</span>);
+    <span class="kw">let </span>mr_azimuth_deg = pa_u::round_f64(local_azimuth_deg1, <span class="number">2</span>);
+    <span class="kw">let </span>ms_lt_hour = pa_m::dh_hour(local_time_of_moonset_hours + <span class="number">0.008333</span>);
+    <span class="kw">let </span>ms_lt_min = pa_m::dh_min(local_time_of_moonset_hours + <span class="number">0.008333</span>);
     <span class="kw">let </span>ms_local_date_day = local_date_of_moonset_day;
     <span class="kw">let </span>ms_local_date_month = local_date_of_moonset_month;
     <span class="kw">let </span>ms_local_date_year = local_date_of_moonset_year;
-    <span class="kw">let </span>ms_azimuth_deg = util::round_f64(local_azimuth_deg2, <span class="number">2</span>);
+    <span class="kw">let </span>ms_azimuth_deg = pa_u::round_f64(local_azimuth_deg2, <span class="number">2</span>);
 
     <span class="kw">return </span>(
         mr_lt_hour <span class="kw">as </span>f64,

@@ -1,11 +1,9 @@
 /// Determine if year is a leap year.
 ///
 /// ## Arguments
-///
 /// year
 ///
 /// ## Returns
-///
 /// true or false
 pub fn is_leap_year(input_year: u32) -> bool {
     let year = input_year as f64;

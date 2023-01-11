@@ -486,16 +486,11 @@
 <span id="486">486</span>
 <span id="487">487</span>
 <span id="488">488</span>
-<span id="489">489</span>
-<span id="490">490</span>
-<span id="491">491</span>
-</pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::macros;
-<span class="kw">use </span><span class="kw">crate</span>::planetdata;
-<span class="kw">use </span><span class="kw">crate</span>::util;
+</pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::macros <span class="kw">as </span>pa_m;
+<span class="kw">use </span><span class="kw">crate</span>::planetdata <span class="kw">as </span>pa_pd;
+<span class="kw">use </span><span class="kw">crate</span>::util <span class="kw">as </span>pa_u;
 
-<span class="comment">// use num;
-
-</span><span class="doccomment">/// Calculate approximate position of a planet.
+<span class="doccomment">/// Calculate approximate position of a planet.
 ///
 /// ## Arguments
 /// * `lct_hour` -- Local civil time, in hours.
@@ -506,7 +501,7 @@
 /// * `local_date_day` -- Local date, day part.
 /// * `local_date_month` -- Local date, month part.
 /// * `local_date_year` -- Local date, year part.
-/// * `planet_name` -- Name of planet, e.g., &quot;Jupiter&quot;
+/// * `planet_name` -- Name of planet, e.g., &quot;Jupiter&quot;.
 ///
 /// ## Returns
 /// * `planet_ra_hour` -- Right ascension of planet (hour part)
@@ -528,7 +523,7 @@
 ) -&gt; (f64, f64, f64, f64, f64, f64) {
     <span class="kw">let </span>daylight_saving = <span class="kw">if </span>is_daylight_saving == <span class="bool-val">true </span>{ <span class="number">1 </span>} <span class="kw">else </span>{ <span class="number">0 </span>};
 
-    <span class="kw">let </span>(planet_info, _planet_info_status) = planetdata::get_planet_info_vector(planet_name);
+    <span class="kw">let </span>(planet_info, _planet_info_status) = pa_pd::get_planet_info_vector(planet_name);
 
     <span class="kw">let </span>planet_tp_from_table = planet_info.tp;
     <span class="kw">let </span>planet_long_from_table = planet_info.long;
@@ -538,7 +533,7 @@
     <span class="kw">let </span>planet_incl_from_table = planet_info.incl;
     <span class="kw">let </span>planet_node_from_table = planet_info.node;
 
-    <span class="kw">let </span>gdate_day = macros::lct_gday(
+    <span class="kw">let </span>gdate_day = pa_m::lct_gday(
         lct_hour,
         lct_min,
         lct_sec,
@@ -548,7 +543,7 @@
         local_date_month,
         local_date_year,
     );
-    <span class="kw">let </span>gdate_month = macros::lct_gmonth(
+    <span class="kw">let </span>gdate_month = pa_m::lct_gmonth(
         lct_hour,
         lct_min,
         lct_sec,
@@ -558,7 +553,7 @@
         local_date_month,
         local_date_year,
     );
-    <span class="kw">let </span>gdate_year = macros::lct_gyear(
+    <span class="kw">let </span>gdate_year = pa_m::lct_gyear(
         lct_hour,
         lct_min,
         lct_sec,
@@ -569,7 +564,7 @@
         local_date_year,
     );
 
-    <span class="kw">let </span>ut_hours = macros::lct_ut(
+    <span class="kw">let </span>ut_hours = pa_m::lct_ut(
         lct_hour,
         lct_min,
         lct_sec,
@@ -579,8 +574,8 @@
         local_date_month,
         local_date_year,
     );
-    <span class="kw">let </span>d_days = macros::cd_jd(gdate_day + (ut_hours / <span class="number">24.0</span>), gdate_month, gdate_year)
-        - macros::cd_jd(<span class="number">0.0</span>, <span class="number">1</span>, <span class="number">2010</span>);
+    <span class="kw">let </span>d_days = pa_m::cd_jd(gdate_day + (ut_hours / <span class="number">24.0</span>), gdate_month, gdate_year)
+        - pa_m::cd_jd(<span class="number">0.0</span>, <span class="number">1</span>, <span class="number">2010</span>);
     <span class="kw">let </span>np_deg1 = <span class="number">360.0 </span>* d_days / (<span class="number">365.242191 </span>* planet_tp_from_table);
     <span class="kw">let </span>np_deg2 = np_deg1 - <span class="number">360.0 </span>* (np_deg1 / <span class="number">360.0</span>).floor();
     <span class="kw">let </span>mp_deg = np_deg2 + planet_long_from_table - planet_peri_from_table;
@@ -592,7 +587,7 @@
     <span class="kw">let </span>r_au = planet_axis_from_table * (<span class="number">1.0 </span>- num::pow(planet_ecc_from_table, <span class="number">2</span>))
         / (<span class="number">1.0 </span>+ planet_ecc_from_table * planet_true_anomaly_deg.to_radians().cos());
 
-    <span class="kw">let </span>(earth_info, _earth_info_status) = planetdata::get_planet_info_vector(<span class="string">&quot;Earth&quot;</span>.to_string());
+    <span class="kw">let </span>(earth_info, _earth_info_status) = pa_pd::get_planet_info_vector(<span class="string">&quot;Earth&quot;</span>.to_string());
 
     <span class="kw">let </span>earth_tp_from_table = earth_info.tp;
     <span class="kw">let </span>earth_long_from_table = earth_info.long;
@@ -614,7 +609,7 @@
     <span class="kw">let </span>psi_rad = ((lp_node_rad).sin() * planet_incl_from_table.to_radians().sin()).asin();
     <span class="kw">let </span>y = lp_node_rad.sin() * planet_incl_from_table.to_radians().cos();
     <span class="kw">let </span>x = lp_node_rad.cos();
-    <span class="kw">let </span>ld_deg = macros::degrees(y.atan2(x)) + planet_node_from_table;
+    <span class="kw">let </span>ld_deg = pa_m::degrees(y.atan2(x)) + planet_node_from_table;
     <span class="kw">let </span>rd_au = r_au * psi_rad.cos();
     <span class="kw">let </span>le_ld_rad = (le_deg2 - ld_deg).to_radians();
     <span class="kw">let </span>atan2_type_1 = (rd_au * le_ld_rad.sin()).atan2(r_au2 - rd_au * le_ld_rad.cos());
@@ -625,17 +620,17 @@
         atan2_type_2
     };
     <span class="kw">let </span>lamda_deg1 = <span class="kw">if </span>rd_au &lt; <span class="number">1.0 </span>{
-        <span class="number">180.0 </span>+ le_deg2 + macros::degrees(a_rad)
+        <span class="number">180.0 </span>+ le_deg2 + pa_m::degrees(a_rad)
     } <span class="kw">else </span>{
-        macros::degrees(a_rad) + ld_deg
+        pa_m::degrees(a_rad) + ld_deg
     };
     <span class="kw">let </span>lamda_deg2 = lamda_deg1 - <span class="number">360.0 </span>* (lamda_deg1 / <span class="number">360.0</span>).floor();
-    <span class="kw">let </span>beta_deg = macros::degrees(
+    <span class="kw">let </span>beta_deg = pa_m::degrees(
         (rd_au * psi_rad.tan() * ((lamda_deg2 - ld_deg).to_radians()).sin()
             / (r_au2 * (-le_ld_rad).sin()))
         .atan(),
     );
-    <span class="kw">let </span>ra_hours = macros::dd_dh(macros::ec_ra(
+    <span class="kw">let </span>ra_hours = pa_m::dd_dh(pa_m::ec_ra(
         lamda_deg2,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -646,7 +641,7 @@
         gdate_month,
         gdate_year,
     ));
-    <span class="kw">let </span>dec_deg = macros::ec_dec(
+    <span class="kw">let </span>dec_deg = pa_m::ec_dec(
         lamda_deg2,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -658,12 +653,12 @@
         gdate_year,
     );
 
-    <span class="kw">let </span>planet_ra_hour = macros::dh_hour(ra_hours);
-    <span class="kw">let </span>planet_ra_min = macros::dh_min(ra_hours);
-    <span class="kw">let </span>planet_ra_sec = macros::dh_sec(ra_hours);
-    <span class="kw">let </span>planet_dec_deg = macros::dd_deg(dec_deg);
-    <span class="kw">let </span>planet_dec_min = macros::dd_min(dec_deg);
-    <span class="kw">let </span>planet_dec_sec = macros::dd_sec(dec_deg);
+    <span class="kw">let </span>planet_ra_hour = pa_m::dh_hour(ra_hours);
+    <span class="kw">let </span>planet_ra_min = pa_m::dh_min(ra_hours);
+    <span class="kw">let </span>planet_ra_sec = pa_m::dh_sec(ra_hours);
+    <span class="kw">let </span>planet_dec_deg = pa_m::dd_deg(dec_deg);
+    <span class="kw">let </span>planet_dec_min = pa_m::dd_min(dec_deg);
+    <span class="kw">let </span>planet_dec_sec = pa_m::dd_sec(dec_deg);
 
     <span class="kw">return </span>(
         planet_ra_hour <span class="kw">as </span>f64,
@@ -686,7 +681,7 @@
 /// * `local_date_day` -- Local date, day part.
 /// * `local_date_month` -- Local date, month part.
 /// * `local_date_year` -- Local date, year part.
-/// * `planet_name` -- Name of planet, e.g., &quot;Jupiter&quot;
+/// * `planet_name` -- Name of planet, e.g., &quot;Jupiter&quot;.
 ///
 /// ## Returns
 /// * `planet_ra_hour` -- Right ascension of planet (hour part)
@@ -708,7 +703,7 @@
 ) -&gt; (f64, f64, f64, f64, f64, f64) {
     <span class="kw">let </span>daylight_saving = <span class="kw">if </span>is_daylight_saving == <span class="bool-val">true </span>{ <span class="number">1 </span>} <span class="kw">else </span>{ <span class="number">0 </span>};
 
-    <span class="kw">let </span>_gdate_day = macros::lct_gday(
+    <span class="kw">let </span>_gdate_day = pa_m::lct_gday(
         lct_hour,
         lct_min,
         lct_sec,
@@ -718,7 +713,7 @@
         local_date_month,
         local_date_year,
     );
-    <span class="kw">let </span>_gdate_month = macros::lct_gmonth(
+    <span class="kw">let </span>_gdate_month = pa_m::lct_gmonth(
         lct_hour,
         lct_min,
         lct_sec,
@@ -728,7 +723,7 @@
         local_date_month,
         local_date_year,
     );
-    <span class="kw">let </span>_gdate_year = macros::lct_gyear(
+    <span class="kw">let </span>_gdate_year = pa_m::lct_gyear(
         lct_hour,
         lct_min,
         lct_sec,
@@ -747,7 +742,7 @@
         _planet_h_long2,
         _planet_h_lat,
         _planet_r_vect,
-    ) = macros::planet_coordinates(
+    ) = pa_m::planet_coordinates(
         lct_hour,
         lct_min,
         lct_sec,
@@ -759,7 +754,7 @@
         planet_name,
     );
 
-    <span class="kw">let </span>planet_ra_hours = macros::dd_dh(macros::ec_ra(
+    <span class="kw">let </span>planet_ra_hours = pa_m::dd_dh(pa_m::ec_ra(
         planet_ecl_long_deg,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -770,7 +765,7 @@
         local_date_month,
         local_date_year,
     ));
-    <span class="kw">let </span>planet_dec_deg1 = macros::ec_dec(
+    <span class="kw">let </span>planet_dec_deg1 = pa_m::ec_dec(
         planet_ecl_long_deg,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -782,12 +777,12 @@
         local_date_year,
     );
 
-    <span class="kw">let </span>planet_ra_hour = macros::dh_hour(planet_ra_hours);
-    <span class="kw">let </span>planet_ra_min = macros::dh_min(planet_ra_hours);
-    <span class="kw">let </span>planet_ra_sec = macros::dh_sec(planet_ra_hours);
-    <span class="kw">let </span>planet_dec_deg = macros::dd_deg(planet_dec_deg1);
-    <span class="kw">let </span>planet_dec_min = macros::dd_min(planet_dec_deg1);
-    <span class="kw">let </span>planet_dec_sec = macros::dd_sec(planet_dec_deg1);
+    <span class="kw">let </span>planet_ra_hour = pa_m::dh_hour(planet_ra_hours);
+    <span class="kw">let </span>planet_ra_min = pa_m::dh_min(planet_ra_hours);
+    <span class="kw">let </span>planet_ra_sec = pa_m::dh_sec(planet_ra_hours);
+    <span class="kw">let </span>planet_dec_deg = pa_m::dd_deg(planet_dec_deg1);
+    <span class="kw">let </span>planet_dec_min = pa_m::dd_min(planet_dec_deg1);
+    <span class="kw">let </span>planet_dec_sec = pa_m::dd_sec(planet_dec_deg1);
 
     <span class="kw">return </span>(
         planet_ra_hour <span class="kw">as </span>f64,
@@ -810,11 +805,11 @@
 /// * `local_date_day` -- Local date, day part.
 /// * `local_date_month` -- Local date, month part.
 /// * `local_date_year` -- Local date, year part.
-/// * `planet_name` -- Name of planet, e.g., &quot;Jupiter&quot;
+/// * `planet_name` -- Name of planet, e.g., &quot;Jupiter&quot;.
 ///
 /// ## Returns
 /// * `distance_au` -- Planet&#39;s distance from Earth, in AU.
-/// * `ang_dia_arcsec` -- Angular diameter of the planet.
+/// * `ang_dia_arcsec` -- Angular diameter of the planet, in arcseconds.
 /// * `phase` -- Illuminated fraction of the planet.
 /// * `light_time_hour` -- Light travel time from planet to Earth, hour part.
 /// * `light_time_minutes` -- Light travel time from planet to Earth, minutes part.
@@ -834,7 +829,7 @@
 ) -&gt; (f64, f64, f64, f64, f64, f64, f64, f64) {
     <span class="kw">let </span>daylight_saving = <span class="kw">if </span>is_daylight_saving == <span class="bool-val">true </span>{ <span class="number">1 </span>} <span class="kw">else </span>{ <span class="number">0 </span>};
 
-    <span class="kw">let </span>greenwich_date_day = macros::lct_gday(
+    <span class="kw">let </span>greenwich_date_day = pa_m::lct_gday(
         lct_hour,
         lct_min,
         lct_sec,
@@ -844,7 +839,7 @@
         local_date_month,
         local_date_year,
     );
-    <span class="kw">let </span>greenwich_date_month = macros::lct_gmonth(
+    <span class="kw">let </span>greenwich_date_month = pa_m::lct_gmonth(
         lct_hour,
         lct_min,
         lct_sec,
@@ -854,7 +849,7 @@
         local_date_month,
         local_date_year,
     );
-    <span class="kw">let </span>greenwich_date_year = macros::lct_gyear(
+    <span class="kw">let </span>greenwich_date_year = pa_m::lct_gyear(
         lct_hour,
         lct_min,
         lct_sec,
@@ -873,7 +868,7 @@
         _temp3,
         _temp4,
         planet_r_vect,
-    ) = macros::planet_coordinates(
+    ) = pa_m::planet_coordinates(
         lct_hour,
         lct_min,
         lct_sec,
@@ -885,7 +880,7 @@
         planet_name.to_string(),
     );
 
-    <span class="kw">let </span>planet_ra_rad = (macros::ec_ra(
+    <span class="kw">let </span>planet_ra_rad = (pa_m::ec_ra(
         planet_ecl_long_deg,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -897,7 +892,7 @@
         local_date_year,
     ))
     .to_radians();
-    <span class="kw">let </span>planet_dec_rad = (macros::ec_dec(
+    <span class="kw">let </span>planet_dec_rad = (pa_m::ec_dec(
         planet_ecl_long_deg,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -911,12 +906,11 @@
     .to_radians();
 
     <span class="kw">let </span>light_travel_time_hours = planet_dist_au * <span class="number">0.1386</span>;
-    <span class="kw">let </span>(planet_info, _planet_info_status) =
-        planetdata::get_planet_info_vector(planet_name.to_string());
+    <span class="kw">let </span>(planet_info, _planet_info_status) = pa_pd::get_planet_info_vector(planet_name.to_string());
     <span class="kw">let </span>angular_diameter_arcsec = planet_info.theta0 / planet_dist_au;
     <span class="kw">let </span>phase1 = <span class="number">0.5 </span>* (<span class="number">1.0 </span>+ ((planet_ecl_long_deg - planet_h_long1).to_radians()).cos());
 
-    <span class="kw">let </span>sun_ecl_long_deg = macros::sun_long(
+    <span class="kw">let </span>sun_ecl_long_deg = pa_m::sun_long(
         lct_hour,
         lct_min,
         lct_sec,
@@ -926,7 +920,7 @@
         local_date_month,
         local_date_year,
     );
-    <span class="kw">let </span>sun_ra_rad = (macros::ec_ra(
+    <span class="kw">let </span>sun_ra_rad = (pa_m::ec_ra(
         sun_ecl_long_deg,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -938,7 +932,7 @@
         greenwich_date_year,
     ))
     .to_radians();
-    <span class="kw">let </span>sun_dec_rad = (macros::ec_dec(
+    <span class="kw">let </span>sun_dec_rad = (pa_m::ec_dec(
         sun_ecl_long_deg,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -955,19 +949,19 @@
     <span class="kw">let </span>x = (planet_dec_rad).cos() * (sun_dec_rad).sin()
         - (planet_dec_rad).sin() * (sun_dec_rad).cos() * (sun_ra_rad - planet_ra_rad).cos();
 
-    <span class="kw">let </span>chi_deg = macros::degrees(y.atan2(x));
+    <span class="kw">let </span>chi_deg = pa_m::degrees(y.atan2(x));
     <span class="kw">let </span>radius_vector_au = planet_r_vect;
     <span class="kw">let </span>approximate_magnitude1 =
         <span class="number">5.0 </span>* (radius_vector_au * planet_dist_au / (phase1).sqrt()).log10() + planet_info.v0;
 
-    <span class="kw">let </span>distance_au = util::round_f64(planet_dist_au, <span class="number">5</span>);
-    <span class="kw">let </span>ang_dia_arcsec = util::round_f64(angular_diameter_arcsec, <span class="number">1</span>);
-    <span class="kw">let </span>phase = util::round_f64(phase1, <span class="number">2</span>);
-    <span class="kw">let </span>light_time_hour = macros::dh_hour(light_travel_time_hours);
-    <span class="kw">let </span>light_time_minutes = macros::dh_min(light_travel_time_hours);
-    <span class="kw">let </span>light_time_seconds = macros::dh_sec(light_travel_time_hours);
-    <span class="kw">let </span>pos_angle_bright_limb_deg = util::round_f64(chi_deg, <span class="number">1</span>);
-    <span class="kw">let </span>approximate_magnitude = util::round_f64(approximate_magnitude1, <span class="number">1</span>);
+    <span class="kw">let </span>distance_au = pa_u::round_f64(planet_dist_au, <span class="number">5</span>);
+    <span class="kw">let </span>ang_dia_arcsec = pa_u::round_f64(angular_diameter_arcsec, <span class="number">1</span>);
+    <span class="kw">let </span>phase = pa_u::round_f64(phase1, <span class="number">2</span>);
+    <span class="kw">let </span>light_time_hour = pa_m::dh_hour(light_travel_time_hours);
+    <span class="kw">let </span>light_time_minutes = pa_m::dh_min(light_travel_time_hours);
+    <span class="kw">let </span>light_time_seconds = pa_m::dh_sec(light_travel_time_hours);
+    <span class="kw">let </span>pos_angle_bright_limb_deg = pa_u::round_f64(chi_deg, <span class="number">1</span>);
+    <span class="kw">let </span>approximate_magnitude = pa_u::round_f64(approximate_magnitude1, <span class="number">1</span>);
 
     <span class="kw">return </span>(
         distance_au,

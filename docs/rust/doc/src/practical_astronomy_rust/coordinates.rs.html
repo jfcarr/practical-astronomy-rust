@@ -1148,10 +1148,10 @@
 <span id="1148">1148</span>
 <span id="1149">1149</span>
 <span id="1150">1150</span>
-</pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::macros;
-<span class="kw">use </span><span class="kw">crate</span>::util <span class="kw">as </span>utils;
+</pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::macros <span class="kw">as </span>pa_m;
+<span class="kw">use </span><span class="kw">crate</span>::util <span class="kw">as </span>pa_u;
 
-<span class="doccomment">/// Convert an Angle (degrees, minutes, and seconds) to Decimal Degrees
+<span class="doccomment">/// Convert an Angle (degrees, minutes, and seconds) to Decimal Degrees.
 </span><span class="kw">pub fn </span>angle_to_decimal_degrees(degrees: f64, minutes: f64, seconds: f64) -&gt; f64 {
     <span class="kw">let </span>a = seconds.abs() / <span class="number">60.0</span>;
     <span class="kw">let </span>b = (minutes.abs() + a) / <span class="number">60.0</span>;
@@ -1165,14 +1165,14 @@
     <span class="kw">return </span>d;
 }
 
-<span class="doccomment">/// Convert Decimal Degrees to an Angle (degrees, minutes, and seconds)
+<span class="doccomment">/// Convert Decimal Degrees to an Angle (degrees, minutes, and seconds).
 ///
 /// ## Returns
 /// degrees, minutes, seconds
 </span><span class="kw">pub fn </span>decimal_degrees_to_angle(decimal_degrees: f64) -&gt; (f64, f64, f64) {
     <span class="kw">let </span>unsigned_decimal = decimal_degrees.abs();
     <span class="kw">let </span>total_seconds = unsigned_decimal * <span class="number">3600.0</span>;
-    <span class="kw">let </span>seconds_2_dp = utils::round_f64(total_seconds % <span class="number">60.0</span>, <span class="number">2</span>);
+    <span class="kw">let </span>seconds_2_dp = pa_u::round_f64(total_seconds % <span class="number">60.0</span>, <span class="number">2</span>);
     <span class="kw">let </span>corrected_seconds = <span class="kw">if </span>seconds_2_dp == <span class="number">60.0 </span>{
         <span class="number">0.0
     </span>} <span class="kw">else </span>{
@@ -1194,7 +1194,7 @@
     <span class="kw">return </span>(signed_degrees, minutes, corrected_seconds.floor());
 }
 
-<span class="doccomment">/// Convert Right Ascension to Hour Angle
+<span class="doccomment">/// Convert Right Ascension to Hour Angle.
 </span><span class="kw">pub fn </span>right_ascension_to_hour_angle(
     ra_hours: f64,
     ra_minutes: f64,
@@ -1211,7 +1211,7 @@
 ) -&gt; (f64, f64, f64) {
     <span class="kw">let </span>daylight_saving = <span class="kw">if </span>is_daylight_saving == <span class="bool-val">true </span>{ <span class="number">1 </span>} <span class="kw">else </span>{ <span class="number">0 </span>};
 
-    <span class="kw">let </span>hour_angle = macros::ra_ha(
+    <span class="kw">let </span>hour_angle = pa_m::ra_ha(
         ra_hours,
         ra_minutes,
         ra_seconds,
@@ -1226,9 +1226,9 @@
         geographical_longitude,
     );
 
-    <span class="kw">let </span>hour_angle_hours = macros::dh_hour(hour_angle);
-    <span class="kw">let </span>hour_angle_minutes = macros::dh_min(hour_angle);
-    <span class="kw">let </span>hour_angle_seconds = macros::dh_sec(hour_angle);
+    <span class="kw">let </span>hour_angle_hours = pa_m::dh_hour(hour_angle);
+    <span class="kw">let </span>hour_angle_minutes = pa_m::dh_min(hour_angle);
+    <span class="kw">let </span>hour_angle_seconds = pa_m::dh_sec(hour_angle);
 
     <span class="kw">return </span>(
         hour_angle_hours <span class="kw">as </span>f64,
@@ -1237,7 +1237,7 @@
     );
 }
 
-<span class="doccomment">/// Convert Hour Angle to Right Ascension
+<span class="doccomment">/// Convert Hour Angle to Right Ascension.
 </span><span class="kw">pub fn </span>hour_angle_to_right_ascension(
     hour_angle_hours: f64,
     hour_angle_minutes: f64,
@@ -1254,7 +1254,7 @@
 ) -&gt; (f64, f64, f64) {
     <span class="kw">let </span>daylight_saving = <span class="kw">if </span>is_daylight_saving == <span class="bool-val">true </span>{ <span class="number">1 </span>} <span class="kw">else </span>{ <span class="number">0 </span>};
 
-    <span class="kw">let </span>right_ascension = macros::ha_ra(
+    <span class="kw">let </span>right_ascension = pa_m::ha_ra(
         hour_angle_hours,
         hour_angle_minutes,
         hour_angle_seconds,
@@ -1269,9 +1269,9 @@
         geographical_longitude,
     );
 
-    <span class="kw">let </span>right_ascension_hours = macros::dh_hour(right_ascension);
-    <span class="kw">let </span>right_ascension_minutes = macros::dh_min(right_ascension);
-    <span class="kw">let </span>right_ascension_seconds = macros::dh_sec(right_ascension);
+    <span class="kw">let </span>right_ascension_hours = pa_m::dh_hour(right_ascension);
+    <span class="kw">let </span>right_ascension_minutes = pa_m::dh_min(right_ascension);
+    <span class="kw">let </span>right_ascension_seconds = pa_m::dh_sec(right_ascension);
 
     <span class="kw">return </span>(
         right_ascension_hours <span class="kw">as </span>f64,
@@ -1280,7 +1280,7 @@
     );
 }
 
-<span class="doccomment">/// Convert Equatorial Coordinates to Horizon Coordinates
+<span class="doccomment">/// Convert Equatorial Coordinates to Horizon Coordinates.
 </span><span class="kw">pub fn </span>equatorial_coordinates_to_horizon_coordinates(
     hour_angle_hours: f64,
     hour_angle_minutes: f64,
@@ -1290,7 +1290,7 @@
     declination_seconds: f64,
     geographical_latitude: f64,
 ) -&gt; (f64, f64, f64, f64, f64, f64) {
-    <span class="kw">let </span>azimuth_in_decimal_degrees = macros::eq_az(
+    <span class="kw">let </span>azimuth_in_decimal_degrees = pa_m::eq_az(
         hour_angle_hours,
         hour_angle_minutes,
         hour_angle_seconds,
@@ -1300,7 +1300,7 @@
         geographical_latitude,
     );
 
-    <span class="kw">let </span>altitude_in_decimal_degrees = macros::eq_alt(
+    <span class="kw">let </span>altitude_in_decimal_degrees = pa_m::eq_alt(
         hour_angle_hours,
         hour_angle_minutes,
         hour_angle_seconds,
@@ -1310,13 +1310,13 @@
         geographical_latitude,
     );
 
-    <span class="kw">let </span>azimuth_degrees = macros::dd_deg(azimuth_in_decimal_degrees);
-    <span class="kw">let </span>azimuth_minutes = macros::dd_min(azimuth_in_decimal_degrees);
-    <span class="kw">let </span>azimuth_seconds = macros::dd_sec(azimuth_in_decimal_degrees);
+    <span class="kw">let </span>azimuth_degrees = pa_m::dd_deg(azimuth_in_decimal_degrees);
+    <span class="kw">let </span>azimuth_minutes = pa_m::dd_min(azimuth_in_decimal_degrees);
+    <span class="kw">let </span>azimuth_seconds = pa_m::dd_sec(azimuth_in_decimal_degrees);
 
-    <span class="kw">let </span>altitude_degrees = macros::dd_deg(altitude_in_decimal_degrees);
-    <span class="kw">let </span>altitude_minutes = macros::dd_min(altitude_in_decimal_degrees);
-    <span class="kw">let </span>altitude_seconds = macros::dd_sec(altitude_in_decimal_degrees);
+    <span class="kw">let </span>altitude_degrees = pa_m::dd_deg(altitude_in_decimal_degrees);
+    <span class="kw">let </span>altitude_minutes = pa_m::dd_min(altitude_in_decimal_degrees);
+    <span class="kw">let </span>altitude_seconds = pa_m::dd_sec(altitude_in_decimal_degrees);
 
     <span class="kw">return </span>(
         azimuth_degrees,
@@ -1328,7 +1328,7 @@
     );
 }
 
-<span class="doccomment">/// Convert Horizon Coordinates to Equatorial Coordinates
+<span class="doccomment">/// Convert Horizon Coordinates to Equatorial Coordinates.
 </span><span class="kw">pub fn </span>horizon_coordinates_to_equatorial_coordinates(
     azimuth_degrees: f64,
     azimuth_minutes: f64,
@@ -1338,7 +1338,7 @@
     altitude_seconds: f64,
     geographical_latitude: f64,
 ) -&gt; (f64, f64, f64, f64, f64, f64) {
-    <span class="kw">let </span>hour_angle_in_decimal_degrees = macros::hor_ha(
+    <span class="kw">let </span>hour_angle_in_decimal_degrees = pa_m::hor_ha(
         azimuth_degrees,
         azimuth_minutes,
         azimuth_seconds,
@@ -1348,7 +1348,7 @@
         geographical_latitude,
     );
 
-    <span class="kw">let </span>declination_in_decimal_degrees = macros::hor_dec(
+    <span class="kw">let </span>declination_in_decimal_degrees = pa_m::hor_dec(
         azimuth_degrees,
         azimuth_minutes,
         azimuth_seconds,
@@ -1358,13 +1358,13 @@
         geographical_latitude,
     );
 
-    <span class="kw">let </span>hour_angle_hours = macros::dh_hour(hour_angle_in_decimal_degrees);
-    <span class="kw">let </span>hour_angle_minutes = macros::dh_min(hour_angle_in_decimal_degrees);
-    <span class="kw">let </span>hour_angle_seconds = macros::dh_sec(hour_angle_in_decimal_degrees);
+    <span class="kw">let </span>hour_angle_hours = pa_m::dh_hour(hour_angle_in_decimal_degrees);
+    <span class="kw">let </span>hour_angle_minutes = pa_m::dh_min(hour_angle_in_decimal_degrees);
+    <span class="kw">let </span>hour_angle_seconds = pa_m::dh_sec(hour_angle_in_decimal_degrees);
 
-    <span class="kw">let </span>declination_degrees = macros::dd_deg(declination_in_decimal_degrees);
-    <span class="kw">let </span>declination_minutes = macros::dd_min(declination_in_decimal_degrees);
-    <span class="kw">let </span>declination_seconds = macros::dd_sec(declination_in_decimal_degrees);
+    <span class="kw">let </span>declination_degrees = pa_m::dd_deg(declination_in_decimal_degrees);
+    <span class="kw">let </span>declination_minutes = pa_m::dd_min(declination_in_decimal_degrees);
+    <span class="kw">let </span>declination_seconds = pa_m::dd_sec(declination_in_decimal_degrees);
 
     <span class="kw">return </span>(
         hour_angle_hours <span class="kw">as </span>f64,
@@ -1376,13 +1376,13 @@
     );
 }
 
-<span class="doccomment">/// Calculate Mean Obliquity of the Ecliptic for a Greenwich Date
+<span class="doccomment">/// Calculate Mean Obliquity of the Ecliptic for a Greenwich Date.
 </span><span class="kw">pub fn </span>mean_obliquity_of_the_ecliptic(
     greenwich_day: f64,
     greenwich_month: u32,
     greenwich_year: u32,
 ) -&gt; f64 {
-    <span class="kw">let </span>jd = macros::cd_jd(greenwich_day, greenwich_month, greenwich_year);
+    <span class="kw">let </span>jd = pa_m::cd_jd(greenwich_day, greenwich_month, greenwich_year);
     <span class="kw">let </span>mjd = jd - <span class="number">2451545.0</span>;
     <span class="kw">let </span>t = mjd / <span class="number">36525.0</span>;
     <span class="kw">let </span>de1 = t * (<span class="number">46.815 </span>+ t * (<span class="number">0.0006 </span>- (t * <span class="number">0.00181</span>)));
@@ -1391,7 +1391,7 @@
     <span class="kw">return </span><span class="number">23.439292 </span>- de2;
 }
 
-<span class="doccomment">/// Convert Ecliptic Coordinates to Equatorial Coordinates
+<span class="doccomment">/// Convert Ecliptic Coordinates to Equatorial Coordinates.
 </span><span class="kw">pub fn </span>ecliptic_coordinate_to_equatorial_coordinate(
     ecliptic_longitude_degrees: f64,
     ecliptic_longitude_minutes: f64,
@@ -1403,37 +1403,37 @@
     greenwich_month: u32,
     greenwich_year: u32,
 ) -&gt; (f64, f64, f64, f64, f64, f64) {
-    <span class="kw">let </span>eclon_deg = macros::dms_dd(
+    <span class="kw">let </span>eclon_deg = pa_m::dms_dd(
         ecliptic_longitude_degrees,
         ecliptic_longitude_minutes,
         ecliptic_longitude_seconds,
     );
-    <span class="kw">let </span>eclat_deg = macros::dms_dd(
+    <span class="kw">let </span>eclat_deg = pa_m::dms_dd(
         ecliptic_latitude_degrees,
         ecliptic_latitude_minutes,
         ecliptic_latitude_seconds,
     );
     <span class="kw">let </span>eclon_rad = eclon_deg.to_radians();
     <span class="kw">let </span>eclat_rad = eclat_deg.to_radians();
-    <span class="kw">let </span>obliq_deg = macros::obliq(greenwich_day, greenwich_month, greenwich_year);
+    <span class="kw">let </span>obliq_deg = pa_m::obliq(greenwich_day, greenwich_month, greenwich_year);
     <span class="kw">let </span>obliq_rad = obliq_deg.to_radians();
     <span class="kw">let </span>sin_dec =
         eclat_rad.sin() * obliq_rad.cos() + eclat_rad.cos() * obliq_rad.sin() * eclon_rad.sin();
     <span class="kw">let </span>dec_rad = sin_dec.asin();
-    <span class="kw">let </span>dec_deg = macros::degrees(dec_rad);
+    <span class="kw">let </span>dec_deg = pa_m::degrees(dec_rad);
     <span class="kw">let </span>y = eclon_rad.sin() * obliq_rad.cos() - eclat_rad.tan() * obliq_rad.sin();
     <span class="kw">let </span>x = eclon_rad.cos();
     <span class="kw">let </span>ra_rad = y.atan2(x);
-    <span class="kw">let </span>ra_deg1 = macros::degrees(ra_rad);
+    <span class="kw">let </span>ra_deg1 = pa_m::degrees(ra_rad);
     <span class="kw">let </span>ra_deg2 = ra_deg1 - <span class="number">360.0 </span>* (ra_deg1 / <span class="number">360.0</span>).floor();
-    <span class="kw">let </span>ra_hours = macros::dd_dh(ra_deg2);
+    <span class="kw">let </span>ra_hours = pa_m::dd_dh(ra_deg2);
 
-    <span class="kw">let </span>out_ra_hours = macros::dh_hour(ra_hours);
-    <span class="kw">let </span>out_ra_minutes = macros::dh_min(ra_hours);
-    <span class="kw">let </span>out_ra_seconds = macros::dh_sec(ra_hours);
-    <span class="kw">let </span>out_dec_degrees = macros::dd_deg(dec_deg);
-    <span class="kw">let </span>out_dec_minutes = macros::dd_min(dec_deg);
-    <span class="kw">let </span>out_dec_seconds = macros::dd_sec(dec_deg);
+    <span class="kw">let </span>out_ra_hours = pa_m::dh_hour(ra_hours);
+    <span class="kw">let </span>out_ra_minutes = pa_m::dh_min(ra_hours);
+    <span class="kw">let </span>out_ra_seconds = pa_m::dh_sec(ra_hours);
+    <span class="kw">let </span>out_dec_degrees = pa_m::dd_deg(dec_deg);
+    <span class="kw">let </span>out_dec_minutes = pa_m::dd_min(dec_deg);
+    <span class="kw">let </span>out_dec_seconds = pa_m::dd_sec(dec_deg);
 
     <span class="kw">return </span>(
         out_ra_hours <span class="kw">as </span>f64,
@@ -1445,7 +1445,7 @@
     );
 }
 
-<span class="doccomment">/// Convert Equatorial Coordinates to Ecliptic Coordinates
+<span class="doccomment">/// Convert Equatorial Coordinates to Ecliptic Coordinates.
 </span><span class="kw">pub fn </span>equatorial_coordinate_to_ecliptic_coordinate(
     ra_hours: f64,
     ra_minutes: f64,
@@ -1457,28 +1457,28 @@
     gw_month: u32,
     gw_year: u32,
 ) -&gt; (f64, f64, f64, f64, f64, f64) {
-    <span class="kw">let </span>ra_deg = macros::dh_dd(macros::hms_dh(ra_hours, ra_minutes, ra_seconds));
-    <span class="kw">let </span>dec_deg = macros::dms_dd(dec_degrees, dec_minutes, dec_seconds);
+    <span class="kw">let </span>ra_deg = pa_m::dh_dd(pa_m::hms_dh(ra_hours, ra_minutes, ra_seconds));
+    <span class="kw">let </span>dec_deg = pa_m::dms_dd(dec_degrees, dec_minutes, dec_seconds);
     <span class="kw">let </span>ra_rad = ra_deg.to_radians();
     <span class="kw">let </span>dec_rad = dec_deg.to_radians();
-    <span class="kw">let </span>obliq_deg = macros::obliq(gw_day, gw_month, gw_year);
+    <span class="kw">let </span>obliq_deg = pa_m::obliq(gw_day, gw_month, gw_year);
     <span class="kw">let </span>obliq_rad = obliq_deg.to_radians();
     <span class="kw">let </span>sin_ecl_lat =
         dec_rad.sin() * obliq_rad.cos() - dec_rad.cos() * obliq_rad.sin() * ra_rad.sin();
     <span class="kw">let </span>ecl_lat_rad = sin_ecl_lat.asin();
-    <span class="kw">let </span>ecl_lat_deg = macros::degrees(ecl_lat_rad);
+    <span class="kw">let </span>ecl_lat_deg = pa_m::degrees(ecl_lat_rad);
     <span class="kw">let </span>y = ra_rad.sin() * obliq_rad.cos() + dec_rad.tan() * obliq_rad.sin();
     <span class="kw">let </span>x = ra_rad.cos();
     <span class="kw">let </span>ecl_long_rad = y.atan2(x);
-    <span class="kw">let </span>ecl_long_deg1 = macros::degrees(ecl_long_rad);
+    <span class="kw">let </span>ecl_long_deg1 = pa_m::degrees(ecl_long_rad);
     <span class="kw">let </span>ecl_long_deg2 = ecl_long_deg1 - <span class="number">360.0 </span>* (ecl_long_deg1 / <span class="number">360.0</span>).floor();
 
-    <span class="kw">let </span>out_ecl_long_deg = macros::dd_deg(ecl_long_deg2);
-    <span class="kw">let </span>out_ecl_long_min = macros::dd_min(ecl_long_deg2);
-    <span class="kw">let </span>out_ecl_long_sec = macros::dd_sec(ecl_long_deg2);
-    <span class="kw">let </span>out_ecl_lat_deg = macros::dd_deg(ecl_lat_deg);
-    <span class="kw">let </span>out_ecl_lat_min = macros::dd_min(ecl_lat_deg);
-    <span class="kw">let </span>out_ecl_lat_sec = macros::dd_sec(ecl_lat_deg);
+    <span class="kw">let </span>out_ecl_long_deg = pa_m::dd_deg(ecl_long_deg2);
+    <span class="kw">let </span>out_ecl_long_min = pa_m::dd_min(ecl_long_deg2);
+    <span class="kw">let </span>out_ecl_long_sec = pa_m::dd_sec(ecl_long_deg2);
+    <span class="kw">let </span>out_ecl_lat_deg = pa_m::dd_deg(ecl_lat_deg);
+    <span class="kw">let </span>out_ecl_lat_min = pa_m::dd_min(ecl_lat_deg);
+    <span class="kw">let </span>out_ecl_lat_sec = pa_m::dd_sec(ecl_lat_deg);
 
     <span class="kw">return </span>(
         out_ecl_long_deg,
@@ -1490,7 +1490,7 @@
     );
 }
 
-<span class="doccomment">/// Convert Equatorial Coordinates to Galactic Coordinates
+<span class="doccomment">/// Convert Equatorial Coordinates to Galactic Coordinates.
 </span><span class="kw">pub fn </span>equatorial_coordinate_to_galactic_coordinate(
     ra_hours: f64,
     ra_minutes: f64,
@@ -1499,8 +1499,8 @@
     dec_minutes: f64,
     dec_seconds: f64,
 ) -&gt; (f64, f64, f64, f64, f64, f64) {
-    <span class="kw">let </span>ra_deg = macros::dh_dd(macros::hms_dh(ra_hours, ra_minutes, ra_seconds));
-    <span class="kw">let </span>dec_deg = macros::dms_dd(dec_degrees, dec_minutes, dec_seconds);
+    <span class="kw">let </span>ra_deg = pa_m::dh_dd(pa_m::hms_dh(ra_hours, ra_minutes, ra_seconds));
+    <span class="kw">let </span>dec_deg = pa_m::dms_dd(dec_degrees, dec_minutes, dec_seconds);
     <span class="kw">let </span>ra_rad = ra_deg.to_radians();
     <span class="kw">let </span>dec_rad = dec_deg.to_radians();
     <span class="kw">let </span>sin_b = dec_rad.cos()
@@ -1508,20 +1508,20 @@
         * (ra_rad - (<span class="number">192.25 </span><span class="kw">as </span>f64).to_radians()).cos()
         + dec_rad.sin() * (<span class="number">27.4 </span><span class="kw">as </span>f64).to_radians().sin();
     <span class="kw">let </span>b_radians = sin_b.asin();
-    <span class="kw">let </span>b_deg = macros::degrees(b_radians);
+    <span class="kw">let </span>b_deg = pa_m::degrees(b_radians);
     <span class="kw">let </span>y = dec_rad.sin() - sin_b * (<span class="number">27.4 </span><span class="kw">as </span>f64).to_radians().sin();
     <span class="kw">let </span>x = dec_rad.cos()
         * (ra_rad - (<span class="number">192.25 </span><span class="kw">as </span>f64).to_radians()).sin()
         * (<span class="number">27.4 </span><span class="kw">as </span>f64).to_radians().cos();
-    <span class="kw">let </span>long_deg1 = macros::degrees(y.atan2(x)) + <span class="number">33.0</span>;
+    <span class="kw">let </span>long_deg1 = pa_m::degrees(y.atan2(x)) + <span class="number">33.0</span>;
     <span class="kw">let </span>long_deg2 = long_deg1 - <span class="number">360.0 </span>* (long_deg1 / <span class="number">360.0</span>).floor();
 
-    <span class="kw">let </span>gal_long_deg = macros::dd_deg(long_deg2);
-    <span class="kw">let </span>gal_long_min = macros::dd_min(long_deg2);
-    <span class="kw">let </span>gal_long_sec = macros::dd_sec(long_deg2);
-    <span class="kw">let </span>gal_lat_deg = macros::dd_deg(b_deg);
-    <span class="kw">let </span>gal_lat_min = macros::dd_min(b_deg);
-    <span class="kw">let </span>gal_lat_sec = macros::dd_sec(b_deg);
+    <span class="kw">let </span>gal_long_deg = pa_m::dd_deg(long_deg2);
+    <span class="kw">let </span>gal_long_min = pa_m::dd_min(long_deg2);
+    <span class="kw">let </span>gal_long_sec = pa_m::dd_sec(long_deg2);
+    <span class="kw">let </span>gal_lat_deg = pa_m::dd_deg(b_deg);
+    <span class="kw">let </span>gal_lat_min = pa_m::dd_min(b_deg);
+    <span class="kw">let </span>gal_lat_sec = pa_m::dd_sec(b_deg);
 
     <span class="kw">return </span>(
         gal_long_deg,
@@ -1533,7 +1533,7 @@
     );
 }
 
-<span class="doccomment">/// Convert Galactic Coordinates to Equatorial Coordinates
+<span class="doccomment">/// Convert Galactic Coordinates to Equatorial Coordinates.
 </span><span class="kw">pub fn </span>galactic_coordinate_to_equatorial_coordinate(
     gal_long_deg: f64,
     gal_long_min: f64,
@@ -1542,8 +1542,8 @@
     gal_lat_min: f64,
     gal_lat_sec: f64,
 ) -&gt; (f64, f64, f64, f64, f64, f64) {
-    <span class="kw">let </span>glong_deg = macros::dms_dd(gal_long_deg, gal_long_min, gal_long_sec);
-    <span class="kw">let </span>glat_deg = macros::dms_dd(gal_lat_deg, gal_lat_min, gal_lat_sec);
+    <span class="kw">let </span>glong_deg = pa_m::dms_dd(gal_long_deg, gal_long_min, gal_long_sec);
+    <span class="kw">let </span>glat_deg = pa_m::dms_dd(gal_lat_deg, gal_lat_min, gal_lat_sec);
     <span class="kw">let </span>glong_rad = glong_deg.to_radians();
     <span class="kw">let </span>glat_rad = glat_deg.to_radians();
     <span class="kw">let </span>sin_dec = glat_rad.cos()
@@ -1551,23 +1551,23 @@
         * (glong_rad - (<span class="number">33 </span><span class="kw">as </span>f64).to_radians()).sin()
         + glat_rad.sin() * (<span class="number">27.4 </span><span class="kw">as </span>f64).to_radians().sin();
     <span class="kw">let </span>dec_radians = sin_dec.asin();
-    <span class="kw">let </span>dec_deg = macros::degrees(dec_radians);
+    <span class="kw">let </span>dec_deg = pa_m::degrees(dec_radians);
     <span class="kw">let </span>y = glat_rad.cos() * (glong_rad - (<span class="number">33 </span><span class="kw">as </span>f64).to_radians()).cos();
     <span class="kw">let </span>x = glat_rad.sin() * ((<span class="number">27.4 </span><span class="kw">as </span>f64).to_radians()).cos()
         - (glat_rad).cos()
             * ((<span class="number">27.4 </span><span class="kw">as </span>f64).to_radians()).sin()
             * (glong_rad - (<span class="number">33 </span><span class="kw">as </span>f64).to_radians()).sin();
 
-    <span class="kw">let </span>ra_deg1 = macros::degrees(y.atan2(x)) + <span class="number">192.25</span>;
+    <span class="kw">let </span>ra_deg1 = pa_m::degrees(y.atan2(x)) + <span class="number">192.25</span>;
     <span class="kw">let </span>ra_deg2 = ra_deg1 - <span class="number">360.0 </span>* (ra_deg1 / <span class="number">360.0</span>).floor();
-    <span class="kw">let </span>ra_hours1 = macros::dd_dh(ra_deg2);
+    <span class="kw">let </span>ra_hours1 = pa_m::dd_dh(ra_deg2);
 
-    <span class="kw">let </span>ra_hours = macros::dh_hour(ra_hours1);
-    <span class="kw">let </span>ra_minutes = macros::dh_min(ra_hours1);
-    <span class="kw">let </span>ra_seconds = macros::dh_sec(ra_hours1);
-    <span class="kw">let </span>dec_degrees = macros::dd_deg(dec_deg);
-    <span class="kw">let </span>dec_minutes = macros::dd_min(dec_deg);
-    <span class="kw">let </span>dec_seconds = macros::dd_sec(dec_deg);
+    <span class="kw">let </span>ra_hours = pa_m::dh_hour(ra_hours1);
+    <span class="kw">let </span>ra_minutes = pa_m::dh_min(ra_hours1);
+    <span class="kw">let </span>ra_seconds = pa_m::dh_sec(ra_hours1);
+    <span class="kw">let </span>dec_degrees = pa_m::dd_deg(dec_deg);
+    <span class="kw">let </span>dec_minutes = pa_m::dd_min(dec_deg);
+    <span class="kw">let </span>dec_seconds = pa_m::dd_sec(dec_deg);
 
     <span class="kw">return </span>(
         ra_hours <span class="kw">as </span>f64,
@@ -1579,7 +1579,7 @@
     );
 }
 
-<span class="doccomment">/// Calculate the angle between two celestial objects
+<span class="doccomment">/// Calculate the angle between two celestial objects.
 </span><span class="kw">pub fn </span>angle_between_two_objects(
     ra_long_1_hour_deg: f64,
     ra_long_1_min: f64,
@@ -1596,45 +1596,45 @@
     hour_or_degree: String,
 ) -&gt; (f64, f64, f64) {
     <span class="kw">let </span>ra_long_1_decimal = <span class="kw">if </span>hour_or_degree == <span class="string">&quot;H&quot; </span>{
-        macros::hms_dh(ra_long_1_hour_deg, ra_long_1_min, ra_long_1_sec)
+        pa_m::hms_dh(ra_long_1_hour_deg, ra_long_1_min, ra_long_1_sec)
     } <span class="kw">else </span>{
-        macros::dms_dd(ra_long_1_hour_deg, ra_long_1_min, ra_long_1_sec)
+        pa_m::dms_dd(ra_long_1_hour_deg, ra_long_1_min, ra_long_1_sec)
     };
     <span class="kw">let </span>ra_long_1_deg = <span class="kw">if </span>hour_or_degree == <span class="string">&quot;H&quot; </span>{
-        macros::dh_dd(ra_long_1_decimal)
+        pa_m::dh_dd(ra_long_1_decimal)
     } <span class="kw">else </span>{
         ra_long_1_decimal
     };
     <span class="kw">let </span>ra_long_1_rad = ra_long_1_deg.to_radians();
-    <span class="kw">let </span>dec_lat_1_deg1 = macros::dms_dd(dec_lat_1_deg, dec_lat_1_min, dec_lat_1_sec);
+    <span class="kw">let </span>dec_lat_1_deg1 = pa_m::dms_dd(dec_lat_1_deg, dec_lat_1_min, dec_lat_1_sec);
     <span class="kw">let </span>dec_lat_1_rad = dec_lat_1_deg1.to_radians();
     <span class="kw">let </span>ra_long_2_decimal = <span class="kw">if </span>hour_or_degree == <span class="string">&quot;H&quot; </span>{
-        macros::hms_dh(ra_long_2_hour_deg, ra_long_2_min, ra_long_2_sec)
+        pa_m::hms_dh(ra_long_2_hour_deg, ra_long_2_min, ra_long_2_sec)
     } <span class="kw">else </span>{
-        macros::dms_dd(ra_long_2_hour_deg, ra_long_2_min, ra_long_2_sec)
+        pa_m::dms_dd(ra_long_2_hour_deg, ra_long_2_min, ra_long_2_sec)
     };
     <span class="kw">let </span>ra_long_2_deg = <span class="kw">if </span>hour_or_degree == <span class="string">&quot;H&quot; </span>{
-        macros::dh_dd(ra_long_2_decimal)
+        pa_m::dh_dd(ra_long_2_decimal)
     } <span class="kw">else </span>{
         ra_long_2_decimal
     };
     <span class="kw">let </span>ra_long_2_rad = ra_long_2_deg.to_radians();
-    <span class="kw">let </span>dec_lat_2_deg1 = macros::dms_dd(dec_lat_2_deg, dec_lat_2_min, dec_lat_2_sec);
+    <span class="kw">let </span>dec_lat_2_deg1 = pa_m::dms_dd(dec_lat_2_deg, dec_lat_2_min, dec_lat_2_sec);
     <span class="kw">let </span>dec_lat_2_rad = dec_lat_2_deg1.to_radians();
 
     <span class="kw">let </span>cos_d = dec_lat_1_rad.sin() * dec_lat_2_rad.sin()
         + dec_lat_1_rad.cos() * dec_lat_2_rad.cos() * (ra_long_1_rad - ra_long_2_rad).cos();
     <span class="kw">let </span>d_rad = cos_d.acos();
-    <span class="kw">let </span>d_deg = macros::degrees(d_rad);
+    <span class="kw">let </span>d_deg = pa_m::degrees(d_rad);
 
-    <span class="kw">let </span>angle_deg = macros::dd_deg(d_deg);
-    <span class="kw">let </span>angle_min = macros::dd_min(d_deg);
-    <span class="kw">let </span>angle_sec = macros::dd_sec(d_deg);
+    <span class="kw">let </span>angle_deg = pa_m::dd_deg(d_deg);
+    <span class="kw">let </span>angle_min = pa_m::dd_min(d_deg);
+    <span class="kw">let </span>angle_sec = pa_m::dd_sec(d_deg);
 
     <span class="kw">return </span>(angle_deg, angle_min, angle_sec);
 }
 
-<span class="doccomment">/// Rising and setting times
+<span class="doccomment">/// Rising and Setting times.
 ///
 /// ## Arguments
 /// * `ra_hours` -- Right Ascension, in hours.
@@ -1672,32 +1672,32 @@
     geog_lat_deg: f64,
     vert_shift_deg: f64,
 ) -&gt; (String, f64, f64, f64, f64, f64, f64) {
-    <span class="kw">let </span>ra_hours1 = macros::hms_dh(ra_hours, ra_minutes, ra_seconds);
-    <span class="kw">let </span>dec_rad = (macros::dms_dd(dec_deg, dec_min, dec_sec)).to_radians();
+    <span class="kw">let </span>ra_hours1 = pa_m::hms_dh(ra_hours, ra_minutes, ra_seconds);
+    <span class="kw">let </span>dec_rad = (pa_m::dms_dd(dec_deg, dec_min, dec_sec)).to_radians();
     <span class="kw">let </span>vertical_displ_radians = (vert_shift_deg).to_radians();
     <span class="kw">let </span>geo_lat_radians = (geog_lat_deg).to_radians();
     <span class="kw">let </span>cos_h = -((vertical_displ_radians).sin() + (geo_lat_radians).sin() * (dec_rad).sin())
         / ((geo_lat_radians).cos() * (dec_rad).cos());
-    <span class="kw">let </span>h_hours = macros::dd_dh(macros::degrees((cos_h).acos()));
+    <span class="kw">let </span>h_hours = pa_m::dd_dh(pa_m::degrees((cos_h).acos()));
     <span class="kw">let </span>lst_rise_hours = (ra_hours1 - h_hours) - <span class="number">24.0 </span>* ((ra_hours1 - h_hours) / <span class="number">24.0</span>).floor();
     <span class="kw">let </span>lst_set_hours = (ra_hours1 + h_hours) - <span class="number">24.0 </span>* ((ra_hours1 + h_hours) / <span class="number">24.0</span>).floor();
-    <span class="kw">let </span>a_deg = macros::degrees(
+    <span class="kw">let </span>a_deg = pa_m::degrees(
         (((dec_rad).sin() + (vertical_displ_radians).sin() * (geo_lat_radians).sin())
             / ((vertical_displ_radians).cos() * (geo_lat_radians).cos()))
         .acos(),
     );
     <span class="kw">let </span>az_rise_deg = a_deg - <span class="number">360.0 </span>* (a_deg / <span class="number">360.0</span>).floor();
     <span class="kw">let </span>az_set_deg = (<span class="number">360.0 </span>- a_deg) - <span class="number">360.0 </span>* ((<span class="number">360.0 </span>- a_deg) / <span class="number">360.0</span>).floor();
-    <span class="kw">let </span>ut_rise_hours1 = macros::gst_ut(
-        macros::lst_gst(lst_rise_hours, <span class="number">0.0</span>, <span class="number">0.0</span>, geog_long_deg),
+    <span class="kw">let </span>ut_rise_hours1 = pa_m::gst_ut(
+        pa_m::lst_gst(lst_rise_hours, <span class="number">0.0</span>, <span class="number">0.0</span>, geog_long_deg),
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
         gw_date_day,
         gw_date_month,
         gw_date_year,
     );
-    <span class="kw">let </span>ut_set_hours1 = macros::gst_ut(
-        macros::lst_gst(lst_set_hours, <span class="number">0.0</span>, <span class="number">0.0</span>, geog_long_deg),
+    <span class="kw">let </span>ut_set_hours1 = pa_m::gst_ut(
+        pa_m::lst_gst(lst_set_hours, <span class="number">0.0</span>, <span class="number">0.0</span>, geog_long_deg),
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
         gw_date_day,
@@ -1716,32 +1716,32 @@
     }
 
     <span class="kw">let </span>ut_rise_hour = <span class="kw">if </span>rise_set_status == <span class="string">&quot;OK&quot; </span>{
-        macros::dh_hour(ut_rise_adjusted_hours) <span class="kw">as </span>f64
+        pa_m::dh_hour(ut_rise_adjusted_hours) <span class="kw">as </span>f64
     } <span class="kw">else </span>{
         <span class="number">0.0
     </span>};
     <span class="kw">let </span>ut_rise_min = <span class="kw">if </span>rise_set_status == <span class="string">&quot;OK&quot; </span>{
-        macros::dh_min(ut_rise_adjusted_hours) <span class="kw">as </span>f64
+        pa_m::dh_min(ut_rise_adjusted_hours) <span class="kw">as </span>f64
     } <span class="kw">else </span>{
         <span class="number">0.0
     </span>};
     <span class="kw">let </span>ut_set_hour = <span class="kw">if </span>rise_set_status == <span class="string">&quot;OK&quot; </span>{
-        macros::dh_hour(ut_set_adjusted_hours) <span class="kw">as </span>f64
+        pa_m::dh_hour(ut_set_adjusted_hours) <span class="kw">as </span>f64
     } <span class="kw">else </span>{
         <span class="number">0.0
     </span>};
     <span class="kw">let </span>ut_set_min = <span class="kw">if </span>rise_set_status == <span class="string">&quot;OK&quot; </span>{
-        macros::dh_min(ut_set_adjusted_hours) <span class="kw">as </span>f64
+        pa_m::dh_min(ut_set_adjusted_hours) <span class="kw">as </span>f64
     } <span class="kw">else </span>{
         <span class="number">0.0
     </span>};
     <span class="kw">let </span>az_rise = <span class="kw">if </span>rise_set_status == <span class="string">&quot;OK&quot; </span>{
-        utils::round_f64(az_rise_deg, <span class="number">2</span>)
+        pa_u::round_f64(az_rise_deg, <span class="number">2</span>)
     } <span class="kw">else </span>{
         <span class="number">0.0
     </span>};
     <span class="kw">let </span>az_set = <span class="kw">if </span>rise_set_status == <span class="string">&quot;OK&quot; </span>{
-        utils::round_f64(az_set_deg, <span class="number">2</span>)
+        pa_u::round_f64(az_set_deg, <span class="number">2</span>)
     } <span class="kw">else </span>{
         <span class="number">0.0
     </span>};
@@ -1757,7 +1757,7 @@
     );
 }
 
-<span class="doccomment">/// Calculate precession (corrected coordinates between two epochs)
+<span class="doccomment">/// Calculate precession (corrected coordinates between two epochs).
 ///
 /// ## Returns
 /// * corrected RA hour
@@ -1780,26 +1780,26 @@
     epoch2_month: u32,
     epoch2_year: u32,
 ) -&gt; (f64, f64, f64, f64, f64, f64) {
-    <span class="kw">let </span>ra_1_rad = (macros::dh_dd(macros::hms_dh(ra_hour, ra_minutes, ra_seconds))).to_radians();
-    <span class="kw">let </span>dec_1_rad = (macros::dms_dd(dec_deg, dec_minutes, dec_seconds)).to_radians();
-    <span class="kw">let </span>t_centuries = (macros::cd_jd(epoch1_day, epoch1_month, epoch1_year) - <span class="number">2415020.0</span>) / <span class="number">36525.0</span>;
+    <span class="kw">let </span>ra_1_rad = (pa_m::dh_dd(pa_m::hms_dh(ra_hour, ra_minutes, ra_seconds))).to_radians();
+    <span class="kw">let </span>dec_1_rad = (pa_m::dms_dd(dec_deg, dec_minutes, dec_seconds)).to_radians();
+    <span class="kw">let </span>t_centuries = (pa_m::cd_jd(epoch1_day, epoch1_month, epoch1_year) - <span class="number">2415020.0</span>) / <span class="number">36525.0</span>;
     <span class="kw">let </span>m_sec = <span class="number">3.07234 </span>+ (<span class="number">0.00186 </span>* t_centuries);
     <span class="kw">let </span>n_arcsec = <span class="number">20.0468 </span>- (<span class="number">0.0085 </span>* t_centuries);
-    <span class="kw">let </span>n_years = (macros::cd_jd(epoch2_day, epoch2_month, epoch2_year)
-        - macros::cd_jd(epoch1_day, epoch1_month, epoch1_year))
+    <span class="kw">let </span>n_years = (pa_m::cd_jd(epoch2_day, epoch2_month, epoch2_year)
+        - pa_m::cd_jd(epoch1_day, epoch1_month, epoch1_year))
         / <span class="number">365.25</span>;
     <span class="kw">let </span>s1_hours =
         ((m_sec + (n_arcsec * (ra_1_rad).sin() * (dec_1_rad).tan() / <span class="number">15.0</span>)) * n_years) / <span class="number">3600.0</span>;
-    <span class="kw">let </span>ra_2_hours = macros::hms_dh(ra_hour, ra_minutes, ra_seconds) + s1_hours;
+    <span class="kw">let </span>ra_2_hours = pa_m::hms_dh(ra_hour, ra_minutes, ra_seconds) + s1_hours;
     <span class="kw">let </span>s2_deg = (n_arcsec * (ra_1_rad).cos() * n_years) / <span class="number">3600.0</span>;
-    <span class="kw">let </span>dec_2_deg = macros::dms_dd(dec_deg, dec_minutes, dec_seconds) + s2_deg;
+    <span class="kw">let </span>dec_2_deg = pa_m::dms_dd(dec_deg, dec_minutes, dec_seconds) + s2_deg;
 
-    <span class="kw">let </span>corrected_ra_hour = macros::dh_hour(ra_2_hours);
-    <span class="kw">let </span>corrected_ra_minutes = macros::dh_min(ra_2_hours);
-    <span class="kw">let </span>corrected_ra_seconds = macros::dh_sec(ra_2_hours);
-    <span class="kw">let </span>corrected_dec_deg = macros::dd_deg(dec_2_deg);
-    <span class="kw">let </span>corrected_dec_minutes = macros::dd_min(dec_2_deg);
-    <span class="kw">let </span>corrected_dec_seconds = macros::dd_sec(dec_2_deg);
+    <span class="kw">let </span>corrected_ra_hour = pa_m::dh_hour(ra_2_hours);
+    <span class="kw">let </span>corrected_ra_minutes = pa_m::dh_min(ra_2_hours);
+    <span class="kw">let </span>corrected_ra_seconds = pa_m::dh_sec(ra_2_hours);
+    <span class="kw">let </span>corrected_dec_deg = pa_m::dd_deg(dec_2_deg);
+    <span class="kw">let </span>corrected_dec_minutes = pa_m::dd_min(dec_2_deg);
+    <span class="kw">let </span>corrected_dec_seconds = pa_m::dd_sec(dec_2_deg);
 
     <span class="kw">return </span>(
         corrected_ra_hour <span class="kw">as </span>f64,
@@ -1821,7 +1821,7 @@
     greenwich_month: u32,
     greenwich_year: u32,
 ) -&gt; (f64, f64) {
-    <span class="kw">let </span>jd_days = macros::cd_jd(greenwich_day, greenwich_month, greenwich_year);
+    <span class="kw">let </span>jd_days = pa_m::cd_jd(greenwich_day, greenwich_month, greenwich_year);
     <span class="kw">let </span>t_centuries = (jd_days - <span class="number">2415020.0</span>) / <span class="number">36525.0</span>;
     <span class="kw">let </span>a_deg = <span class="number">100.0021358 </span>* t_centuries;
     <span class="kw">let </span>l_1_deg = <span class="number">279.6967 </span>+ (<span class="number">0.000303 </span>* t_centuries * t_centuries);
@@ -1860,9 +1860,9 @@
     true_ecl_lat_min: f64,
     true_ecl_lat_sec: f64,
 ) -&gt; (f64, f64, f64, f64, f64, f64) {
-    <span class="kw">let </span>true_long_deg = macros::dms_dd(true_ecl_long_deg, true_ecl_long_min, true_ecl_long_sec);
-    <span class="kw">let </span>true_lat_deg = macros::dms_dd(true_ecl_lat_deg, true_ecl_lat_min, true_ecl_lat_sec);
-    <span class="kw">let </span>sun_true_long_deg = macros::sun_long(
+    <span class="kw">let </span>true_long_deg = pa_m::dms_dd(true_ecl_long_deg, true_ecl_long_min, true_ecl_long_sec);
+    <span class="kw">let </span>true_lat_deg = pa_m::dms_dd(true_ecl_lat_deg, true_ecl_lat_min, true_ecl_lat_sec);
+    <span class="kw">let </span>sun_true_long_deg = pa_m::sun_long(
         ut_hour, ut_minutes, ut_seconds, <span class="number">0</span>, <span class="number">0</span>, gw_day, gw_month, gw_year,
     );
     <span class="kw">let </span>dlong_arcsec = -<span class="number">20.5 </span>* ((sun_true_long_deg - true_long_deg).to_radians()).cos()
@@ -1873,12 +1873,12 @@
     <span class="kw">let </span>apparent_long_deg = true_long_deg + (dlong_arcsec / <span class="number">3600.0</span>);
     <span class="kw">let </span>apparent_lat_deg = true_lat_deg + (dlat_arcsec / <span class="number">3600.0</span>);
 
-    <span class="kw">let </span>apparent_ecl_long_deg = macros::dd_deg(apparent_long_deg);
-    <span class="kw">let </span>apparent_ecl_long_min = macros::dd_min(apparent_long_deg);
-    <span class="kw">let </span>apparent_ecl_long_sec = macros::dd_sec(apparent_long_deg);
-    <span class="kw">let </span>apparent_ecl_lat_deg = macros::dd_deg(apparent_lat_deg);
-    <span class="kw">let </span>apparent_ecl_lat_min = macros::dd_min(apparent_lat_deg);
-    <span class="kw">let </span>apparent_ecl_lat_sec = macros::dd_sec(apparent_lat_deg);
+    <span class="kw">let </span>apparent_ecl_long_deg = pa_m::dd_deg(apparent_long_deg);
+    <span class="kw">let </span>apparent_ecl_long_min = pa_m::dd_min(apparent_long_deg);
+    <span class="kw">let </span>apparent_ecl_long_sec = pa_m::dd_sec(apparent_long_deg);
+    <span class="kw">let </span>apparent_ecl_lat_deg = pa_m::dd_deg(apparent_lat_deg);
+    <span class="kw">let </span>apparent_ecl_lat_min = pa_m::dd_min(apparent_lat_deg);
+    <span class="kw">let </span>apparent_ecl_lat_sec = pa_m::dd_sec(apparent_lat_deg);
 
     <span class="kw">return </span>(
         apparent_ecl_long_deg,
@@ -1918,7 +1918,7 @@
     atmospheric_pressure_mbar: f64,
     atmospheric_temperature_celsius: f64,
 ) -&gt; (f64, f64, f64, f64, f64, f64) {
-    <span class="kw">let </span>ha_hour = macros::ra_ha(
+    <span class="kw">let </span>ha_hour = pa_m::ra_ha(
         true_ra_hour,
         true_ra_min,
         true_ra_sec,
@@ -1932,7 +1932,7 @@
         lcd_year,
         geog_long_deg,
     );
-    <span class="kw">let </span>azimuth_deg = macros::eq_az(
+    <span class="kw">let </span>azimuth_deg = pa_m::eq_az(
         ha_hour,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -1941,7 +1941,7 @@
         true_dec_sec,
         geog_lat_deg,
     );
-    <span class="kw">let </span>altitude_deg = macros::eq_alt(
+    <span class="kw">let </span>altitude_deg = pa_m::eq_alt(
         ha_hour,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -1950,14 +1950,14 @@
         true_dec_sec,
         geog_lat_deg,
     );
-    <span class="kw">let </span>corrected_altitude_deg = macros::refract(
+    <span class="kw">let </span>corrected_altitude_deg = pa_m::refract(
         altitude_deg,
         coordinate_type,
         atmospheric_pressure_mbar,
         atmospheric_temperature_celsius,
     );
 
-    <span class="kw">let </span>corrected_ha_hour = macros::hor_ha(
+    <span class="kw">let </span>corrected_ha_hour = pa_m::hor_ha(
         azimuth_deg,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -1966,7 +1966,7 @@
         <span class="number">0.0</span>,
         geog_lat_deg,
     );
-    <span class="kw">let </span>corrected_ra_hour1 = macros::ha_ra(
+    <span class="kw">let </span>corrected_ra_hour1 = pa_m::ha_ra(
         corrected_ha_hour,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -1980,7 +1980,7 @@
         lcd_year,
         geog_long_deg,
     );
-    <span class="kw">let </span>corrected_dec_deg1 = macros::hor_dec(
+    <span class="kw">let </span>corrected_dec_deg1 = pa_m::hor_dec(
         azimuth_deg,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -1990,12 +1990,12 @@
         geog_lat_deg,
     );
 
-    <span class="kw">let </span>corrected_ra_hour = macros::dh_hour(corrected_ra_hour1);
-    <span class="kw">let </span>corrected_ra_min = macros::dh_min(corrected_ra_hour1);
-    <span class="kw">let </span>corrected_ra_sec = macros::dh_sec(corrected_ra_hour1);
-    <span class="kw">let </span>corrected_dec_deg = macros::dd_deg(corrected_dec_deg1);
-    <span class="kw">let </span>corrected_dec_min = macros::dd_min(corrected_dec_deg1);
-    <span class="kw">let </span>corrected_dec_sec = macros::dd_sec(corrected_dec_deg1);
+    <span class="kw">let </span>corrected_ra_hour = pa_m::dh_hour(corrected_ra_hour1);
+    <span class="kw">let </span>corrected_ra_min = pa_m::dh_min(corrected_ra_hour1);
+    <span class="kw">let </span>corrected_ra_sec = pa_m::dh_sec(corrected_ra_hour1);
+    <span class="kw">let </span>corrected_dec_deg = pa_m::dd_deg(corrected_dec_deg1);
+    <span class="kw">let </span>corrected_dec_min = pa_m::dd_min(corrected_dec_deg1);
+    <span class="kw">let </span>corrected_dec_sec = pa_m::dd_sec(corrected_dec_deg1);
 
     <span class="kw">return </span>(
         corrected_ra_hour <span class="kw">as </span>f64,
@@ -2035,7 +2035,7 @@
     lct_min: f64,
     lct_sec: f64,
 ) -&gt; (f64, f64, f64, f64, f64, f64) {
-    <span class="kw">let </span>ha_hours = macros::ra_ha(
+    <span class="kw">let </span>ha_hours = pa_m::ra_ha(
         ra_hour,
         ra_min,
         ra_sec,
@@ -2050,7 +2050,7 @@
         geog_long_deg,
     );
 
-    <span class="kw">let </span>corrected_ha_hours = macros::parallax_ha(
+    <span class="kw">let </span>corrected_ha_hours = pa_m::parallax_ha(
         ha_hours,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -2063,7 +2063,7 @@
         equatorial_hor_parallax_deg,
     );
 
-    <span class="kw">let </span>corrected_ra_hours = macros::ha_ra(
+    <span class="kw">let </span>corrected_ra_hours = pa_m::ha_ra(
         corrected_ha_hours,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -2078,7 +2078,7 @@
         geog_long_deg,
     );
 
-    <span class="kw">let </span>corrected_dec_deg1 = macros::parallax_dec(
+    <span class="kw">let </span>corrected_dec_deg1 = pa_m::parallax_dec(
         ha_hours,
         <span class="number">0.0</span>,
         <span class="number">0.0</span>,
@@ -2091,12 +2091,12 @@
         equatorial_hor_parallax_deg,
     );
 
-    <span class="kw">let </span>corrected_ra_hour = macros::dh_hour(corrected_ra_hours);
-    <span class="kw">let </span>corrected_ra_min = macros::dh_min(corrected_ra_hours);
-    <span class="kw">let </span>corrected_ra_sec = macros::dh_sec(corrected_ra_hours);
-    <span class="kw">let </span>corrected_dec_deg = macros::dd_deg(corrected_dec_deg1);
-    <span class="kw">let </span>corrected_dec_min = macros::dd_min(corrected_dec_deg1);
-    <span class="kw">let </span>corrected_dec_sec = macros::dd_sec(corrected_dec_deg1);
+    <span class="kw">let </span>corrected_ra_hour = pa_m::dh_hour(corrected_ra_hours);
+    <span class="kw">let </span>corrected_ra_min = pa_m::dh_min(corrected_ra_hours);
+    <span class="kw">let </span>corrected_ra_sec = pa_m::dh_sec(corrected_ra_hours);
+    <span class="kw">let </span>corrected_dec_deg = pa_m::dd_deg(corrected_dec_deg1);
+    <span class="kw">let </span>corrected_dec_min = pa_m::dd_min(corrected_dec_deg1);
+    <span class="kw">let </span>corrected_dec_sec = pa_m::dd_sec(corrected_dec_deg1);
 
     <span class="kw">return </span>(
         corrected_ra_hour <span class="kw">as </span>f64,
@@ -2119,31 +2119,31 @@
     gwdate_month: u32,
     gwdate_year: u32,
 ) -&gt; (f64, f64) {
-    <span class="kw">let </span>julian_date_days = macros::cd_jd(gwdate_day, gwdate_month, gwdate_year);
+    <span class="kw">let </span>julian_date_days = pa_m::cd_jd(gwdate_day, gwdate_month, gwdate_year);
     <span class="kw">let </span>t_centuries = (julian_date_days - <span class="number">2415020.0</span>) / <span class="number">36525.0</span>;
-    <span class="kw">let </span>long_asc_node_deg = macros::dms_dd(<span class="number">74.0</span>, <span class="number">22.0</span>, <span class="number">0.0</span>) + (<span class="number">84.0 </span>* t_centuries / <span class="number">60.0</span>);
-    <span class="kw">let </span>sun_long_deg = macros::sun_long(<span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0</span>, <span class="number">0</span>, gwdate_day, gwdate_month, gwdate_year);
+    <span class="kw">let </span>long_asc_node_deg = pa_m::dms_dd(<span class="number">74.0</span>, <span class="number">22.0</span>, <span class="number">0.0</span>) + (<span class="number">84.0 </span>* t_centuries / <span class="number">60.0</span>);
+    <span class="kw">let </span>sun_long_deg = pa_m::sun_long(<span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0</span>, <span class="number">0</span>, gwdate_day, gwdate_month, gwdate_year);
     <span class="kw">let </span>y = ((long_asc_node_deg - sun_long_deg).to_radians()).sin()
-        * ((macros::dms_dd(<span class="number">7.0</span>, <span class="number">15.0</span>, <span class="number">0.0</span>)).to_radians()).cos();
+        * ((pa_m::dms_dd(<span class="number">7.0</span>, <span class="number">15.0</span>, <span class="number">0.0</span>)).to_radians()).cos();
     <span class="kw">let </span>x = -((long_asc_node_deg - sun_long_deg).to_radians()).cos();
-    <span class="kw">let </span>a_deg = macros::degrees(y.atan2(x));
+    <span class="kw">let </span>a_deg = pa_m::degrees(y.atan2(x));
     <span class="kw">let </span>m_deg1 = <span class="number">360.0 </span>- (<span class="number">360.0 </span>* (julian_date_days - <span class="number">2398220.0</span>) / <span class="number">25.38</span>);
     <span class="kw">let </span>m_deg2 = m_deg1 - <span class="number">360.0 </span>* (m_deg1 / <span class="number">360.0</span>).floor();
     <span class="kw">let </span>l0_deg1 = m_deg2 + a_deg;
     <span class="kw">let </span>_l0_deg2 = l0_deg1 - <span class="number">360.0 </span>* (l0_deg1 / <span class="number">360.0</span>).floor();
     <span class="kw">let </span>b0_rad = (((sun_long_deg - long_asc_node_deg).to_radians()).sin()
-        * ((macros::dms_dd(<span class="number">7.0</span>, <span class="number">15.0</span>, <span class="number">0.0</span>)).to_radians()).sin())
+        * ((pa_m::dms_dd(<span class="number">7.0</span>, <span class="number">15.0</span>, <span class="number">0.0</span>)).to_radians()).sin())
     .asin();
     <span class="kw">let </span>theta1_rad = (-((sun_long_deg).to_radians()).cos()
-        * ((macros::obliq(gwdate_day, gwdate_month, gwdate_year)).to_radians()).tan())
+        * ((pa_m::obliq(gwdate_day, gwdate_month, gwdate_year)).to_radians()).tan())
     .atan();
     <span class="kw">let </span>theta2_rad = (-((long_asc_node_deg - sun_long_deg).to_radians()).cos()
-        * ((macros::dms_dd(<span class="number">7.0</span>, <span class="number">15.0</span>, <span class="number">0.0</span>)).to_radians()).tan())
+        * ((pa_m::dms_dd(<span class="number">7.0</span>, <span class="number">15.0</span>, <span class="number">0.0</span>)).to_radians()).tan())
     .atan();
-    <span class="kw">let </span>p_deg = macros::degrees(theta1_rad + theta2_rad);
+    <span class="kw">let </span>p_deg = pa_m::degrees(theta1_rad + theta2_rad);
     <span class="kw">let </span>rho1_deg = helio_displacement_arcmin / <span class="number">60.0</span>;
     <span class="kw">let </span>rho_rad = (<span class="number">2.0 </span>* rho1_deg
-        / macros::sun_dia(<span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0</span>, <span class="number">0</span>, gwdate_day, gwdate_month, gwdate_year))
+        / pa_m::sun_dia(<span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0</span>, <span class="number">0</span>, gwdate_day, gwdate_month, gwdate_year))
     .asin()
         - (rho1_deg).to_radians();
     <span class="kw">let </span>b_rad = ((b0_rad).sin() * (rho_rad).cos()
@@ -2151,32 +2151,32 @@
             * (rho_rad).sin()
             * ((p_deg - helio_position_angle_deg).to_radians()).cos())
     .asin();
-    <span class="kw">let </span>b_deg = macros::degrees(b_rad);
-    <span class="kw">let </span>l_deg1 = macros::degrees(
+    <span class="kw">let </span>b_deg = pa_m::degrees(b_rad);
+    <span class="kw">let </span>l_deg1 = pa_m::degrees(
         ((rho_rad).sin() * ((p_deg - helio_position_angle_deg).to_radians()).sin() / (b_rad).cos())
             .asin(),
     ) + l0_deg1;
     <span class="kw">let </span>l_deg2 = l_deg1 - <span class="number">360.0 </span>* (l_deg1 / <span class="number">360.0</span>).floor();
 
-    <span class="kw">let </span>helio_long_deg = utils::round_f64(l_deg2, <span class="number">2</span>);
-    <span class="kw">let </span>helio_lat_deg = utils::round_f64(b_deg, <span class="number">2</span>);
+    <span class="kw">let </span>helio_long_deg = pa_u::round_f64(l_deg2, <span class="number">2</span>);
+    <span class="kw">let </span>helio_lat_deg = pa_u::round_f64(b_deg, <span class="number">2</span>);
 
     <span class="kw">return </span>(helio_long_deg, helio_lat_deg);
 }
 
-<span class="doccomment">/// Calculate carrington rotation number for a Greenwich date
+<span class="doccomment">/// Calculate carrington rotation number for a Greenwich date.
 ///
 /// ## Returns
 /// carrington rotation number
 </span><span class="kw">pub fn </span>carrington_rotation_number(gwdate_day: f64, gwdate_month: u32, gwdate_year: u32) -&gt; i32 {
-    <span class="kw">let </span>julian_date_days = macros::cd_jd(gwdate_day, gwdate_month, gwdate_year);
+    <span class="kw">let </span>julian_date_days = pa_m::cd_jd(gwdate_day, gwdate_month, gwdate_year);
 
-    <span class="kw">let </span>crn = <span class="number">1690 </span>+ utils::round_f64((julian_date_days - <span class="number">2444235.34</span>) / <span class="number">27.2753</span>, <span class="number">0</span>) <span class="kw">as </span>i32;
+    <span class="kw">let </span>crn = <span class="number">1690 </span>+ pa_u::round_f64((julian_date_days - <span class="number">2444235.34</span>) / <span class="number">27.2753</span>, <span class="number">0</span>) <span class="kw">as </span>i32;
 
     <span class="kw">return </span>crn;
 }
 
-<span class="doccomment">/// Calculate selenographic (lunar) coordinates (sub-Earth)
+<span class="doccomment">/// Calculate selenographic (lunar) coordinates (sub-Earth).
 ///
 /// ## Returns
 /// * sub-earth longitude
@@ -2187,24 +2187,24 @@
     gwdate_month: u32,
     gwdate_year: u32,
 ) -&gt; (f64, f64, f64) {
-    <span class="kw">let </span>julian_date_days = macros::cd_jd(gwdate_day, gwdate_month, gwdate_year);
+    <span class="kw">let </span>julian_date_days = pa_m::cd_jd(gwdate_day, gwdate_month, gwdate_year);
     <span class="kw">let </span>t_centuries = (julian_date_days - <span class="number">2451545.0</span>) / <span class="number">36525.0</span>;
     <span class="kw">let </span>long_asc_node_deg = <span class="number">125.044522 </span>- <span class="number">1934.136261 </span>* t_centuries;
     <span class="kw">let </span>f1 = <span class="number">93.27191 </span>+ <span class="number">483202.0175 </span>* t_centuries;
     <span class="kw">let </span>f2 = f1 - <span class="number">360.0 </span>* (f1 / <span class="number">360.0</span>).floor();
     <span class="kw">let </span>geocentric_moon_long_deg =
-        macros::moon_long(<span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0</span>, <span class="number">0</span>, gwdate_day, gwdate_month, gwdate_year);
+        pa_m::moon_long(<span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0</span>, <span class="number">0</span>, gwdate_day, gwdate_month, gwdate_year);
     <span class="kw">let </span>geocentric_moon_lat_rad =
-        (macros::moon_lat(<span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0</span>, <span class="number">0</span>, gwdate_day, gwdate_month, gwdate_year)).to_radians();
-    <span class="kw">let </span>inclination_rad = (macros::dms_dd(<span class="number">1.0</span>, <span class="number">32.0</span>, <span class="number">32.7</span>)).to_radians();
+        (pa_m::moon_lat(<span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0</span>, <span class="number">0</span>, gwdate_day, gwdate_month, gwdate_year)).to_radians();
+    <span class="kw">let </span>inclination_rad = (pa_m::dms_dd(<span class="number">1.0</span>, <span class="number">32.0</span>, <span class="number">32.7</span>)).to_radians();
     <span class="kw">let </span>node_long_rad = (long_asc_node_deg - geocentric_moon_long_deg).to_radians();
     <span class="kw">let </span>sin_be = -(inclination_rad).cos() * (geocentric_moon_lat_rad).sin()
         + (inclination_rad).sin() * (geocentric_moon_lat_rad).cos() * (node_long_rad).sin();
-    <span class="kw">let </span>sub_earth_lat_deg = macros::degrees((sin_be).asin());
+    <span class="kw">let </span>sub_earth_lat_deg = pa_m::degrees((sin_be).asin());
     <span class="kw">let </span>a_rad = (-(geocentric_moon_lat_rad).sin() * (inclination_rad).sin()
         - (geocentric_moon_lat_rad).cos() * (inclination_rad).cos() * (node_long_rad).sin())
     .atan2((geocentric_moon_lat_rad).cos() * (node_long_rad).cos());
-    <span class="kw">let </span>a_deg = macros::degrees(a_rad);
+    <span class="kw">let </span>a_deg = pa_m::degrees(a_rad);
     <span class="kw">let </span>sub_earth_long_deg1 = a_deg - f2;
     <span class="kw">let </span>sub_earth_long_deg2 = sub_earth_long_deg1 - <span class="number">360.0 </span>* (sub_earth_long_deg1 / <span class="number">360.0</span>).floor();
     <span class="kw">let </span>sub_earth_long_deg3 = <span class="kw">if </span>sub_earth_long_deg2 &gt; <span class="number">180.0 </span>{
@@ -2216,18 +2216,18 @@
         / ((geocentric_moon_lat_rad).cos() * (inclination_rad).cos()
             + (geocentric_moon_lat_rad).sin() * (inclination_rad).sin() * (node_long_rad).sin()))
     .atan();
-    <span class="kw">let </span>obliquity_rad = (macros::obliq(gwdate_day, gwdate_month, gwdate_year)).to_radians();
+    <span class="kw">let </span>obliquity_rad = (pa_m::obliq(gwdate_day, gwdate_month, gwdate_year)).to_radians();
     <span class="kw">let </span>c2_rad = ((obliquity_rad).sin() * ((geocentric_moon_long_deg).to_radians()).cos()
         / ((obliquity_rad).sin()
             * (geocentric_moon_lat_rad).sin()
             * ((geocentric_moon_long_deg).to_radians()).sin()
             - (obliquity_rad).cos() * (geocentric_moon_lat_rad).cos()))
     .atan();
-    <span class="kw">let </span>c_deg = macros::degrees(c1_rad + c2_rad);
+    <span class="kw">let </span>c_deg = pa_m::degrees(c1_rad + c2_rad);
 
-    <span class="kw">let </span>sub_earth_longitude = utils::round_f64(sub_earth_long_deg3, <span class="number">2</span>);
-    <span class="kw">let </span>sub_earth_latitude = utils::round_f64(sub_earth_lat_deg, <span class="number">2</span>);
-    <span class="kw">let </span>position_angle_of_pole = utils::round_f64(c_deg, <span class="number">2</span>);
+    <span class="kw">let </span>sub_earth_longitude = pa_u::round_f64(sub_earth_long_deg3, <span class="number">2</span>);
+    <span class="kw">let </span>sub_earth_latitude = pa_u::round_f64(sub_earth_lat_deg, <span class="number">2</span>);
+    <span class="kw">let </span>position_angle_of_pole = pa_u::round_f64(c_deg, <span class="number">2</span>);
 
     <span class="kw">return </span>(
         sub_earth_longitude,
@@ -2236,7 +2236,7 @@
     );
 }
 
-<span class="doccomment">/// Calculate selenographic (lunar) coordinates (sub-Solar)
+<span class="doccomment">/// Calculate selenographic (lunar) coordinates (sub-Solar).
 ///
 /// ## Returns
 /// * sub-solar longitude
@@ -2247,21 +2247,21 @@
     gwdate_month: u32,
     gwdate_year: u32,
 ) -&gt; (f64, f64, f64) {
-    <span class="kw">let </span>julian_date_days = macros::cd_jd(gwdate_day, gwdate_month, gwdate_year);
+    <span class="kw">let </span>julian_date_days = pa_m::cd_jd(gwdate_day, gwdate_month, gwdate_year);
     <span class="kw">let </span>t_centuries = (julian_date_days - <span class="number">2451545.0</span>) / <span class="number">36525.0</span>;
     <span class="kw">let </span>long_asc_node_deg = <span class="number">125.044522 </span>- <span class="number">1934.136261 </span>* t_centuries;
     <span class="kw">let </span>f1 = <span class="number">93.27191 </span>+ <span class="number">483202.0175 </span>* t_centuries;
     <span class="kw">let </span>f2 = f1 - <span class="number">360.0 </span>* (f1 / <span class="number">360.0</span>).floor();
     <span class="kw">let </span>sun_geocentric_long_deg =
-        macros::sun_long(<span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0</span>, <span class="number">0</span>, gwdate_day, gwdate_month, gwdate_year);
+        pa_m::sun_long(<span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0</span>, <span class="number">0</span>, gwdate_day, gwdate_month, gwdate_year);
     <span class="kw">let </span>moon_equ_hor_parallax_arc_min =
-        macros::moon_hp(<span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0</span>, <span class="number">0</span>, gwdate_day, gwdate_month, gwdate_year) * <span class="number">60.0</span>;
+        pa_m::moon_hp(<span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0</span>, <span class="number">0</span>, gwdate_day, gwdate_month, gwdate_year) * <span class="number">60.0</span>;
     <span class="kw">let </span>sun_earth_dist_au =
-        macros::sun_dist(<span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0</span>, <span class="number">0</span>, gwdate_day, gwdate_month, gwdate_year);
+        pa_m::sun_dist(<span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0</span>, <span class="number">0</span>, gwdate_day, gwdate_month, gwdate_year);
     <span class="kw">let </span>geocentric_moon_lat_rad =
-        (macros::moon_lat(<span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0</span>, <span class="number">0</span>, gwdate_day, gwdate_month, gwdate_year)).to_radians();
+        (pa_m::moon_lat(<span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0</span>, <span class="number">0</span>, gwdate_day, gwdate_month, gwdate_year)).to_radians();
     <span class="kw">let </span>geocentric_moon_long_deg =
-        macros::moon_long(<span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0</span>, <span class="number">0</span>, gwdate_day, gwdate_month, gwdate_year);
+        pa_m::moon_long(<span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0</span>, <span class="number">0</span>, gwdate_day, gwdate_month, gwdate_year);
     <span class="kw">let </span>adjusted_moon_long_deg = sun_geocentric_long_deg
         + <span class="number">180.0
         </span>+ (<span class="number">26.4
@@ -2270,15 +2270,15 @@
             / (moon_equ_hor_parallax_arc_min * sun_earth_dist_au));
     <span class="kw">let </span>adjusted_moon_lat_rad =
         <span class="number">0.14666 </span>* geocentric_moon_lat_rad / (moon_equ_hor_parallax_arc_min * sun_earth_dist_au);
-    <span class="kw">let </span>inclination_rad = (macros::dms_dd(<span class="number">1.0</span>, <span class="number">32.0</span>, <span class="number">32.7</span>)).to_radians();
+    <span class="kw">let </span>inclination_rad = (pa_m::dms_dd(<span class="number">1.0</span>, <span class="number">32.0</span>, <span class="number">32.7</span>)).to_radians();
     <span class="kw">let </span>node_long_rad = (long_asc_node_deg - adjusted_moon_long_deg).to_radians();
     <span class="kw">let </span>sin_bs = -(inclination_rad).cos() * (adjusted_moon_lat_rad).sin()
         + (inclination_rad).sin() * (adjusted_moon_lat_rad).cos() * (node_long_rad).sin();
-    <span class="kw">let </span>sub_solar_lat_deg = macros::degrees((sin_bs).asin());
+    <span class="kw">let </span>sub_solar_lat_deg = pa_m::degrees((sin_bs).asin());
     <span class="kw">let </span>a_rad = (-(adjusted_moon_lat_rad).sin() * (inclination_rad).sin()
         - (adjusted_moon_lat_rad).cos() * (inclination_rad).cos() * (node_long_rad).sin())
     .atan2((adjusted_moon_lat_rad).cos() * (node_long_rad).cos());
-    <span class="kw">let </span>a_deg = macros::degrees(a_rad);
+    <span class="kw">let </span>a_deg = pa_m::degrees(a_rad);
     <span class="kw">let </span>sub_solar_long_deg1 = a_deg - f2;
     <span class="kw">let </span>sub_solar_long_deg2 = sub_solar_long_deg1 - <span class="number">360.0 </span>* (sub_solar_long_deg1 / <span class="number">360.0</span>).floor();
     <span class="kw">let </span>sub_solar_long_deg3 = <span class="kw">if </span>sub_solar_long_deg2 &gt; <span class="number">180.0 </span>{
@@ -2288,9 +2288,9 @@
     };
     <span class="kw">let </span>sub_solar_colong_deg = <span class="number">90.0 </span>- sub_solar_long_deg3;
 
-    <span class="kw">let </span>sub_solar_longitude = utils::round_f64(sub_solar_long_deg3, <span class="number">2</span>);
-    <span class="kw">let </span>sub_solar_colongitude = utils::round_f64(sub_solar_colong_deg, <span class="number">2</span>);
-    <span class="kw">let </span>sub_solar_latitude = utils::round_f64(sub_solar_lat_deg, <span class="number">2</span>);
+    <span class="kw">let </span>sub_solar_longitude = pa_u::round_f64(sub_solar_long_deg3, <span class="number">2</span>);
+    <span class="kw">let </span>sub_solar_colongitude = pa_u::round_f64(sub_solar_colong_deg, <span class="number">2</span>);
+    <span class="kw">let </span>sub_solar_latitude = pa_u::round_f64(sub_solar_lat_deg, <span class="number">2</span>);
 
     <span class="kw">return </span>(
         sub_solar_longitude,

@@ -64,12 +64,12 @@ pub fn civil_date_to_day_number(mut month: u32, day: u32, year: u32) -> u32 {
     return month + day;
 }
 
-/// Convert a Civil Time (hours,minutes,seconds) to Decimal Hours
+/// Convert a Civil Time (hours,minutes,seconds) to Decimal Hours.
 pub fn civil_time_to_decimal_hours(hours: f64, minutes: f64, seconds: f64) -> f64 {
     return pa_m::hms_dh(hours, minutes, seconds as f64);
 }
 
-/// Convert Decimal Hours to Civil Time
+/// Convert Decimal Hours to Civil Time.
 ///
 /// ## Returns
 ///
@@ -82,7 +82,7 @@ pub fn decimal_hours_to_civil_time(decimal_hours: f64) -> (f64, f64, f64) {
     return (hours as f64, minutes as f64, seconds as f64);
 }
 
-/// Convert local Civil Time to Universal Time
+/// Convert local Civil Time to Universal Time.
 ///
 /// ## Returns
 ///
@@ -122,7 +122,7 @@ pub fn local_civil_time_to_universal_time(
     );
 }
 
-/// Convert Universal Time to local Civil Time
+/// Convert Universal Time to local Civil Time.
 ///
 /// ## Returns
 ///
@@ -160,7 +160,7 @@ pub fn universal_time_to_local_civil_time(
     );
 }
 
-/// Convert Universal Time to Greenwich Sidereal Time
+/// Convert Universal Time to Greenwich Sidereal Time.
 ///
 /// ## Returns
 /// GST hours, GST minutes, GST seconds
@@ -189,7 +189,7 @@ pub fn universal_time_to_greenwich_sidereal_time(
     return (gst_hours, gst_minutes, gst_seconds);
 }
 
-/// Convert Greenwich Sidereal Time to Universal Time
+/// Convert Greenwich Sidereal Time to Universal Time.
 ///
 /// ## Returns
 /// UT hours, UT minutes, UT seconds, Warning Flag
@@ -220,7 +220,7 @@ pub fn greenwich_sidereal_time_to_universal_time(
     return (ut_hours, ut_minutes, ut_seconds, warning_flag.to_string());
 }
 
-/// Convert Greenwich Sidereal Time to Local Sidereal Time
+/// Convert Greenwich Sidereal Time to Local Sidereal Time.
 ///
 /// ## Returns
 /// LST hours, LST minutes, LST seconds
@@ -242,7 +242,7 @@ pub fn greenwich_sidereal_time_to_local_sidereal_time(
     return (lst_hours, lst_minutes, lst_seconds);
 }
 
-/// Convert Local Sidereal Time to Greenwich Sidereal Time
+/// Convert Local Sidereal Time to Greenwich Sidereal Time.
 ///
 /// ## Returns
 /// GST hours, GST minutes, GST seconds

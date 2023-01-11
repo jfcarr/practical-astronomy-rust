@@ -2,8 +2,6 @@ use crate::macros as pa_m;
 use crate::planetdata as pa_pd;
 use crate::util as pa_u;
 
-// use num;
-
 /// Calculate approximate position of a planet.
 ///
 /// ## Arguments
@@ -15,7 +13,7 @@ use crate::util as pa_u;
 /// * `local_date_day` -- Local date, day part.
 /// * `local_date_month` -- Local date, month part.
 /// * `local_date_year` -- Local date, year part.
-/// * `planet_name` -- Name of planet, e.g., "Jupiter"
+/// * `planet_name` -- Name of planet, e.g., "Jupiter".
 ///
 /// ## Returns
 /// * `planet_ra_hour` -- Right ascension of planet (hour part)
@@ -195,7 +193,7 @@ pub fn approximate_position_of_planet(
 /// * `local_date_day` -- Local date, day part.
 /// * `local_date_month` -- Local date, month part.
 /// * `local_date_year` -- Local date, year part.
-/// * `planet_name` -- Name of planet, e.g., "Jupiter"
+/// * `planet_name` -- Name of planet, e.g., "Jupiter".
 ///
 /// ## Returns
 /// * `planet_ra_hour` -- Right ascension of planet (hour part)
@@ -319,11 +317,11 @@ pub fn precise_position_of_planet(
 /// * `local_date_day` -- Local date, day part.
 /// * `local_date_month` -- Local date, month part.
 /// * `local_date_year` -- Local date, year part.
-/// * `planet_name` -- Name of planet, e.g., "Jupiter"
+/// * `planet_name` -- Name of planet, e.g., "Jupiter".
 ///
 /// ## Returns
 /// * `distance_au` -- Planet's distance from Earth, in AU.
-/// * `ang_dia_arcsec` -- Angular diameter of the planet.
+/// * `ang_dia_arcsec` -- Angular diameter of the planet, in arcseconds.
 /// * `phase` -- Illuminated fraction of the planet.
 /// * `light_time_hour` -- Light travel time from planet to Earth, hour part.
 /// * `light_time_minutes` -- Light travel time from planet to Earth, minutes part.

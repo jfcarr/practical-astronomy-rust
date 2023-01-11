@@ -40,7 +40,7 @@ pub struct CometInfoParabolic {
 /// Retrieve info about a comet (elliptical).
 ///
 /// ## Returns
-/// * CometInfoElliptical structure.
+/// * CometInfoElliptical structure
 /// * status
 pub fn get_comet_info_elliptical_vector(comet_name: String) -> (CometInfoElliptical, String) {
     let mut comet_elliptical_vector: Vec<CometInfoElliptical> = Vec::new();
@@ -234,7 +234,7 @@ pub fn get_comet_info_elliptical_vector(comet_name: String) -> (CometInfoEllipti
 /// Retrieve info about a comet (parabolic).
 ///
 /// ## Returns
-/// * CometInfoParabolic structure.
+/// * CometInfoParabolic structure
 /// * status
 pub fn get_comet_info_parabolic_vector(comet_name: String) -> (CometInfoParabolic, String) {
     let mut comet_parabolic_vector: Vec<CometInfoParabolic> = Vec::new();

@@ -13,7 +13,7 @@ use crate::util as pa_u;
 /// * `local_date_day` -- Local date, day part.
 /// * `local_date_month` -- Local date, month part.
 /// * `local_date_year` -- Local date, year part.
-/// * `comet_name` -- Name of comet, e.g., "Halley"
+/// * `comet_name` -- Name of comet, e.g., "Halley".
 ///
 /// ## Returns
 /// * `comet_ra_hour` -- Right ascension of comet (hour part)
@@ -187,7 +187,7 @@ pub fn position_of_elliptical_comet(
 /// * `local_date_day` -- Local date, day part.
 /// * `local_date_month` -- Local date, month part.
 /// * `local_date_year` -- Local date, year part.
-/// * `comet_name` -- Name of comet, e.g., "Kohler"
+/// * `comet_name` -- Name of comet, e.g., "Kohler".
 ///
 /// ## Returns
 /// * `comet_ra_hour` -- Right ascension of comet (hour part)
