@@ -4,6 +4,76 @@ Algorithms from "[Practical Astronomy with your Calculator or Spreadsheet](https
 
 If you're interested in this topic, please buy the book!  It provides far more detail and context.
 
+## Quick Start
+
+We'll calculate the circumstances of the April 8 solar eclipse for West Alexandria, Ohio, using the published crate.  (You can tweak the inputs, if you like)
+
+First, open a terminal and create a binary application:
+
+```bash
+cargo new pa_solar_test
+```
+
+Switch to the new project directory, and add a reference to the Practical Astronomy crate:
+
+```bash
+cargo add practical-astronomy-rust
+```
+
+Then, edit `main.rs` and update it to look like this:
+
+```rust
+use practical_astronomy_rust::eclipses as ECL;
+
+fn main() {
+    // Input values
+    let local_date_day: f64 = 8.0;
+    let local_date_month: u32 = 4;
+    let local_date_year: u32 = 2024;
+    let is_daylight_saving: bool = true;
+    let zone_correction_hours: i32 = 5;
+    let geog_longitude_deg: f64 = -84.53639;
+    let geog_latitude_deg: f64 = 39.74722;
+
+    // Calculate the circumstances of the eclipse
+    let (
+        solar_eclipse_certain_date_day,
+        solar_eclipse_certain_date_month,
+        solar_eclipse_certain_date_year,
+        ut_first_contact_hour,
+        ut_first_contact_minutes,
+        ut_mid_eclipse_hour,
+        ut_mid_eclipse_minutes,
+        ut_last_contact_hour,
+        ut_last_contact_minutes,
+        eclipse_magnitude,
+    ) = ECL::solar_eclipse_circumstances(
+        local_date_day,
+        local_date_month,
+        local_date_year,
+        is_daylight_saving,
+        zone_correction_hours,
+        geog_longitude_deg,
+        geog_latitude_deg,
+    );
+
+    // Display the results
+    println!("Solar eclipse circumstances: [Local Date] {}/{}/{} [DST?] {} [Zone Correction] {} hours [Geographical Longitude/Latitude] {} degrees / {} degrees = [Certain Date] {}/{}/{} [First Contact] {}:{} [Mid Eclipse] {}:{} [Last Contact] {}:{} [Magnitude] {}", local_date_month, local_date_day, local_date_year, is_daylight_saving, zone_correction_hours, geog_longitude_deg, geog_latitude_deg, solar_eclipse_certain_date_month, solar_eclipse_certain_date_day, solar_eclipse_certain_date_year, ut_first_contact_hour, ut_first_contact_minutes, ut_mid_eclipse_hour, ut_mid_eclipse_minutes, ut_last_contact_hour, ut_last_contact_minutes, eclipse_magnitude);
+}
+```
+
+Save the file, and run it:
+
+```bash
+cargo run
+```
+
+You should see this:
+
+```
+Solar eclipse circumstances: [Local Date] 4/8/2024 [DST?] true [Zone Correction] 5 hours [Geographical Longitude/Latitude] -84.53639 degrees / 39.74722 degrees = [Certain Date] 4/8/2024 [First Contact] 17:55 [Mid Eclipse] 19:11 [Last Contact] 20:27 [Magnitude] 1.006
+```
+
 ## Library Functions - Status
 
 ### Date/Time
