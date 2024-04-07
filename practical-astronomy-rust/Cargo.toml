@@ -1,7 +1,7 @@
 [package]
 name = "practical-astronomy-rust"
 description = "Algorithms from Practical Astronomy, implemented in Rust"
-version = "0.2.1"
+version = "0.2.2"
 edition = "2021"
 license = "MIT"
 documentation = "https://jfcarr.github.io/practical-astronomy-rust/"

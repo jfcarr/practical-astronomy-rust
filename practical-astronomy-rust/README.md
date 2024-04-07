@@ -57,8 +57,19 @@ fn main() {
         geog_latitude_deg,
     );
 
+    // Results are in Universal Time, so lets adjust them for local
+    let adjustment_value: f64 = if is_daylight_saving {
+        (zone_correction_hours as f64) - 1.0
+    } else {
+        zone_correction_hours as f64
+    };
+
+    let ut_first_contact_hour_adj: f64 = ut_first_contact_hour - adjustment_value;
+    let ut_mid_eclipse_hour_adj: f64 = ut_mid_eclipse_hour - adjustment_value;
+    let ut_last_contact_hour_adj: f64 = ut_last_contact_hour - adjustment_value;
+
     // Display the results
-    println!("Solar eclipse circumstances: [Local Date] {}/{}/{} [DST?] {} [Zone Correction] {} hours [Geographical Longitude/Latitude] {} degrees / {} degrees = [Certain Date] {}/{}/{} [First Contact] {}:{} [Mid Eclipse] {}:{} [Last Contact] {}:{} [Magnitude] {}", local_date_month, local_date_day, local_date_year, is_daylight_saving, zone_correction_hours, geog_longitude_deg, geog_latitude_deg, solar_eclipse_certain_date_month, solar_eclipse_certain_date_day, solar_eclipse_certain_date_year, ut_first_contact_hour, ut_first_contact_minutes, ut_mid_eclipse_hour, ut_mid_eclipse_minutes, ut_last_contact_hour, ut_last_contact_minutes, eclipse_magnitude);
+    println!("Solar eclipse circumstances:\n\t[Local Date] {}/{}/{}\n\t[DST?] {}\n\t[Zone Correction] {} hours\n\t[Geographical Longitude/Latitude] {} degrees / {} degrees\n\t=\n\t[Certain Date] {}/{}/{}\n\t[First Contact] {}:{}\n\t[Mid Eclipse] {}:{}\n\t[Last Contact] {}:{}\n\t[Magnitude] {}", local_date_month, local_date_day, local_date_year, is_daylight_saving, zone_correction_hours, geog_longitude_deg, geog_latitude_deg, solar_eclipse_certain_date_month, solar_eclipse_certain_date_day, solar_eclipse_certain_date_year, ut_first_contact_hour_adj, ut_first_contact_minutes, ut_mid_eclipse_hour_adj, ut_mid_eclipse_minutes, ut_last_contact_hour_adj, ut_last_contact_minutes, eclipse_magnitude);
 }
 ```
 
@@ -71,7 +82,17 @@ cargo run
 You should see this:
 
 ```
-Solar eclipse circumstances: [Local Date] 4/8/2024 [DST?] true [Zone Correction] 5 hours [Geographical Longitude/Latitude] -84.53639 degrees / 39.74722 degrees = [Certain Date] 4/8/2024 [First Contact] 17:55 [Mid Eclipse] 19:11 [Last Contact] 20:27 [Magnitude] 1.006
+Solar eclipse circumstances:
+	[Local Date] 4/8/2024
+	[DST?] true
+	[Zone Correction] 5 hours
+	[Geographical Longitude/Latitude] -84.53639 degrees / 39.74722 degrees
+	=
+	[Certain Date] 4/8/2024
+	[First Contact] 13:55
+	[Mid Eclipse] 15:11
+	[Last Contact] 16:27
+	[Magnitude] 1.006
 ```
 
 ## Library Functions - Status
