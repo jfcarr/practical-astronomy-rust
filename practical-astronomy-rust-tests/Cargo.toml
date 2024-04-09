@@ -6,4 +6,4 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-practical-astronomy-rust = { version = "0.2.2", path = "../practical-astronomy-rust" }
+practical-astronomy-rust = { version = "0.2.3", path = "../practical-astronomy-rust" }

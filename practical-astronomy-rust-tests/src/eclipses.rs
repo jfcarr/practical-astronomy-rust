@@ -1,4 +1,5 @@
 use practical_astronomy_rust::eclipses as ECL;
+use practical_astronomy_rust::util as UTIL;
 
 pub struct TestLunarEclipseScaffold {
     pub local_date_day: f64,
@@ -203,6 +204,24 @@ pub fn test_solar_eclipse_circumstances(
         geog_latitude_deg,
     );
 
+    let ut_first_contact_hour_local = UTIL::get_local_hour_from_ut(
+        ut_first_contact_hour,
+        is_daylight_saving,
+        zone_correction_hours,
+    );
+
+    let ut_mid_eclipse_hour_local = UTIL::get_local_hour_from_ut(
+        ut_mid_eclipse_hour,
+        is_daylight_saving,
+        zone_correction_hours,
+    );
+
+    let ut_last_contact_hour_local = UTIL::get_local_hour_from_ut(
+        ut_last_contact_hour,
+        is_daylight_saving,
+        zone_correction_hours,
+    );
+
     println!(
 		"Solar eclipse circumstances: [Local Date] {}/{}/{} [DST?] {} [Zone Correction] {} hours [Geographical Longitude/Latitude] {} degrees / {} degrees = [Certain Date] {}/{}/{} [First Contact] {}:{} [Mid Eclipse] {}:{} [Last Contact] {}:{} [Magnitude] {}",
 		local_date_month,
@@ -234,4 +253,14 @@ pub fn test_solar_eclipse_circumstances(
     assert_eq!(ut_last_contact_hour, 10.0, "Last Contact (hour)");
     assert_eq!(ut_last_contact_minutes, 58.0, "Last Contact (minutes)");
     assert_eq!(eclipse_magnitude, 1.016, "Eclipse Magnitude");
+
+    assert_eq!(
+        ut_first_contact_hour_local, 8.0,
+        "First Contact (local hour)"
+    );
+    assert_eq!(ut_mid_eclipse_hour_local, 9.0, "Mid Eclipse (local hour)");
+    assert_eq!(
+        ut_last_contact_hour_local, 10.0,
+        "Last Contact (local hour)"
+    );
 }
