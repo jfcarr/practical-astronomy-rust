@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":[["is_leap_year","Determine if year is a leap year."],["round_f64","Round an f64 primitive to the specified number of decimal places."]]};
+window.SIDEBAR_ITEMS = {"fn":["get_local_hour_from_ut","is_leap_year","round_f64"]};

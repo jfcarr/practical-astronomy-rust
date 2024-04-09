@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":[["AngleMeasure",""],["TwilightType",""]]};
+window.SIDEBAR_ITEMS = {"enum":["AngleMeasure","TwilightType"]};
