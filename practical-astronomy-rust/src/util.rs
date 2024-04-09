@@ -25,3 +25,20 @@ pub fn round_f64(input_value: f64, places: usize) -> f64 {
         .parse::<f64>()
         .unwrap();
 }
+
+/// Convert a Universal Time hour to Local Time
+pub fn get_local_hour_from_ut(
+    input_hour: f64,
+    is_daylight_saving: bool,
+    zone_correction_hours: i32,
+) -> f64 {
+    let adjustment_value: f64 = if is_daylight_saving {
+        (zone_correction_hours as f64) - 1.0
+    } else {
+        zone_correction_hours as f64
+    };
+
+    let local_hour: f64 = input_hour - adjustment_value;
+
+    return local_hour;
+}
